@@ -10,7 +10,8 @@ const REPO_NAME = 'pixel-eco'
 // 部署基础路径
 // - 默认 './' 相对路径，dist 可随意移动，nginx 本地部署等
 // - CI 部署时通过环境变量 BASE_PATH 覆盖（如 /pixel-eco/）
-const BASE_PATH = process.env.BASE_PATH || './'
+// - configure-pages@v4 返回无尾部斜杠，此处强制补齐
+const BASE_PATH = (process.env.BASE_PATH || './').replace(/\/?$/, '/')
 const IS_RELATIVE = BASE_PATH === './'
 
 const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}/${REPO_NAME}`

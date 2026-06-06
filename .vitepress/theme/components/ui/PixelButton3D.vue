@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { withBase } from 'vitepress'
 
 defineProps({
   height: {
@@ -16,7 +17,7 @@ const pressed = ref(false)
 
 const soundOn = (url: string) => {
   if (!url) return
-  const audio = new Audio(url)
+  const audio = new Audio(withBase(url))
   audio.play()
   audio.volume = 0.3
 }

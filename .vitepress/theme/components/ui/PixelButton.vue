@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { withBase } from 'vitepress'
+
 defineProps({
   dark: {
     type: Boolean,
@@ -12,7 +14,7 @@ defineProps({
 
 const soundOn = (url: string) => {
   if (!url) return
-  const audio = new Audio(url)
+  const audio = new Audio(withBase(url))
   audio.play()
   audio.volume = 0.3
 }

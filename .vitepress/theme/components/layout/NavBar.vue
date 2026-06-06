@@ -2,8 +2,17 @@
 import { ref, computed, watch } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
 
-const { theme } = useData()
+const { theme, site } = useData()
 const route = useRoute()
+
+// VitePress SSR 期间 route.path 可能包含 base 前缀，手动剥离
+const stripBase = (path: string) => {
+  const base = site.value.base
+  if (base && base !== '/' && base !== './' && path.startsWith(base)) {
+    return path.slice(base.length - 1) // base 含尾部斜杠，保留开头的 /
+  }
+  return path
+}
 
 defineProps({
   soundUrl: {
@@ -14,7 +23,7 @@ defineProps({
 
 const soundOn = (url: string) => {
   if (!url) return
-  const audio = new Audio(url)
+  const audio = new Audio(withBase(url))
   audio.play()
   audio.volume = 0.3
 }
@@ -33,11 +42,12 @@ const navItems = computed(() => {
 const activeIndex = ref(0)
 
 const updateActiveIndex = (path: string) => {
+  const normalized = stripBase(path)
   let bestIdx = 0
   let bestLen = 0
   navItems.value.forEach((item, index) => {
     // Match: exact or prefix (e.g. /news/hello matches /news/)
-    if (path.startsWith(item.url) && item.url.length > bestLen) {
+    if (normalized.startsWith(item.url) && item.url.length > bestLen) {
       bestIdx = index
       bestLen = item.url.length
     }
