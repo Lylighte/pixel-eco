@@ -25,29 +25,11 @@ npm run preview
 ## 部署到 GitHub Pages
 
 1. 将仓库推送到 GitHub
-2. 进入 **Settings → Pages**
+2. 进入仓库 **Settings → Pages**
 3. 将 **Source** 设置为 **GitHub Actions**
-4. 创建 `.github/workflows/deploy.yml`：
+4. 推送后 Actions 会自动构建部署
 
-```yaml
-name: 部署到 GitHub Pages
-on:
-  push:
-    branches: [main]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .vitepress/dist
+项目已自带 `.github/workflows/deploy.yml`，无需额外创建。每次推送 `main` 分支都会自动构建并发布。
 ```
 
 ## 部署到 Netlify
