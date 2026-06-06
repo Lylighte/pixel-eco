@@ -38,6 +38,6 @@ hasHero: true
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 3rem 0;">
 
-<LinkCard :link="{ name: 'GitHub', url: 'https://github.com/Lylighte/pixel-eco', image: '/background/bgbtn.png', description: '浏览我们的开源项目，贡献代码。' }" />
+<LinkCard :link="{ name: 'GitHub', url: 'https://example.com', image: '/background/bgbtn.png', description: '浏览我们的开源项目，贡献代码。' }" />
 
 </div>

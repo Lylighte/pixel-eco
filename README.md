@@ -61,8 +61,8 @@ pixel-eco/
 
 ```ts
 export default defineConfig({
-  title: '我的社区',
-  description: '一个属于创作者的地方',
+  title: '像素生态',
+  description: '创意驱动的社区',
   // ...
 })
 ```
@@ -186,6 +186,10 @@ npm run preview
 ```
 
 构建产物在 `.vitepress/dist/`，可部署到任意静态托管服务（GitHub Pages、Netlify、Vercel 等）。
+
+## 项目起源
+
+本模板最初源自一个 Minecraft 社区门户项目，灵感来源于 [neco](https://github.com/RandomLemon/neco)。经过多阶段重构转型为通用像素风格静态站点模板。感谢所有开源依赖的作者和贡献者。
 
 ## 许可证
 

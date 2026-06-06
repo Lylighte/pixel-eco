@@ -31,7 +31,7 @@ const iconNames: Record<string, string> = {
         © {{ new Date().getFullYear() }} - 保留所有权利
       </span>
       <span id="declaration">
-        主题 <a href="https://github.com/Lylighte/pixel-eco" target="_blank" rel="noopener">Pixel Eco</a> 灵感来源于
+        主题 <a href="https://example.com" target="_blank" rel="noopener">Pixel Eco</a> 灵感来源于
         <a href="https://github.com/RandomLemon/neco" target="_blank" rel="noopener">neco</a>。感谢
         <span class="highlight-name">int15</span> 与 <span class="highlight-name">kingcq</span> 的贡献。
       </span>
