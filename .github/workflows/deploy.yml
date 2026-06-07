@@ -1,11 +1,12 @@
 name: 部署到 GitHub Pages
 
 on:
+  workflow_dispatch:      # 手动触发（测试 dev 构建）
   push:
     branches: [main]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,5 +40,7 @@ jobs:
         with:
           path: .vitepress/dist
 
+      # 仅在 main 分支推送时部署
       - id: deployment
+        if: github.ref == 'refs/heads/main'
         uses: actions/deploy-pages@v4
