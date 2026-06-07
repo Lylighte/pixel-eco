@@ -27,6 +27,14 @@ npm run dev
 
 浏览器打开 `http://localhost:5173` 即可看到像素风格首页。
 
+```bash
+# 构建生产版本
+npm run build
+
+# 本地预览构建结果（见后文）
+npm run preview
+```
+
 ## 项目结构
 
 ```
@@ -78,14 +86,14 @@ export default defineConfig({
 
 | 文件 | 用途 |
 |------|------|
-| `public/logo.png` | 站点 Logo（主，192×192） |
-| `public/logo.svg` | 站点 Logo（设计源文件） |
-| `public/favicon.ico` | 浏览器标签页图标 |
-| `public/background/15.jpg` | 首页 / 关于页配图 |
-| `public/background/19.jpg` | 首页特色栏目配图 |
-| `public/background/28.jpg` | 新闻 / 文档卡片配图 |
-| `public/background/44.jpg` | 首页 / 新闻卡片配图 |
-| `public/background/bgbtn.png` | Classic 按钮纹理 |
+| `src/public/logo.png` | 站点 Logo（主，192×192） |
+| `src/public/logo.svg` | 站点 Logo（设计源文件） |
+| `src/public/favicon.ico` | 浏览器标签页图标 |
+| `src/public/background/15.jpg` | 首页 / 关于页配图 |
+| `src/public/background/19.jpg` | 首页特色栏目配图 |
+| `src/public/background/28.jpg` | 新闻 / 文档卡片配图 |
+| `src/public/background/44.jpg` | 首页 / 新闻卡片配图 |
+| `src/public/background/bgbtn.png` | Classic 按钮纹理 |
 
 ### 编辑内容
 
@@ -146,17 +154,17 @@ category: 公告
 | 代码 | Monocraft | `code`、`pre`、`kbd`、`samp` |
 | 正文 | Unifont | 默认正文 |
 
-字体文件位于 `public/fonts/`，`@font-face` 声明在 `.vitepress/theme/styles/fonts.css`。
+字体文件位于 `src/public/fonts/`，`@font-face` 声明在 `.vitepress/theme/styles/fonts.css`。
 
 **替换字体：**
 
-1. 将 `.woff2` 或 `.ttf` 文件放入 `public/fonts/`
+1. 将 `.woff2` 或 `.ttf` 文件放入 `src/public/fonts/`
 2. 更新 `fonts.css` 中的 `@font-face`
 3. 更新 `vars.css` 中的 `font-family`
 
 **移除像素字体：**
 
-1. 删除 `public/fonts/` 目录
+1. 删除 `src/public/fonts/` 目录
 2. 从 `.vitepress/theme/index.ts` 中移除 `import './styles/fonts.css'`
 3. 从 `vars.css` 中移除标题/代码的 `font-family` 规则
 
@@ -186,11 +194,8 @@ category: 公告
 ## 构建与部署
 
 ```bash
-# 生产构建
-npm run build
-
-# 本地预览构建结果
-npm run preview
+npm run build      # 构建生产版本
+npm run preview    # 本地预览构建结果
 ```
 
 构建产物在 `.vitepress/dist/`，可部署到任意静态托管服务（GitHub Pages、Netlify、Vercel 等）。
