@@ -2,16 +2,23 @@ import { defineConfig, type HeadConfig } from 'vitepress'
 import { RssPlugin } from 'vitepress-plugin-rss'
 
 // ============================================================
-// 基础配置
+// 一、品牌标识 — 自定义站点时只需修改此区域
 // ============================================================
 const GITHUB_USERNAME = 'Lylighte'
 const REPO_NAME = 'pixel-eco'
+const SITE_TITLE = 'Pixel Eco - Template Demo'
+const SITE_DESCRIPTION = 'A pixel-styled portal template built with VitePress'
+const SITE_AUTHOR = 'Pixel Eco Contributors'
+const SITE_NAME_OG = 'Pixel Eco'
+const COPYRIGHT_TEXT = '© 2026-Present Pixel Eco. 保留所有权利。'
 
-// 部署基础路径
-// - Dev 模式强制 '/'（避免相对路径导航嵌套 bug）
-// - 默认 '/'，本地开发、预览、根路径部署均正常
-// - CI 部署时通过环境变量 BASE_PATH 覆盖（如 /pixel-eco/）
-// - configure-pages@v4 返回无尾部斜杠，此处强制补齐
+// ============================================================
+// 二、部署路径 — 通常无需修改
+// ============================================================
+// Dev 模式强制 '/'（避免相对路径导航嵌套 bug）
+// 默认 '/'，本地开发、预览、根路径部署均正常
+// CI 部署时通过环境变量 BASE_PATH 覆盖（如 /pixel-eco/）
+// configure-pages@v4 返回无尾部斜杠，此处强制补齐
 const IS_DEV = process.argv[2] === 'dev'
 const BASE_PATH = IS_DEV ? '/' : (process.env.BASE_PATH || '/').replace(/\/?$/, '/')
 const IS_RELATIVE = BASE_PATH === './'
@@ -27,9 +34,9 @@ const SITE_URL = IS_RELATIVE
 // RSS baseUrl 只需域名，不含子路径（插件内部处理 base）
 const RSS_BASE = IS_RELATIVE ? '' : `https://${GITHUB_USERNAME}.github.io`
 
-const SITE_TITLE = 'Pixel Eco - Template Demo'
-const SITE_DESCRIPTION = 'A pixel-styled portal template built with VitePress'
-
+// ============================================================
+// 三、VitePress 配置
+// ============================================================
 export default defineConfig({
   srcDir: 'src',
   title: SITE_TITLE,
@@ -42,10 +49,10 @@ export default defineConfig({
 
     // 全局 SEO 标签（页面级标签由 transformHead 动态生成）
     ...(SITE_URL ? [
-      ['meta', { name: 'author', content: 'Pixel Eco Contributors' }],
+      ['meta', { name: 'author', content: SITE_AUTHOR }],
       ['meta', { property: 'og:type', content: 'website' }],
       ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }],
-      ['meta', { property: 'og:site_name', content: 'Pixel Eco' }],
+      ['meta', { property: 'og:site_name', content: SITE_NAME_OG }],
       ['meta', { name: 'twitter:card', content: 'summary' }],
       ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }],
     ] : []),
@@ -89,7 +96,7 @@ export default defineConfig({
       ...(RSS_BASE ? [RssPlugin({
         title: SITE_TITLE,
         baseUrl: RSS_BASE,
-        copyright: '© 2026-Present Pixel Eco. 保留所有权利。',
+        copyright: COPYRIGHT_TEXT,
         filename: 'feed.rss',
         icon: false,
         filter: (post: any) => post.frontmatter?.category,
@@ -107,7 +114,7 @@ export default defineConfig({
       { icon: 'github', link: GITHUB_URL, text: '仓库地址' } as any,
     ],
     footer: {
-      copyright: '© 2026-Present Pixel Eco. 保留所有权利。',
+      copyright: COPYRIGHT_TEXT,
     },
   },
 })
