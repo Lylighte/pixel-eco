@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig, type HeadConfig } from 'vitepress'
 import { RssPlugin } from 'vitepress-plugin-rss'
 
 // ============================================================
@@ -40,27 +40,46 @@ export default defineConfig({
       ['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}logo.png` }],
     ]),
 
-    // SEO / Open Graph / Twitter Card — 仅在非 relative 模式启用
+    // 全局 SEO 标签（页面级标签由 transformHead 动态生成）
     ...(SITE_URL ? [
-      ['meta', { name: 'description', content: SITE_DESCRIPTION }] as any,
-      ['meta', { name: 'author', content: 'Pixel Eco Contributors' }] as any,
-      ['link', { rel: 'canonical', href: SITE_URL }] as any,
-      ['meta', { property: 'og:type', content: 'website' }] as any,
-      ['meta', { property: 'og:title', content: SITE_TITLE }] as any,
-      ['meta', { property: 'og:description', content: SITE_DESCRIPTION }] as any,
-      ['meta', { property: 'og:url', content: SITE_URL }] as any,
-      ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }] as any,
-      ['meta', { property: 'og:site_name', content: 'Pixel Eco' }] as any,
-      ['meta', { name: 'twitter:card', content: 'summary' }] as any,
-      ['meta', { name: 'twitter:title', content: SITE_TITLE }] as any,
-      ['meta', { name: 'twitter:description', content: SITE_DESCRIPTION }] as any,
-      ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }] as any,
+      ['meta', { name: 'author', content: 'Pixel Eco Contributors' }],
+      ['meta', { property: 'og:type', content: 'website' }],
+      ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }],
+      ['meta', { property: 'og:site_name', content: 'Pixel Eco' }],
+      ['meta', { name: 'twitter:card', content: 'summary' }],
+      ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }],
     ] : []),
   ],
+
+  // 按页面动态生成 canonical / og:url / og:title / og:description / twitter:*
+  transformHead({ pageData }): HeadConfig[] {
+    if (!SITE_URL) return []
+
+    // 首页 index.md → 根路径，其他页面 → 对应 .html
+    const isIndex = pageData.relativePath === 'index.md'
+    const pagePath = isIndex ? '' : pageData.relativePath.replace(/\.md$/, '.html')
+    const pageUrl = isIndex ? SITE_URL : `${SITE_URL}${pagePath}`
+
+    const pageTitle = pageData.title || SITE_TITLE
+    const pageDesc = pageData.description || pageData.frontmatter.description || SITE_DESCRIPTION
+
+    return [
+      ['meta', { name: 'description', content: pageDesc }],
+      ['link', { rel: 'canonical', href: pageUrl }],
+      ['meta', { property: 'og:title', content: pageTitle }],
+      ['meta', { property: 'og:description', content: pageDesc }],
+      ['meta', { property: 'og:url', content: pageUrl }],
+      ['meta', { name: 'twitter:title', content: pageTitle }],
+      ['meta', { name: 'twitter:description', content: pageDesc }],
+    ]
+  },
   srcExclude: ['dev-notes/**', 'AGENTS.md', 'CHANGELOG.md', 'README.md', 'LICENSE'],
   base: BASE_PATH,
   sitemap: SITE_URL ? {
     hostname: SITE_URL,
+    transformItems(items) {
+      return items.filter(item => item.url !== '404.html')
+    },
   } : undefined,
   markdown: {
     theme: 'github-dark',
