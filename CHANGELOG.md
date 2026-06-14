@@ -1,5 +1,23 @@
 # Changelog
 
+## Dev 1.1.1
+
+> 2026/06/14: Lighthouse 性能优化、HomeHero 轮播功能。
+
+### 性能优化
+- **HomeHero.vue**: hero 图片添加 `width`/`height` 和 `fetchpriority="high"`
+- **HomeHero.vue**: logo 图片添加 `width`/`height`
+- **HomeIntro.vue**: intro 图片添加 `width`/`height`
+- **ArticleView.vue**: 封面图和头像添加 `width`/`height`
+- **config.ts**: 预加载 Ark Pixel CJK/Latin 字体，减少 LCP 延迟
+
+### 新功能
+- **HomeHero.vue**: 新增 `backgrounds`/`interval`/`transition` props，支持多图轮播
+- **HomeHero.vue**: 轮播模式：fade 过渡、自动切换、鼠标悬停暂停、IntersectionObserver 视口外暂停
+- **HomeHero.vue**: 首张图 `fetchpriority="high"`，其余懒加载；向后兼容单图 `background` 用法
+- **src/index.md**: 首页启用三图轮播演示
+- **components.md**: 补充轮播模式文档，移除文档页内 HomeHero 实际渲染（避免出格）
+
 ## Release 1.1.0
 
 > 2026/06/11: SEO 页面级标签修复、部署实操文档完善、内容架构迁移、文档质量收尾。
