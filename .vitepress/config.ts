@@ -43,22 +43,22 @@ export default defineConfig({
   description: SITE_DESCRIPTION,
   head: [
     // 预加载首屏关键字体（减少 LCP 延迟）
-    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-zh_cn.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }],
-    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-latin.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }],
+    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-zh_cn.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }] as HeadConfig,
+    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-latin.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }] as HeadConfig,
 
     // Favicon: relative 模式跳过（子页路径会解析错误），CI 绝对路径模式正常
     ...(IS_RELATIVE ? [] : [
-      ['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}logo.png` }],
+      ['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}logo.png` }] as HeadConfig,
     ]),
 
     // 全局 SEO 标签（页面级标签由 transformHead 动态生成）
     ...(SITE_URL ? [
-      ['meta', { name: 'author', content: SITE_AUTHOR }],
-      ['meta', { property: 'og:type', content: 'website' }],
-      ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }],
-      ['meta', { property: 'og:site_name', content: SITE_NAME_OG }],
-      ['meta', { name: 'twitter:card', content: 'summary' }],
-      ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }],
+      ['meta', { name: 'author', content: SITE_AUTHOR }] as HeadConfig,
+      ['meta', { property: 'og:type', content: 'website' }] as HeadConfig,
+      ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }] as HeadConfig,
+      ['meta', { property: 'og:site_name', content: SITE_NAME_OG }] as HeadConfig,
+      ['meta', { name: 'twitter:card', content: 'summary' }] as HeadConfig,
+      ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }] as HeadConfig,
     ] : []),
   ],
 
