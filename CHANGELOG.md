@@ -17,6 +17,10 @@
 - **HomeHero.vue**: 首张图 `fetchpriority="high"`，其余懒加载；向后兼容单图 `background` 用法
 - **src/index.md**: 首页启用三图轮播演示
 - **components.md**: 补充轮播模式文档，移除文档页内 HomeHero 实际渲染（避免出格）
+- **search.md**: 新增独立搜索页面，基于 Pagefind 构建时索引，支持中文搜索
+- **package.json**: 添加 `postbuild` 钩子自动生成 Pagefind 索引，添加 `build:search` 调试脚本
+- **pagefind.json**: 配置排除导航、页脚等公共 UI 区域
+- **config.ts**: 导航栏添加搜索入口
 
 ## Release 1.1.0
 

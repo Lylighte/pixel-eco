@@ -107,8 +107,9 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '新闻', link: '/news/' },
-      { text: '关于', link: '/about' },
       { text: '文档', link: '/docs/' },
+      { text: '关于', link: '/about' },
+      { text: '搜索', link: '/search' },
     ],
     socialLinks: [
       { icon: 'github', link: GITHUB_URL, text: '仓库地址' } as any,
