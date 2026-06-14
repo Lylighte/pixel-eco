@@ -33,3 +33,4 @@ category: 新闻
 
 敬请期待更多更新！
 
+<PixelImage src="/background/15.jpg" alt="社区活动照片" caption="社区活动照片" />

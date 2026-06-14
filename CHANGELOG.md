@@ -10,6 +10,12 @@
 - **news.md**: frontmatter 日期示例 `2025` → `2026`
 - **deployment.md**: 部署模式表更新，移除已废弃的 relative 模式
 
+### 新功能
+- **PixelImage.vue**: 新增像素图片展示组件，支持懒加载和说明文字（caption）
+
+### 内容更新
+- **community-update.md**: 文末添加示例配图
+
 ## Dev 1.1.1
 
 > 2026/06/14: Lighthouse 性能优化、HomeHero 轮播功能。

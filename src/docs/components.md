@@ -28,6 +28,7 @@ const textareaText = ref('')
 | 我要标签页 | `PixelTabs` |
 | 我要时间线 | `PixelTimeline` |
 | 我要进度条 | `PixelProgress` |
+| 我要展示图片 | `PixelImage` |
 | 我要 Hero 横幅 | `HomeHero` |
 | 我要图文区块 | `HomeIntro` |
 | 我要新闻卡片 | `NewsCard` |
@@ -468,6 +469,25 @@ print('Hello from Python!')
 ## `content/` — 内容组件
 
 用于展示结构化内容，如文章、卡片等。
+
+### PixelImage
+
+像素风格图片展示，支持懒加载和说明文字。
+
+<PixelImage src="/background/19.jpg" alt="示例图片" caption="像素风格图片说明文字" />
+
+```html
+<PixelImage src="/background/19.jpg" alt="示例图片" caption="说明文字" />
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `src` | `string` | 必填 | 图片路径 |
+| `alt` | `string` | `''` | 替代文本 |
+| `caption` | `string` | `''` | 图片下方说明文字 |
+| `width` | `number` | `800` | 图片宽度 |
+| `height` | `number` | `600` | 图片高度 |
+| `lazy` | `boolean` | `true` | 是否懒加载 |
 
 ### NewsCard
 
