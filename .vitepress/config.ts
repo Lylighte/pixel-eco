@@ -42,6 +42,10 @@ export default defineConfig({
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   head: [
+    // 预加载首屏关键字体（减少 LCP 延迟）
+    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-zh_cn.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }],
+    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-latin.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }],
+
     // Favicon: relative 模式跳过（子页路径会解析错误），CI 绝对路径模式正常
     ...(IS_RELATIVE ? [] : [
       ['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}logo.png` }],

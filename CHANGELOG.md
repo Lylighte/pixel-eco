@@ -1,5 +1,12 @@
 # Changelog
 
+## Dev 1.2.1
+
+> 2026/06/14: 恢复字体预加载。
+
+### 性能优化
+- **config.ts**: 恢复 Ark Pixel CJK/Latin 字体预加载（`<link rel="preload">`），减少首屏 LCP 延迟
+
 ## Release 1.2.0
 
 > 2026/06/14: 性能优化、站内搜索、8 个新 UI 组件、文档完善。
@@ -7,7 +14,6 @@
 ### 🚀 性能优化
 - 所有图片添加显式 `width`/`height`，消除 CLS
 - Hero 首图 `fetchpriority="high"`，其余懒加载
-- 预加载 Ark Pixel CJK/Latin 关键字体，减少 LCP 延迟
 
 ### 🔍 站内搜索
 - 基于 Pagefind 的独立搜索页面（`src/search.md`），构建时自动生成索引
