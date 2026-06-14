@@ -147,6 +147,8 @@ function doSearch() {
 
 # 站内搜索
 
+输入关键词，搜索站内相关内容。
+
 <div class="pixel-search-input-wrap">
   <input
     v-model="query"
