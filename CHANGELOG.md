@@ -1,58 +1,46 @@
 # Changelog
 
-## Dev 1.1.2
+## Release 1.2.0
 
-> 2026/06/14: 文档适配当前项目状态。
+> 2026/06/14: 性能优化、站内搜索、8 个新 UI 组件、文档完善。
 
-### 文档更新
-- **quick-start.md**: 项目结构树补充 `search.md`、`pagefind.json`、`icons/` 目录，组件数更新为 13
-- **customization.md**: BASE_PATH 默认值修正（`./` → `/`），导航示例添加搜索入口，新增站内搜索配置说明
-- **news.md**: frontmatter 日期示例 `2025` → `2026`
-- **deployment.md**: 部署模式表更新，移除已废弃的 relative 模式
+### 🚀 性能优化
+- 所有图片添加显式 `width`/`height`，消除 CLS
+- Hero 首图 `fetchpriority="high"`，其余懒加载
+- 预加载 Ark Pixel CJK/Latin 关键字体，减少 LCP 延迟
 
-### 新功能
-- **PixelImage.vue**: 新增像素图片展示组件，支持懒加载和说明文字（caption）
+### 🔍 站内搜索
+- 基于 Pagefind 的独立搜索页面（`src/search.md`），构建时自动生成索引
+- 导航栏新增搜索入口，零运行时外部依赖
+- 支持中文分词，300ms 防抖，base 路径自适应
 
-### 内容更新
-- **community-update.md**: 文末添加示例配图
+### 🧩 新 UI 组件（8 个）
 
-## Dev 1.1.1
+| 组件 | 用途 |
+|------|------|
+| `PixelBadge` | 徽章标签，4 种颜色、2 种尺寸、空心样式 |
+| `PixelCard` | 通用卡片容器，标题/图标/链接/悬停效果 |
+| `PixelTooltip` | 悬浮提示，4 方向定位 |
+| `PixelAccordion` | 折叠面板，键盘无障碍 |
+| `PixelTabs` | 标签页切换，命名插槽内容分发 |
+| `PixelTimeline` | 时间线，交替左右布局、移动端自适应 |
+| `PixelProgress` | 进度条，4 种颜色、百分比显示 |
+| `PixelImage` | 图片展示，懒加载 + 说明文字 |
 
-> 2026/06/14: Lighthouse 性能优化、HomeHero 轮播功能。
+### 🎨 样式修复
+- 组件硬编码字号统一为 Design Tokens
+- PixelTextarea 移除精灵图残留，边框与 PixelInput 对齐
+- 输入框字体统一使用 Unifont
+- HomeIntro 文字对齐跟随图片位置，移动端统一左对齐
 
-### 性能优化
-- **HomeHero.vue**: hero 图片添加 `width`/`height` 和 `fetchpriority="high"`
-- **HomeHero.vue**: logo 图片添加 `width`/`height`
-- **HomeIntro.vue**: intro 图片添加 `width`/`height`
-- **ArticleView.vue**: 封面图和头像添加 `width`/`height`
-- **config.ts**: 预加载 Ark Pixel CJK/Latin 字体，减少 LCP 延迟
+### ✨ 功能增强
+- HomeHero 支持多图轮播（fade 过渡、自动切换、悬停暂停）
+- 首页启用三图轮播演示
 
-### 新功能
-- **HomeHero.vue**: 新增 `backgrounds`/`interval`/`transition` props，支持多图轮播
-- **HomeHero.vue**: 轮播模式：fade 过渡、自动切换、鼠标悬停暂停、IntersectionObserver 视口外暂停
-- **HomeHero.vue**: 首张图 `fetchpriority="high"`，其余懒加载；向后兼容单图 `background` 用法
-- **src/index.md**: 首页启用三图轮播演示
-- **components.md**: 补充轮播模式文档，移除文档页内 HomeHero 实际渲染（避免出格）
-- **search.md**: 新增独立搜索页面，基于 Pagefind 构建时索引，支持中文搜索
-- **package.json**: 添加 `postbuild` 钩子自动生成 Pagefind 索引，添加 `build:search` 调试脚本
-- **pagefind.json**: 配置排除导航、页脚等公共 UI 区域
-- **config.ts**: 导航栏添加搜索入口
-- **PixelBadge.vue**: 新增像素徽章组件，支持 info/success/warning/danger 四种类型、sm/md 尺寸、outline 空心样式
-- **PixelCard.vue**: 新增像素卡片容器，支持标题/图标/链接/悬停效果
-- **PixelTooltip.vue**: 新增像素悬浮提示，支持 top/bottom/left/right 四个方向
-- **PixelAccordion.vue**: 新增像素折叠面板，支持默认展开、键盘无障碍
-- **PixelTabs.vue**: 新增像素标签页切换，支持命名插槽内容分发
-- **PixelTimeline.vue**: 新增像素时间线，交替左右布局、移动端自适应单列
-- **PixelProgress.vue**: 新增像素进度条，支持 4 种颜色、百分比显示、自定义高度
-
-### 样式修复
-- **PixelBadge.vue / PixelCard.vue / PixelAccordion.vue**: 硬编码字号统一为 Design Tokens
-- **PixelTextarea.vue**: 移除精灵图残留 `border-image`，边框样式与 PixelInput 对齐
-- **PixelInput.vue / PixelTextarea.vue**: 添加 `font-family: var(--pixel-font-body)`，统一使用 Unifont
-- **PixelTabs.vue**: 内容区字号改为正文字号 `--pixel-font-size-m`
-- **HomeIntro.vue**: 文字对齐跟随图片位置（图右文左、图左文右），移动端统一左对齐
-- **PixelTimeline.vue**: 移除 `pixel-border`，文字对齐跟随左右布局
-- **components.md**: 补充 5 个新组件文档，添加 `Ctrl+F` 搜索提示
+### 📝 文档
+- 所有文档适配当前项目状态（结构树、BASE_PATH、导航示例）
+- 新增站内搜索配置说明
+- CHANGELOG 精简，pre-release 三段合并为 12 步清理摘要
 
 ## Release 1.1.0
 
