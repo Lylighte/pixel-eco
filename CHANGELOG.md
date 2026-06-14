@@ -31,6 +31,8 @@
 - **PixelBadge.vue / PixelCard.vue / PixelAccordion.vue**: 硬编码字号统一为 Design Tokens
 - **PixelTextarea.vue**: 移除精灵图残留 `border-image`，边框样式与 PixelInput 对齐
 - **PixelInput.vue / PixelTextarea.vue**: 添加 `font-family: var(--pixel-font-body)`，统一使用 Unifont
+- **PixelTabs.vue**: 内容区字号改为正文字号 `--pixel-font-size-m`
+- **components.md**: 补充 5 个新组件文档，添加 `Ctrl+F` 搜索提示
 
 ## Release 1.1.0
 
