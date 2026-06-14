@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 ## Dev 1.2.1
 
@@ -10,6 +10,9 @@
 ### 修复
 - **config.ts**: `head` 配置全部添加 `as HeadConfig` 类型断言，消除 TS 类型错误
 - **vars.css**: `html` 添加 `overflow-y: scroll`，消除页面切换时 NavBar 因滚动条有无产生的横向偏移
+
+### CI
+- **deploy.yml**: 改为仅 `workflow_dispatch` 手动触发，移除 push 自动部署
 
 ## Release 1.2.0
 
