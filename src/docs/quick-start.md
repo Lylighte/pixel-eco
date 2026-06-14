@@ -34,6 +34,7 @@ pixel-eco/
 ├── src/                       # 内容源文件
 │   ├── index.md               # 首页
 │   ├── about.md               # 关于页面
+│   ├── search.md              # 站内搜索页面
 │   ├── 404.md                 # 404 页面
 │   ├── news/                  # 新闻文章
 │   ├── docs/                  # 文档页面
@@ -51,10 +52,12 @@ pixel-eco/
 │       ├── index.ts           # 主题入口（注册组件）
 │       ├── Layout.vue         # 自定义页面布局
 │       ├── components/        # Pixel UI 组件
-│       │   ├── ui/            # 按钮、输入框、对话框
+│       │   ├── ui/            # 按钮、输入框、徽章、卡片等 13 个组件
 │       │   ├── layout/        # Hero、页脚、返回顶部
-│       │   └── content/       # 卡片、侧边栏
+│       │   ├── content/       # 卡片、侧边栏
+│       │   └── icons/         # 社交图标
 │       └── styles/            # CSS 变量、字体、动画
+├── pagefind.json              # 搜索索引配置
 ├── package.json
 ├── tsconfig.json
 └── README.md

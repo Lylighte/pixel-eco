@@ -21,7 +21,7 @@ news/my-first-post.md
 ```yaml
 ---
 title: 我的第一篇文章
-date: 2025-06-05
+date: 2026-06-05
 author:
   name: 你的名字
   avatar: /background/bgbtn.png

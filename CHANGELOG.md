@@ -1,5 +1,15 @@
 # Changelog
 
+## Dev 1.1.2
+
+> 2026/06/14: 文档适配当前项目状态。
+
+### 文档更新
+- **quick-start.md**: 项目结构树补充 `search.md`、`pagefind.json`、`icons/` 目录，组件数更新为 13
+- **customization.md**: BASE_PATH 默认值修正（`./` → `/`），导航示例添加搜索入口，新增站内搜索配置说明
+- **news.md**: frontmatter 日期示例 `2025` → `2026`
+- **deployment.md**: 部署模式表更新，移除已废弃的 relative 模式
+
 ## Dev 1.1.1
 
 > 2026/06/14: Lighthouse 性能优化、HomeHero 轮播功能。

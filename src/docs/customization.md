@@ -23,7 +23,7 @@ const REPO_NAME = 'pixel-eco'        // 替换为你的仓库名
 
 | 场景 | BASE_PATH | 说明 |
 |------|-----------|------|
-| 本地开发 | 不设置（默认 `./`） | 相对路径，可随意移动 dist |
+| 本地开发 | 不设置（默认 `/`） | 根路径，`npm run dev` 直接访问 |
 | GitHub Pages | CI 自动注入 | `configure-pages@v4` 自动设置 |
 | Netlify / Vercel | 设为 `/` | 根路径部署 |
 | 自定义域名 | 设为 `/` | 根路径部署 |
@@ -52,8 +52,9 @@ themeConfig: {
   nav: [
     { text: '首页', link: '/' },
     { text: '新闻', link: '/news/' },
-    { text: '关于', link: '/about' },
     { text: '文档', link: '/docs/' },
+    { text: '搜索', link: '/search' },
+    { text: '关于', link: '/about' },
   ],
 }
 ```
@@ -118,6 +119,32 @@ socialLinks: [
 ```
 
 模板内置了 `github`、`bilibili`、`qq` 三个图标组件。VitePress 还内置了 `twitter`、`discord`、`youtube` 等图标，详见 [VitePress 文档](https://vitepress.dev/zh/reference/default-theme-nav#social-links)。
+
+## 站内搜索
+
+项目使用 Pagefind 提供独立搜索页面。搜索索引在 `npm run build` 时自动生成。
+
+### 启用/禁用
+
+搜索页面 `src/search.md` 默认存在，导航栏已包含入口。如需移除：
+
+1. 删除 `src/search.md`
+2. 在 `config.ts` 导航栏中移除 `{ text: '搜索', link: '/search' }`
+3. 删除 `pagefind.json` 和 `package.json` 中的 `postbuild` 脚本
+
+### 自定义搜索样式
+
+编辑 `src/search.md` 中的 `<style>` 块，修改输入框和搜索结果的像素风格。
+
+### 排除页面
+
+在 `pagefind.json` 中配置 `exclude_selectors` 排除不需要索引的 UI 区域：
+
+```json
+{
+  "exclude_selectors": ["nav", "footer", ".pixel-search"]
+}
+```
 
 ## 文档管理
 

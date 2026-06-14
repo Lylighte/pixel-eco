@@ -20,8 +20,8 @@ npm run build
 
 | 模式 | BASE_PATH | SEO / RSS | 适用场景 |
 |------|-----------|-----------|---------|
-| **relative**（默认） | 不设置 | 关闭 | 本地预览、Nginx 子目录 |
-| **absolute** | `/` 或 `/repo-name/` | 自动开启 | 自定义域名、GitHub Pages |
+| **absolute**（默认） | `/` | 自动开启 | 本地开发、自定义域名 |
+| **子路径** | `/repo-name/` | 自动开启 | GitHub Pages 项目站点 |
 
 GitHub Pages 用户无需手动设置——CI 工作流会自动注入。Netlify / Vercel 用户需在平台环境变量中设置 `BASE_PATH=/`。
 
