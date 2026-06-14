@@ -2,10 +2,14 @@
 
 ## Dev 1.2.1
 
-> 2026/06/14: 恢复字体预加载。
+> 2026/06/14: 字体预加载恢复、类型修复、NavBar 偏移修复。
 
 ### 性能优化
 - **config.ts**: 恢复 Ark Pixel CJK/Latin 字体预加载（`<link rel="preload">`），减少首屏 LCP 延迟
+
+### 修复
+- **config.ts**: `head` 配置全部添加 `as HeadConfig` 类型断言，消除 TS 类型错误
+- **vars.css**: `html` 添加 `overflow-y: scroll`，消除页面切换时 NavBar 因滚动条有无产生的横向偏移
 
 ## Release 1.2.0
 
