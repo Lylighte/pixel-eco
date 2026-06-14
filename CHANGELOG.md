@@ -21,6 +21,11 @@
 - **package.json**: 添加 `postbuild` 钩子自动生成 Pagefind 索引，添加 `build:search` 调试脚本
 - **pagefind.json**: 配置排除导航、页脚等公共 UI 区域
 - **config.ts**: 导航栏添加搜索入口
+- **PixelBadge.vue**: 新增像素徽章组件，支持 info/success/warning/danger 四种类型、sm/md 尺寸、outline 空心样式
+- **PixelCard.vue**: 新增像素卡片容器，支持标题/图标/链接/悬停效果
+- **PixelTooltip.vue**: 新增像素悬浮提示，支持 top/bottom/left/right 四个方向
+- **PixelAccordion.vue**: 新增像素折叠面板，支持默认展开、键盘无障碍
+- **PixelTabs.vue**: 新增像素标签页切换，支持命名插槽内容分发
 
 ## Release 1.1.0
 
