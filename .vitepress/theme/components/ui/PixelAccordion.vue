@@ -61,7 +61,7 @@ function toggle() {
 }
 
 .pixel-accordion__arrow {
-  font-size: 0.625rem;
+  font-size: var(--pixel-font-size-s);
   line-height: 1;
   flex-shrink: 0;
 }
@@ -72,7 +72,7 @@ function toggle() {
 
 .pixel-accordion__body {
   padding: 12px;
-  font-size: var(--pixel-font-size-s);
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-color-text-muted);
   line-height: var(--pixel-line-height);
   border-top: 2px solid var(--pixel-color-border);

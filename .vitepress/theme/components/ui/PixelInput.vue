@@ -10,6 +10,8 @@ const model = defineModel<string>({
 
 <style lang="css" scoped>
 .pixel-input {
+  font-family: var(--pixel-font-body);
+  font-size: 1rem;
   letter-spacing: 1px;
   padding: 2px;
   border: 2px solid transparent;

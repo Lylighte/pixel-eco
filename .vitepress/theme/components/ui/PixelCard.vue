@@ -66,7 +66,7 @@ const tag = computed(() => (isLink.value ? 'a' : 'div'))
 }
 
 .pixel-card__icon {
-  font-size: 1.25rem;
+  font-size: var(--pixel-font-size-m);
   line-height: 1;
 }
 

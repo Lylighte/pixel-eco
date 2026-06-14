@@ -27,6 +27,11 @@
 - **PixelAccordion.vue**: 新增像素折叠面板，支持默认展开、键盘无障碍
 - **PixelTabs.vue**: 新增像素标签页切换，支持命名插槽内容分发
 
+### 样式修复
+- **PixelBadge.vue / PixelCard.vue / PixelAccordion.vue**: 硬编码字号统一为 Design Tokens
+- **PixelTextarea.vue**: 移除精灵图残留 `border-image`，边框样式与 PixelInput 对齐
+- **PixelInput.vue / PixelTextarea.vue**: 添加 `font-family: var(--pixel-font-body)`，统一使用 Unifont
+
 ## Release 1.1.0
 
 > 2026/06/11: SEO 页面级标签修复、部署实操文档完善、内容架构迁移、文档质量收尾。

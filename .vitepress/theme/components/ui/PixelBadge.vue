@@ -43,7 +43,7 @@ defineProps({
 
 /* ── Sizes ── */
 .pixel-badge--sm {
-  font-size: 0.625rem;
+  font-size: var(--pixel-font-size-s);
   padding: 1px 6px;
 }
 
