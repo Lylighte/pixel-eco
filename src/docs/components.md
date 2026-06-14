@@ -19,6 +19,11 @@ const textareaText = ref('')
 | 我要一个按钮 | `PixelButton` / `PixelButtonClassic` / `PixelButton3D` |
 | 我要输入框 | `PixelInput` / `PixelTextarea` |
 | 我要弹窗 | `PixelDialog` |
+| 我要徽章 | `PixelBadge` |
+| 我要卡片 | `PixelCard` |
+| 我要提示 | `PixelTooltip` |
+| 我要折叠 | `PixelAccordion` |
+| 我要标签页 | `PixelTabs` |
 | 我要 Hero 横幅 | `HomeHero` |
 | 我要图文区块 | `HomeIntro` |
 | 我要新闻卡片 | `NewsCard` |
@@ -156,6 +161,153 @@ const textareaText = ref('')
 | `cancel-text` | `string` | `'取消'` | 取消按钮文字 |
 | `confirm-text` | `string` | `'确认'` | 确认按钮文字 |
 | `@confirm` | event | — | 点击确认按钮时触发 |
+
+### PixelBadge
+
+像素风格徽章，支持四种颜色类型、两种尺寸和空心样式。
+
+<PixelBadge type="info">v1.1.0</PixelBadge>
+<PixelBadge type="success">已完成</PixelBadge>
+<PixelBadge type="warning">注意</PixelBadge>
+<PixelBadge type="danger">重要</PixelBadge>
+<PixelBadge type="info" outline>空心</PixelBadge>
+
+```html
+<PixelBadge type="info">v1.1.0</PixelBadge>
+<PixelBadge type="success">已完成</PixelBadge>
+<PixelBadge type="warning">注意</PixelBadge>
+<PixelBadge type="danger">重要</PixelBadge>
+<PixelBadge type="info" outline>空心</PixelBadge>
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `type` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | 颜色类型 |
+| `size` | `'sm' \| 'md'` | `'md'` | 尺寸 |
+| `outline` | `boolean` | `false` | 空心样式 |
+
+### PixelCard
+
+像素风格卡片容器，支持标题、图标、链接和悬停效果。
+
+<PixelCard title="快速开始" icon="🚀">
+  几分钟内启动你的像素风格站点。
+</PixelCard>
+
+<PixelCard title="GitHub 仓库" icon="📦" href="https://github.com/Lylighte/pixel-eco">
+  点击访问项目源码。
+</PixelCard>
+
+```html
+<PixelCard title="快速开始" icon="🚀">
+  几分钟内启动你的像素风格站点。
+</PixelCard>
+
+<PixelCard title="GitHub 仓库" icon="📦" href="https://github.com/Lylighte/pixel-eco">
+  点击访问项目源码。
+</PixelCard>
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `title` | `string` | `''` | 卡片标题 |
+| `icon` | `string` | `''` | 标题图标（emoji 或文本） |
+| `href` | `string` | `''` | 可选链接，有值时整卡可点击 |
+| `hoverable` | `boolean` | `true` | 是否启用悬停效果 |
+
+### PixelTooltip
+
+像素风格悬浮提示，鼠标悬停或聚焦时显示。
+
+<PixelTooltip text="HyperText Markup Language">
+  HTML
+</PixelTooltip>
+
+```html
+<PixelTooltip text="HyperText Markup Language">
+  HTML
+</PixelTooltip>
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `text` | `string` | 必填 | 提示内容 |
+| `position` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | 弹出方向 |
+
+### PixelAccordion
+
+像素风格折叠面板，点击标题展开/收起内容。
+
+<PixelAccordion title="什么是 Pixel Eco？">
+  一个像素风格的 VitePress 静态站点模板，内置丰富的像素 UI 组件。
+</PixelAccordion>
+
+<PixelAccordion title="默认展开" open>
+  设置 <code>open</code> 属性可让面板默认展开。
+</PixelAccordion>
+
+```html
+<PixelAccordion title="什么是 Pixel Eco？">
+  一个像素风格的 VitePress 静态站点模板。
+</PixelAccordion>
+
+<PixelAccordion title="默认展开" open>
+  设置 open 属性可让面板默认展开。
+</PixelAccordion>
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `title` | `string` | 必填 | 折叠标题 |
+| `open` | `boolean` | `false` | 默认展开 |
+
+### PixelTabs
+
+像素风格标签页切换，通过命名插槽分发内容。
+
+<PixelTabs :tabs="['JavaScript', 'TypeScript', 'Python']">
+  <template #tab-0>
+
+```js
+console.log('Hello from JavaScript!')
+```
+
+  </template>
+  <template #tab-1>
+
+```ts
+const msg: string = 'Hello from TypeScript!'
+console.log(msg)
+```
+
+  </template>
+  <template #tab-2>
+
+```python
+print('Hello from Python!')
+```
+
+  </template>
+</PixelTabs>
+
+```html
+<PixelTabs :tabs="['JavaScript', 'TypeScript', 'Python']">
+  <template #tab-0>
+    ...JavaScript 内容...
+  </template>
+  <template #tab-1>
+    ...TypeScript 内容...
+  </template>
+  <template #tab-2>
+    ...Python 内容...
+  </template>
+</PixelTabs>
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `tabs` | `string[]` | 必填 | 标签页名称列表 |
+| `active` | `number` | `0` | 默认激活索引 |
 
 ---
 
