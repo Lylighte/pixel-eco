@@ -15,7 +15,7 @@ defineProps<{
   <article class="article-view">
     <!-- Cover -->
     <div v-if="cover" class="article-cover">
-      <img :src="withBase(cover)" :alt="title" />
+      <img :src="withBase(cover)" :alt="title" width="1200" height="384" />
       <div v-if="category" class="article-cover-category">{{ category }}</div>
     </div>
 
@@ -23,7 +23,7 @@ defineProps<{
       <!-- Author sidebar -->
       <aside v-if="author" class="article-author">
         <div class="article-author-avatar pixel-border">
-          <img :src="withBase(author.avatar)" :alt="author.name" />
+          <img :src="withBase(author.avatar)" :alt="author.name" width="64" height="64" />
         </div>
         <div class="article-author-name">{{ author.name }}</div>
         <div v-if="author.tags" class="article-author-tags">

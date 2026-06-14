@@ -17,11 +17,14 @@ defineProps({
       :src="withBase($props.background)"
       alt="hero"
       class="hero-image"
+      width="1200"
+      height="640"
+      fetchpriority="high"
     />
     <div v-else class="hero-gradient"></div>
     <div class="hero-overlay">
       <div class="logo-area">
-        <img v-if="$props.logo" :src="withBase($props.logo)" alt="logo" class="hero-logo" />
+        <img v-if="$props.logo" :src="withBase($props.logo)" alt="logo" class="hero-logo" width="80" height="80" />
         <h1 class="hero-title">{{ $props.title }}</h1>
         <p v-if="$props.subtitle" class="hero-subtitle">{{ $props.subtitle }}</p>
         <p v-if="$props.description" class="hero-desc">{{ $props.description }}</p>
