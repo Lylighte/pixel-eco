@@ -81,7 +81,7 @@ function setActive(index: number) {
 
 .pixel-tabs__content {
   padding: 16px;
-  font-size: var(--pixel-font-size-s);
+  font-size: var(--pixel-font-size-m);
   line-height: var(--pixel-line-height);
 }
 </style>

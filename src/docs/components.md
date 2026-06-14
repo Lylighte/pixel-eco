@@ -12,6 +12,8 @@ const textareaText = ref('')
 
 # 组件参考
 
+`Ctrl + F` 快速查找组件名称。
+
 所有内置 Pixel UI 组件均可直接在 Markdown 页面中使用。组件按功能分为四类：
 
 | 用途 | 组件 |
