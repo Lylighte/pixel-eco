@@ -1,19 +1,80 @@
 <script lang="ts" setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { withBase } from 'vitepress'
 
-defineProps({
+const props = defineProps({
   title: { type: String, default: 'Your Organization' },
   subtitle: { type: String, default: '' },
   description: { type: String, default: '' },
   logo: { type: String, default: '/logo.png' },
   background: { type: String, default: '' },
+  backgrounds: { type: Array as () => string[], default: () => [] },
+  interval: { type: Number, default: 5000 },
+  transition: { type: String as () => 'fade' | 'slide', default: 'fade' },
+})
+
+// ── 轮播状态 ──
+const currentIndex = ref(0)
+const isTransitioning = ref(false)
+let timer: ReturnType<typeof setInterval> | null = null
+let observer: IntersectionObserver | null = null
+const heroRef = ref<HTMLElement | null>(null)
+
+const isCarousel = computed(() => props.backgrounds.length > 0)
+const images = computed(() => isCarousel.value ? props.backgrounds : (props.background ? [props.background] : []))
+const total = computed(() => images.value.length)
+
+// ── 切换到指定索引 ──
+function goTo(index: number) {
+  if (isTransitioning.value || total.value <= 1) return
+  isTransitioning.value = true
+  currentIndex.value = index
+  setTimeout(() => { isTransitioning.value = false }, 800)
+}
+
+// ── 下一张 ──
+function next() {
+  goTo((currentIndex.value + 1) % total.value)
+}
+
+// ── 自动轮播 ──
+function startTimer() {
+  if (!isCarousel.value || props.interval <= 0 || total.value <= 1) return
+  stopTimer()
+  timer = setInterval(next, props.interval)
+}
+
+function stopTimer() {
+  if (timer) { clearInterval(timer); timer = null }
+}
+
+// ── 暂停 / 恢复 ──
+function pause() { stopTimer() }
+function resume() { startTimer() }
+
+// ── 生命周期 ──
+onMounted(() => {
+  startTimer()
+  if (heroRef.value) {
+    observer = new IntersectionObserver(
+      ([entry]) => { entry.isIntersecting ? resume() : pause() },
+      { threshold: 0.1 }
+    )
+    observer.observe(heroRef.value)
+  }
+})
+
+onUnmounted(() => {
+  stopTimer()
+  observer?.disconnect()
 })
 </script>
 
 <template>
-  <div class="hero">
+  <div ref="heroRef" class="hero" @mouseenter="pause" @mouseleave="resume">
+    <!-- 单图模式（向后兼容） -->
     <img
-      v-if="$props.background"
+      v-if="!isCarousel && $props.background"
       :src="withBase($props.background)"
       alt="hero"
       class="hero-image"
@@ -21,7 +82,29 @@ defineProps({
       height="640"
       fetchpriority="high"
     />
-    <div v-else class="hero-gradient"></div>
+
+    <!-- 轮播模式 -->
+    <template v-if="isCarousel">
+      <img
+        v-for="(bg, i) in backgrounds"
+        :key="i"
+        :src="withBase(bg)"
+        alt="hero"
+        class="hero-image hero-carousel-image"
+        :class="{
+          'hero-carousel--active': i === currentIndex,
+          'hero-carousel--fading': isTransitioning && i === currentIndex,
+        }"
+        width="1200"
+        height="640"
+        :fetchpriority="i === 0 ? 'high' : undefined"
+        :loading="i === 0 ? undefined : 'lazy'"
+      />
+    </template>
+
+    <!-- 无背景图时显示渐变 -->
+    <div v-if="images.length === 0" class="hero-gradient"></div>
+
     <div class="hero-overlay">
       <div class="logo-area">
         <img v-if="$props.logo" :src="withBase($props.logo)" alt="logo" class="hero-logo" width="80" height="80" />
@@ -51,6 +134,22 @@ defineProps({
   object-fit: cover;
 }
 
+/* ── 轮播过渡 ── */
+.hero-carousel-image {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 0;
+}
+
+.hero-carousel--active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.hero-carousel--fading {
+  opacity: 0;
+}
+
 .hero-gradient {
   position: absolute;
   inset: 0;
@@ -59,7 +158,7 @@ defineProps({
 
 .hero-overlay {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   min-height: 40rem;
   display: flex;

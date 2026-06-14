@@ -165,19 +165,23 @@ const textareaText = ref('')
 
 ### HomeHero
 
-首页大图横幅，支持标题、副标题、描述、Logo 和自定义背景。
+首页大图横幅，支持标题、副标题、描述、Logo 和自定义背景。支持单图或轮播模式。
 
+> 此组件设计为全宽渲染，不适合在文档内容区直接预览。请在实际页面中使用。
+
+```html
+<!-- 单图模式 -->
 <HomeHero
   title="像素生态"
   subtitle="创意驱动的社区"
   description="一个像素风格的静态站点模板"
 />
 
-```html
+<!-- 轮播模式 -->
 <HomeHero
   title="像素生态"
-  subtitle="创意驱动的社区"
-  description="一个像素风格的静态站点模板"
+  :backgrounds="['/background/44.jpg', '/background/15.jpg', '/background/19.jpg']"
+  :interval="4000"
 />
 ```
 
@@ -187,7 +191,12 @@ const textareaText = ref('')
 | `subtitle` | `string` | `''` | 副标题 |
 | `description` | `string` | `''` | 描述文字 |
 | `logo` | `string` | `'/logo.png'` | Logo 图片路径 |
-| `background` | `string` | `''` | 背景图片路径（不设置则使用渐变背景） |
+| `background` | `string` | `''` | 单张背景图路径（不设置则使用渐变背景） |
+| `backgrounds` | `string[]` | `[]` | 多张背景图，传入后启用轮播模式 |
+| `interval` | `number` | `5000` | 自动切换间隔 (ms)，设为 0 停止自动切换 |
+| `transition` | `'fade' \| 'slide'` | `'fade'` | 轮播过渡效果 |
+
+> **注意**：`background` 和 `backgrounds` 互斥。传入 `backgrounds` 后 `background` 将被忽略。鼠标悬停 Hero 区域时轮播暂停。
 
 ### HomeIntro
 
