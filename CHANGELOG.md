@@ -26,12 +26,16 @@
 - **PixelTooltip.vue**: 新增像素悬浮提示，支持 top/bottom/left/right 四个方向
 - **PixelAccordion.vue**: 新增像素折叠面板，支持默认展开、键盘无障碍
 - **PixelTabs.vue**: 新增像素标签页切换，支持命名插槽内容分发
+- **PixelTimeline.vue**: 新增像素时间线，交替左右布局、移动端自适应单列
+- **PixelProgress.vue**: 新增像素进度条，支持 4 种颜色、百分比显示、自定义高度
 
 ### 样式修复
 - **PixelBadge.vue / PixelCard.vue / PixelAccordion.vue**: 硬编码字号统一为 Design Tokens
 - **PixelTextarea.vue**: 移除精灵图残留 `border-image`，边框样式与 PixelInput 对齐
 - **PixelInput.vue / PixelTextarea.vue**: 添加 `font-family: var(--pixel-font-body)`，统一使用 Unifont
 - **PixelTabs.vue**: 内容区字号改为正文字号 `--pixel-font-size-m`
+- **HomeIntro.vue**: 文字对齐跟随图片位置（图右文左、图左文右），移动端统一左对齐
+- **PixelTimeline.vue**: 移除 `pixel-border`，文字对齐跟随左右布局
 - **components.md**: 补充 5 个新组件文档，添加 `Ctrl+F` 搜索提示
 
 ## Release 1.1.0

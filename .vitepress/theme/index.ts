@@ -23,6 +23,8 @@ import PixelCard from './components/ui/PixelCard.vue'
 import PixelTooltip from './components/ui/PixelTooltip.vue'
 import PixelAccordion from './components/ui/PixelAccordion.vue'
 import PixelTabs from './components/ui/PixelTabs.vue'
+import PixelTimeline from './components/ui/PixelTimeline.vue'
+import PixelProgress from './components/ui/PixelProgress.vue'
 import ScrollToTop from './components/layout/ScrollToTop.vue'
 
 // Layout Components
@@ -48,6 +50,8 @@ export default {
     app.component('PixelTooltip', PixelTooltip)
     app.component('PixelAccordion', PixelAccordion)
     app.component('PixelTabs', PixelTabs)
+    app.component('PixelTimeline', PixelTimeline)
+    app.component('PixelProgress', PixelProgress)
     app.component('ScrollToTop', ScrollToTop)
 
     // Register layout components for use in Markdown

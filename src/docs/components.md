@@ -26,6 +26,8 @@ const textareaText = ref('')
 | 我要提示 | `PixelTooltip` |
 | 我要折叠 | `PixelAccordion` |
 | 我要标签页 | `PixelTabs` |
+| 我要时间线 | `PixelTimeline` |
+| 我要进度条 | `PixelProgress` |
 | 我要 Hero 横幅 | `HomeHero` |
 | 我要图文区块 | `HomeIntro` |
 | 我要新闻卡片 | `NewsCard` |
@@ -310,6 +312,52 @@ print('Hello from Python!')
 |------|------|--------|------|
 | `tabs` | `string[]` | 必填 | 标签页名称列表 |
 | `active` | `number` | `0` | 默认激活索引 |
+
+### PixelTimeline
+
+像素风格时间线，交替左右布局，移动端自动切换为单列。
+
+<PixelTimeline :items="[
+  { date: '2026-06', title: 'Dev 1.1.1', content: '性能优化、搜索、5 个新组件' },
+  { date: '2026-06', title: 'Release 1.1.0', content: 'SEO 修复、内容架构迁移' },
+  { date: '2026-05', title: 'Release 1.0.0', content: '首个正式版本发布' },
+]" />
+
+```html
+<PixelTimeline :items="[
+  { date: '2026-06', title: 'Dev 1.1.1', content: '性能优化、搜索' },
+  { date: '2026-06', title: 'Release 1.1.0', content: 'SEO 修复' },
+  { date: '2026-05', title: 'Release 1.0.0', content: '首个正式版本' },
+]" />
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `items` | `{ date, title, content }[]` | 必填 | 时间线条目，每项含日期、标题、内容 |
+
+### PixelProgress
+
+像素风格进度条，支持四种颜色和百分比显示。
+
+<PixelProgress :value="75" label="项目进度" show-value />
+<PixelProgress :value="60" color="success" label="已完成" show-value />
+<PixelProgress :value="30" color="warning" label="进行中" />
+<PixelProgress :value="90" color="danger" label="高风险" show-value />
+
+```html
+<PixelProgress :value="75" label="项目进度" show-value />
+<PixelProgress :value="60" color="success" label="已完成" show-value />
+<PixelProgress :value="30" color="warning" label="进行中" />
+<PixelProgress :value="90" color="danger" label="高风险" show-value />
+```
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `value` | `number` | 必填 | 进度值 (0-100) |
+| `label` | `string` | `''` | 进度条标签 |
+| `color` | `'accent' \| 'success' \| 'warning' \| 'danger'` | `'accent'` | 颜色类型 |
+| `show-value` | `boolean` | `false` | 是否显示百分比 |
+| `height` | `string` | `'16px'` | 进度条高度 |
 
 ---
 

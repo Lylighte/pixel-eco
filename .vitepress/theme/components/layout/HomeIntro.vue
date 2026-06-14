@@ -81,6 +81,14 @@ defineProps({
   flex: 1;
 }
 
+.intro-right .intro-text {
+  text-align: left;
+}
+
+.intro-left .intro-text {
+  text-align: right;
+}
+
 .intro-text p {
   font-size: 1.5rem;
   font-weight: bold;
@@ -99,6 +107,12 @@ defineProps({
   .intro-left {
     flex-direction: column;
   }
+
+  .intro-right .intro-text,
+  .intro-left .intro-text {
+    text-align: left;
+  }
+
   .intro-image {
     width: 100%;
     min-width: unset;
