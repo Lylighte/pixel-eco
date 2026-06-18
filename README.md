@@ -128,7 +128,7 @@ category: 公告
 正文内容……
 ```
 
-然后在 `src/news/index.md` 中添加对应的 `<NewsCard>`。
+确保 frontmatter 中包含 `brief` 字段，文章将自动出现在新闻列表页。
 
 ### CSS 变量
 

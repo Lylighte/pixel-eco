@@ -10,6 +10,7 @@ author:
       bg: '#1296db'
 cover: /background/15.jpg
 category: 新闻
+brief: 了解最新活动、新项目和即将到来的安排。看看我们的成员这个月都在忙些什么。
 ---
 
 来看看本月社区都发生了些什么！

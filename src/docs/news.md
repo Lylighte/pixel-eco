@@ -52,16 +52,22 @@ category: 综合
 
 ## 添加到新闻列表
 
-创建文章后，在 `news/index.md` 中添加 `<NewsCard>`：
+创建文章后，确保 frontmatter 中包含 `brief` 字段，文章将自动出现在新闻列表页：
 
-```html
-<NewsCard
-  title="我的第一篇文章"
-  brief="显示在卡片预览中的简短描述。"
-  image="/background/44.jpg"
-  link="/news/my-first-post"
-/>
+```yaml
+---
+title: 我的第一篇文章
+date: 2026-06-05
+cover: /background/44.jpg
+brief: 显示在卡片预览中的简短描述。
+---
 ```
+
+> 新闻列表按 `date` 降序自动排列，无需手动编辑 `news/index.md`。
+
+### NewsCard 组件参考
+
+以下为 `NewsCard` 组件的属性表（自动生成时无需手动使用，供了解接口参考）：
 
 | 属性 | 描述 |
 |------|------|

@@ -1,5 +1,18 @@
 ﻿# Changelog
 
+## Dev 1.2.2
+
+> 2026/06/18: 侧边栏与索引卡片统一为 frontmatter 驱动，消除三份重复代码。
+
+### 重构
+- **docs-nav.ts**: 新增共享工具，从 `docs/*.md` 的 frontmatter 自动构建侧边栏导航和索引卡片
+- **DocsSidebar.vue**: 删除内联 glob 逻辑，改为导入 `buildSidebarNav`，消除脆弱相对路径
+- **docs/index.md**: 删除手动 YAML 解析器，改为导入 `buildDocCards`，支持引号/数组等复杂 YAML
+- **docs/*.md** (5个): 添加 `sidebarGroup`/`sidebarOrder`/`cardDescription`/`cardImage` frontmatter 字段
+
+### 修复
+- **docs-nav.ts**: 修复 `import.meta.glob` 绝对路径解析失败问题，改为相对路径
+
 ## Dev 1.2.1
 
 > 2026/06/14: 字体预加载恢复、类型修复、NavBar 偏移修复。
