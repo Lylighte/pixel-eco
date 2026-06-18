@@ -1,5 +1,11 @@
 ---
 layout: page
+title: 快速开始
+sidebarGroup: 入门指南
+sidebarGroupOrder: 1
+sidebarOrder: 1
+cardDescription: 安装、运行并了解项目结构。
+cardImage: /background/19.jpg
 ---
 
 # 快速开始

@@ -1,5 +1,11 @@
 ---
 layout: page
+title: 新闻指南
+sidebarGroup: 内容创作
+sidebarGroupOrder: 2
+sidebarOrder: 1
+cardDescription: 使用 frontmatter、NewsCard 和 Markdown 撰写文章。
+cardImage: /background/28.jpg
 ---
 
 # 新闻指南

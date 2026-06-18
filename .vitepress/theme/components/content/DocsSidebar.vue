@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
+import { buildSidebarNav } from '../../utils/docs-nav'
 
 const { site } = useData()
 const route = useRoute()
@@ -14,25 +15,7 @@ const stripBase = (path: string) => {
   return path
 }
 
-// 硬编码导航结构（与 docs/ 目录对应）
-// 若文档增多，可改为从 themeConfig.sidebar 读取
-const nav = [
-  {
-    title: '入门指南',
-    items: [
-      { text: '快速开始', link: '/docs/quick-start' },
-      { text: '自定义', link: '/docs/customization' },
-      { text: '部署', link: '/docs/deployment' },
-    ],
-  },
-  {
-    title: '内容创作',
-    items: [
-      { text: '新闻指南', link: '/docs/news' },
-      { text: '组件参考', link: '/docs/components' },
-    ],
-  },
-]
+const nav = buildSidebarNav()
 
 const collapsed = ref<Record<string, boolean>>({})
 

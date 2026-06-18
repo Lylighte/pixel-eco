@@ -1,5 +1,11 @@
 ---
 layout: page
+title: 自定义
+sidebarGroup: 入门指南
+sidebarGroupOrder: 1
+sidebarOrder: 2
+cardDescription: 修改颜色、Logo、背景和导航。
+cardImage: /background/15.jpg
 ---
 
 # 自定义

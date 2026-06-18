@@ -1,5 +1,11 @@
 ---
 layout: page
+title: 组件参考
+sidebarGroup: 内容创作
+sidebarGroupOrder: 2
+sidebarOrder: 2
+cardDescription: 浏览所有 Pixel UI 和布局组件的在线演示。
+cardImage: /background/15.jpg
 ---
 
 <script setup>

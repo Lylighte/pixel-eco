@@ -1,5 +1,11 @@
 ---
 layout: page
+title: 部署
+sidebarGroup: 入门指南
+sidebarGroupOrder: 1
+sidebarOrder: 3
+cardDescription: 构建生产版本并部署到静态托管。
+cardImage: /background/44.jpg
 ---
 
 # 部署
