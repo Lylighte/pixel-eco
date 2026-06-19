@@ -1,4 +1,16 @@
-﻿# Changelog
+# Changelog
+
+
+## Dev 1.2.3
+
+> 2026/06/19: 新闻草稿系统 — 支持 `draft: true` frontmatter，开发可见、生产排除。
+
+### 新增
+- **news-utils.ts**: `buildNewsCards()` 新增 draft 过滤逻辑，`import.meta.env.PROD` 时排除 `draft: true` 文章
+- **news/draft-demo.md**: 草稿示例文章，用于验证草稿机制
+
+### 文档
+- **docs/news.md**: Frontmatter 表新增 `draft` 字段，新增「草稿」说明小节
 
 ## Dev 1.2.2
 

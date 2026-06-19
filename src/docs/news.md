@@ -49,6 +49,23 @@ category: 综合
 | `author.tags` | 否 | 标签徽章（text、color、bg） |
 | `cover` | 否 | 封面图路径 |
 | `category` | 否 | 文章分类标签 |
+| `brief` | 是 | 卡片简短描述，用于新闻列表自动生成 |
+| `draft` | 否 | 设为 `true` 时，生产构建从列表排除（开发环境仍可见） |
+
+### 草稿
+
+设置 `draft: true` 可在开发时预览文章，构建时自动从新闻列表隐藏：
+
+```yaml
+---
+title: 未完成的文章
+date: 2026-07-01
+brief: 还在写……
+draft: true
+---
+```
+
+> 准备发布时，移除 `draft` 行或将值改为 `false`。
 
 ## 添加到新闻列表
 

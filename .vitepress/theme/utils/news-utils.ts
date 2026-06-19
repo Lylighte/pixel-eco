@@ -24,6 +24,12 @@ function getFrontmatter(module: any): Record<string, any> {
 export function buildNewsCards(): NewsCardData[] {
   return Object.entries(modules)
     .filter(([path]) => !path.endsWith('index.md'))
+    .filter(([, module]) => {
+      const fm = getFrontmatter(module)
+      // 生产构建时排除草稿
+      if (fm.draft && import.meta.env.PROD) return false
+      return true
+    })
     .map(([path, module]) => {
       const fm = getFrontmatter(module)
       const slug = getSlug(path)
