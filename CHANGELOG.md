@@ -1,43 +1,32 @@
 # Changelog
 
 
-## Dev 1.2.3
+## Release 1.3.0
 
-> 2026/06/19: 新闻草稿系统 — 支持 `draft: true` frontmatter，开发可见、生产排除。
+> 2026/06/19: 内容创作体验升级 — 新闻列表自动生成、草稿系统、文档侧边栏统一。
 
-### 新增
-- **news-utils.ts**: `buildNewsCards()` 新增 draft 过滤逻辑，`import.meta.env.PROD` 时排除 `draft: true` 文章
-- **news/draft-demo.md**: 草稿示例文章，用于验证草稿机制
+### 📰 新闻系统
+- **新闻列表自动生成**：从 `news/*.md` 的 frontmatter 自动构建 `<NewsCard>`，按日期降序排列，新增新闻只需写 `.md` 文件
+- **新闻草稿系统**：支持 `draft: true` frontmatter，开发环境可见、生产构建自动排除
+- **news-utils.ts**：新增共享工具，统一新闻卡片构建与草稿过滤逻辑
+- **news/draft-demo.md**：草稿示例文章，用于验证草稿机制
 
-### 文档
-- **docs/news.md**: Frontmatter 表新增 `draft` 字段，新增「草稿」说明小节
+### 📚 文档系统
+- **docs-nav.ts**：新增共享工具，从 `docs/*.md` 的 frontmatter 自动构建侧边栏导航和索引卡片
+- **DocsSidebar.vue**：删除内联 glob 逻辑，改为导入 `buildSidebarNav`，消除脆弱相对路径
+- **docs/index.md**：删除手动 YAML 解析器，改为导入 `buildDocCards`，支持引号/数组等复杂 YAML
+- **docs/*.md** (5个)：添加 `sidebarGroup`/`sidebarOrder`/`cardDescription`/`cardImage` frontmatter 字段
 
-## Dev 1.2.2
+### 🔧 修复
+- **docs-nav.ts**：修复 `import.meta.glob` 绝对路径解析失败问题，改为相对路径
+- **config.ts**：`head` 配置全部添加 `as HeadConfig` 类型断言，消除 TS 类型错误
+- **vars.css**：`html` 添加 `overflow-y: scroll`，消除页面切换时 NavBar 因滚动条有无产生的横向偏移
 
-> 2026/06/18: 侧边栏与索引卡片统一为 frontmatter 驱动，消除三份重复代码。
-
-### 重构
-- **docs-nav.ts**: 新增共享工具，从 `docs/*.md` 的 frontmatter 自动构建侧边栏导航和索引卡片
-- **DocsSidebar.vue**: 删除内联 glob 逻辑，改为导入 `buildSidebarNav`，消除脆弱相对路径
-- **docs/index.md**: 删除手动 YAML 解析器，改为导入 `buildDocCards`，支持引号/数组等复杂 YAML
-- **docs/*.md** (5个): 添加 `sidebarGroup`/`sidebarOrder`/`cardDescription`/`cardImage` frontmatter 字段
-
-### 修复
-- **docs-nav.ts**: 修复 `import.meta.glob` 绝对路径解析失败问题，改为相对路径
-
-## Dev 1.2.1
-
-> 2026/06/14: 字体预加载恢复、类型修复、NavBar 偏移修复。
-
-### 性能优化
-- **config.ts**: 恢复 Ark Pixel CJK/Latin 字体预加载（`<link rel="preload">`），减少首屏 LCP 延迟
-
-### 修复
-- **config.ts**: `head` 配置全部添加 `as HeadConfig` 类型断言，消除 TS 类型错误
-- **vars.css**: `html` 添加 `overflow-y: scroll`，消除页面切换时 NavBar 因滚动条有无产生的横向偏移
+### ⚡ 性能
+- **config.ts**：恢复 Ark Pixel CJK/Latin 字体预加载（`<link rel="preload">`），减少首屏 LCP 延迟
 
 ### CI
-- **deploy.yml**: 改为仅 `workflow_dispatch` 手动触发，移除 push 自动部署
+- **deploy.yml**：改为仅 `workflow_dispatch` 手动触发，移除 push 自动部署
 
 ## Release 1.2.0
 
