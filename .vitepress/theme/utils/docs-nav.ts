@@ -2,24 +2,8 @@
 // 被 DocsSidebar.vue 和 docs/index.md 共同引用
 // 通过 @theme alias 确保 Vite 不创建重复模块实例
 
-interface SidebarItem {
-  text: string
-  link: string
-  order: number
-}
-
-export interface SidebarGroup {
-  title: string
-  items: SidebarItem[]
-  groupOrder: number
-}
-
-export interface DocCard {
-  name: string
-  url: string
-  image: string
-  description: string
-}
+import type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
+export type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
 
 // VitePress 编译 .md 时会将 frontmatter 注入 __pageData 导出
 const modules = import.meta.glob('../../../src/docs/*.md', { eager: true })

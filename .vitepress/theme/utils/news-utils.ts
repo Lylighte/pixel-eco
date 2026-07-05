@@ -1,14 +1,8 @@
 // 共享工具：从 news/*.md 的 __pageData.frontmatter 自动构建新闻卡片列表
 // 被 news/index.md 引用
 
-export interface NewsCardData {
-  title: string
-  brief: string
-  image: string
-  link: string
-  date: string
-  category: string
-}
+import type { NewsCardData } from '../types/components'
+export type { NewsCardData } from '../types/components'
 
 const modules = import.meta.glob('../../../src/news/*.md', { eager: true })
 
