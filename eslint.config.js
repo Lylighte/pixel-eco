@@ -10,7 +10,7 @@ export default tseslint.config(
       'dist/**',
       '.vitepress/dist/**',
       '.vitepress/cache/**',
-      '.omo/evidence/**',
+      '.omo/**',
       'src/public/**/*.md',
     ],
   },
