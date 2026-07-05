@@ -6,19 +6,24 @@
 import type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
 export type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
 
-// VitePress 编译 .md 时会将 frontmatter 注入 __pageData 导出
-const modules = import.meta.glob('../../../src/docs/*.md', { eager: true })
+type DocsModuleMap = Record<string, { __pageData?: { frontmatter?: Record<string, unknown> } }>
+
+// VitePress 编译 .md 时会将 frontmatter 注入 __pageData 导出。
+// 用函数包装 import.meta.glob，使单元测试注入 mock 时不会触发 glob 评估。
+function loadDefaultModules(): DocsModuleMap {
+  return import.meta.glob('../../../src/docs/*.md', { eager: true })
+}
 
 function getSlug(path: string): string {
   const parts = path.replace(/\\/g, '/').split('/')
   return parts[parts.length - 1].replace('.md', '')
 }
 
-function getFrontmatter(module: any): Record<string, any> {
+function getFrontmatter(module: DocsModuleMap[string]): Record<string, any> {
   return module?.__pageData?.frontmatter || {}
 }
 
-export function buildSidebarNav(): SidebarGroup[] {
+export function buildSidebarNav(modules: DocsModuleMap = loadDefaultModules()): SidebarGroup[] {
   const groups = new Map<string, { items: SidebarItem[]; groupOrder: number }>()
 
   for (const [path, module] of Object.entries(modules)) {
@@ -47,7 +52,7 @@ export function buildSidebarNav(): SidebarGroup[] {
   })).sort((a, b) => a.groupOrder - b.groupOrder)
 }
 
-export function buildDocCards(): DocCard[] {
+export function buildDocCards(modules: DocsModuleMap = loadDefaultModules()): DocCard[] {
   return Object.entries(modules)
     .filter(([path]) => !path.endsWith('index.md'))
     .map(([path, module]) => {

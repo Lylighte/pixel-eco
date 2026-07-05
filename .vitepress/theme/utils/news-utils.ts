@@ -5,18 +5,23 @@
 import type { NewsCardData } from '../types/components'
 export type { NewsCardData } from '../types/components'
 
-const modules = import.meta.glob('../../../src/news/*.md', { eager: true })
+type NewsModuleMap = Record<string, { __pageData?: { frontmatter?: Record<string, unknown> } }>
+
+// 用函数包装 import.meta.glob，使单元测试注入 mock 时不会触发 glob 评估
+function loadDefaultModules(): NewsModuleMap {
+  return import.meta.glob('../../../src/news/*.md', { eager: true })
+}
 
 function getSlug(path: string): string {
   const parts = path.replace(/\\/g, '/').split('/')
   return parts[parts.length - 1].replace('.md', '')
 }
 
-function getFrontmatter(module: any): Record<string, any> {
+function getFrontmatter(module: NewsModuleMap[string]): Record<string, any> {
   return module?.__pageData?.frontmatter || {}
 }
 
-export function buildNewsCards(): NewsCardData[] {
+export function buildNewsCards(modules: NewsModuleMap = loadDefaultModules()): NewsCardData[] {
   return Object.entries(modules)
     .filter(([path]) => !path.endsWith('index.md'))
     .filter(([, module]) => {
