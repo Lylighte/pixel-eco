@@ -2,6 +2,7 @@
 layout: page
 title: 搜索
 navbar: true
+data-pagefind-ignore: true
 ---
 
 # 站内搜索

@@ -39,6 +39,7 @@ const RSS_BASE = IS_RELATIVE ? '' : `https://${GITHUB_USERNAME}.github.io`
 // ============================================================
 export default defineConfig({
   srcDir: 'src',
+  lang: 'zh-CN',
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   head: [

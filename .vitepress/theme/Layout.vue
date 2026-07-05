@@ -41,7 +41,7 @@ const articleProps = computed(() => {
 <template>
   <div class="pixel-layout">
     <NavBar />
-    <main class="main-content">
+    <main class="main-content" data-pagefind-body="1">
       <!-- Docs: sidebar stays static, only content transitions -->
       <div v-if="isDocsPage" class="docs-layout">
         <DocsSidebar />
