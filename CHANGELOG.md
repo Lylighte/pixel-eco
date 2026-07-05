@@ -1,5 +1,43 @@
 # Changelog
 
+## Release 1.4.0
+
+> 2026/07/05: 工程化基础设施、Vue 组件类型统一、PixelSearch 组件化、Pagefind 中文搜索优化。
+
+### 🛠 工程化基础设施
+
+- **ESLint**：新增 flat config（@eslint/js + eslint-plugin-vue + typescript-eslint），关闭与 Prettier 冲突的 Vue 格式规则，对 agent 工作目录 .omo/ 全量忽略
+- **Prettier**：新增 .prettierrc.json（singleQuote / semi / printWidth 100），项目一次性全量格式化对齐
+- **Vitest**：新增 vitest.config.ts，28 个纯函数单元测试覆盖 stripBase / useClickSound / buildSidebarNav / buildDocCards / buildNewsCards
+- **vue-tsc**：新增 `npm run typecheck`（vue-tsc --noEmit），类型检查零错误收敛
+- **npm scripts**：新增 lint / lint:fix / format / format:check / test / test:watch / typecheck
+
+### 🧩 共享类型与工具函数
+
+- **types/components.ts**：新增共享组件类型模块，集中定义 Author / AuthorTag / NavItem / SocialLink / NewsCardData / SidebarItem / SidebarGroup / DocCard
+- **utils/path.ts**：提取 stripBase 纯函数，消除 Layout / NavBar / DocsSidebar 三处副本
+- **composables/useClickSound.ts**：提取 useClickSound composable，消除 PixelButton / PixelButton3D / PixelButtonClassic / NavBar 四处副本
+- **utils/docs-nav.ts**：新增 buildSidebarNav / buildDocCards，从 docs/*.md frontmatter 自动构建侧边栏导航和文档索引卡片
+- **utils/news-utils.ts**：新增 buildNewsCards，从 news/*.md frontmatter 自动构建新闻卡片列表（支持草稿过滤）
+
+### 🧱 Vue 组件 Props 类型统一
+
+- 全部 23 个 .vue 组件 props 从运行时 `defineProps({...})` 迁移到 TypeScript `withDefaults(defineProps<T>(), {...})` 模式
+- NavBar / Layout / DocsSidebar / PixelButton / PixelButton3D / PixelButtonClassic 改用共享 stripBase 和 useClickSound
+
+### 🔍 搜索与 Pagefind 优化
+
+- **PixelSearch 组件化**：从 src/search.md 抽取为独立 PixelSearch.vue，search.md 精简为单行组件引用
+- **Pagefind 中文分词**：config.ts 新增 `lang: 'zh-CN'`，Pagefind 按 zh-cn 语言建索引
+- **正文区索引标记**：Layout.vue `<main>` 新增 `data-pagefind-body`，Pagefind 仅索引正文内容
+- **404 / 搜索页排除**：404.md 和 search.md frontmatter 新增 `data-pagefind-ignore: true`
+
+### 🔧 修复与代码质量
+
+- 修复 PixelSearch.vue 两处 `catch(e)` 中未使用的变量（改为 optional catch binding `catch {}`）
+- 修复 docs-nav.test.ts 和 news-utils.test.ts 的重言式单元测试（mock 整个被测模块 → 改为向真实函数注入测试数据）
+- 移除未使用的 DefaultTheme 导入
+
 ## Release 1.3.0
 
 > 2026/06/19: 内容创作体验升级 — 新闻列表自动生成、草稿系统、文档侧边栏统一。
