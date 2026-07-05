@@ -8,7 +8,7 @@ defineProps({
   },
 })
 
-const soundOn = (url: string) => {
+const soundOn = (url: string | undefined) => {
   if (!url) return
   const audio = new Audio(withBase(url))
   audio.play()

@@ -46,10 +46,10 @@ html {
   --pixel-font-heading: 'Ark Pixel', 'Unifont', monospace;
   --pixel-font-code: 'Monocraft', 'Unifont', monospace;
   --pixel-font-body: 'Unifont', monospace;
-  --pixel-font-size-s: 0.75rem;   /* 12px — 小字，锁定 Ark Pixel，禁用 Unifont */
-  --pixel-font-size-m: 1rem;      /* 16px — 正文，Unifont 绝对清晰 */
-  --pixel-font-size-l: 1.5rem;    /* 24px — 大标题，Ark Pixel 完美对齐 */
-  --pixel-font-size-xl: 2rem;     /* 32px — 装饰性大字，不保证像素对齐 */
+  --pixel-font-size-s: 0.75rem; /* 12px — 小字，锁定 Ark Pixel，禁用 Unifont */
+  --pixel-font-size-m: 1rem; /* 16px — 正文，Unifont 绝对清晰 */
+  --pixel-font-size-l: 1.5rem; /* 24px — 大标题，Ark Pixel 完美对齐 */
+  --pixel-font-size-xl: 2rem; /* 32px — 装饰性大字，不保证像素对齐 */
   --pixel-line-height: 1.7;
 
   /* Spacing */
@@ -233,23 +233,34 @@ html {
 }
 
 /* ── Pixel Font Stack (global selectors → Layer 2) ── */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--pixel-font-heading);
 }
 
 h1 {
-  font-size: var(--pixel-font-size-l);   /* 24px — Ark Pixel 2× */
+  font-size: var(--pixel-font-size-l); /* 24px — Ark Pixel 2× */
 }
 
 h2 {
-  font-size: 1.25rem;                     /* 20px — Ark/Mono 完美对齐 */
+  font-size: 1.25rem; /* 20px — Ark/Mono 完美对齐 */
 }
 
-h3, h4, h5, h6 {
-  font-size: var(--pixel-font-size-m);   /* 16px — 与正文一致，通过颜色/间距区分 */
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--pixel-font-size-m); /* 16px — 与正文一致，通过颜色/间距区分 */
 }
 
-code, pre, kbd, samp {
+code,
+pre,
+kbd,
+samp {
   font-family: var(--pixel-font-code);
 }
 

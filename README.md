@@ -4,11 +4,11 @@
 
 ## 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| 框架 | VitePress 1.6 + Vue 3.5 |
-| 语言 | TypeScript 5.8 |
-| 输出 | 纯静态 HTML/CSS/JS |
+| 类别 | 技术                                                  |
+| ---- | ----------------------------------------------------- |
+| 框架 | VitePress 1.6 + Vue 3.5                               |
+| 语言 | TypeScript 5.8                                        |
+| 输出 | 纯静态 HTML/CSS/JS                                    |
 | 字体 | Ark Pixel（标题）+ Monocraft（代码）+ Unifont（正文） |
 
 ## 快速开始
@@ -84,29 +84,29 @@ export default defineConfig({
 
 ### 替换资源
 
-| 文件 | 用途 |
-|------|------|
-| `src/public/logo.png` | 站点 Logo（主，192×192） |
-| `src/public/logo.svg` | 站点 Logo（设计源文件） |
-| `src/public/favicon.ico` | 浏览器标签页图标 |
-| `src/public/background/15.jpg` | 首页 / 关于页配图 |
-| `src/public/background/19.jpg` | 首页特色栏目配图 |
-| `src/public/background/28.jpg` | 新闻 / 文档卡片配图 |
-| `src/public/background/44.jpg` | 首页 / 新闻卡片配图 |
-| `src/public/background/bgbtn.png` | Classic 按钮纹理 |
+| 文件                              | 用途                     |
+| --------------------------------- | ------------------------ |
+| `src/public/logo.png`             | 站点 Logo（主，192×192） |
+| `src/public/logo.svg`             | 站点 Logo（设计源文件）  |
+| `src/public/favicon.ico`          | 浏览器标签页图标         |
+| `src/public/background/15.jpg`    | 首页 / 关于页配图        |
+| `src/public/background/19.jpg`    | 首页特色栏目配图         |
+| `src/public/background/28.jpg`    | 新闻 / 文档卡片配图      |
+| `src/public/background/44.jpg`    | 首页 / 新闻卡片配图      |
+| `src/public/background/bgbtn.png` | Classic 按钮纹理         |
 
 ### 编辑内容
 
 所有页面内容均为 Markdown 文件，存放在 `src/` 目录：
 
-| 文件 | 内容 |
-|------|------|
-| `src/index.md` | 首页（Hero + 特色栏目） |
-| `src/about.md` | 关于页面 |
-| `src/news/index.md` | 新闻列表 |
-| `src/news/welcome.md` | 示例新闻文章 |
-| `src/news/community-update.md` | 示例新闻文章 |
-| `src/docs/index.md` | 文档中心 |
+| 文件                           | 内容                    |
+| ------------------------------ | ----------------------- |
+| `src/index.md`                 | 首页（Hero + 特色栏目） |
+| `src/about.md`                 | 关于页面                |
+| `src/news/index.md`            | 新闻列表                |
+| `src/news/welcome.md`          | 示例新闻文章            |
+| `src/news/community-update.md` | 示例新闻文章            |
+| `src/docs/index.md`            | 文档中心                |
 
 ### 添加新闻
 
@@ -136,11 +136,11 @@ category: 公告
 
 ```css
 :root {
-  --pixel-brand: #d84b4b;        /* 品牌主色 */
-  --pixel-brand-light: #e48181;  /* 浅色（悬停态） */
-  --pixel-brand-dark: #7e1b1b;   /* 深色（按下态） */
-  --pixel-dark: #171615;         /* 页面背景 */
-  --background-card: #313131;    /* 卡片背景 */
+  --pixel-brand: #d84b4b; /* 品牌主色 */
+  --pixel-brand-light: #e48181; /* 浅色（悬停态） */
+  --pixel-brand-dark: #7e1b1b; /* 深色（按下态） */
+  --pixel-dark: #171615; /* 页面背景 */
+  --background-card: #313131; /* 卡片背景 */
 }
 ```
 
@@ -148,11 +148,11 @@ category: 公告
 
 模板使用三层像素字体栈：
 
-| 层级 | 字体 | 应用于 |
-|------|------|--------|
-| 标题 | Ark Pixel 12px | `h1`–`h6` |
-| 代码 | Monocraft | `code`、`pre`、`kbd`、`samp` |
-| 正文 | Unifont | 默认正文 |
+| 层级 | 字体           | 应用于                       |
+| ---- | -------------- | ---------------------------- |
+| 标题 | Ark Pixel 12px | `h1`–`h6`                    |
+| 代码 | Monocraft      | `code`、`pre`、`kbd`、`samp` |
+| 正文 | Unifont        | 默认正文                     |
 
 字体文件位于 `src/public/fonts/`，`@font-face` 声明在 `.vitepress/theme/styles/fonts.css`。
 
@@ -172,22 +172,22 @@ category: 公告
 
 ## 内置组件
 
-| 组件 | 说明 |
-|------|------|
-| `PixelButton` | 像素按钮（普通/深色/静音） |
-| `PixelButtonClassic` | 全宽纹理按钮 |
-| `PixelButton3D` | 3D 立体按钮（可调高度） |
-| `PixelInput` | 像素风格文本输入框 |
-| `PixelTextarea` | 像素风格多行文本框 |
-| `PixelDialog` | 模态对话框 |
-| `HomeHero` | 首页大图横幅 |
-| `HomeIntro` | 首页图文介绍（支持左右布局） |
-| `SiteFooter` | 全站页脚（由 Layout 自动渲染） |
-| `NewsCard` | 新闻卡片 |
-| `LinkCard` | 链接卡片（自动识别内外链） |
-| `DocsSidebar` | 文档侧边栏导航 |
-| `ScrollToTop` | 返回顶部按钮 |
-| `.pixel-border` | 像素边框工具类 |
+| 组件                 | 说明                           |
+| -------------------- | ------------------------------ |
+| `PixelButton`        | 像素按钮（普通/深色/静音）     |
+| `PixelButtonClassic` | 全宽纹理按钮                   |
+| `PixelButton3D`      | 3D 立体按钮（可调高度）        |
+| `PixelInput`         | 像素风格文本输入框             |
+| `PixelTextarea`      | 像素风格多行文本框             |
+| `PixelDialog`        | 模态对话框                     |
+| `HomeHero`           | 首页大图横幅                   |
+| `HomeIntro`          | 首页图文介绍（支持左右布局）   |
+| `SiteFooter`         | 全站页脚（由 Layout 自动渲染） |
+| `NewsCard`           | 新闻卡片                       |
+| `LinkCard`           | 链接卡片（自动识别内外链）     |
+| `DocsSidebar`        | 文档侧边栏导航                 |
+| `ScrollToTop`        | 返回顶部按钮                   |
+| `.pixel-border`      | 像素边框工具类                 |
 
 详见 [组件参考](/docs/components)。
 
@@ -216,11 +216,11 @@ Nginx 配置示例及完整部署流程见 [部署指南](https://github.com/Lyl
 
 ### 平台部署
 
-| 平台 | 说明 |
-|------|------|
-| GitHub Pages | 通过 `actions/configure-pages@v4` 自动注入 `BASE_PATH` |
-| Netlify / Vercel | 设置 `BASE_PATH` 和 `SITE_URL` 环境变量 |
-| 自有服务器 | 参考上方 Nginx 配置 |
+| 平台             | 说明                                                   |
+| ---------------- | ------------------------------------------------------ |
+| GitHub Pages     | 通过 `actions/configure-pages@v4` 自动注入 `BASE_PATH` |
+| Netlify / Vercel | 设置 `BASE_PATH` 和 `SITE_URL` 环境变量                |
+| 自有服务器       | 参考上方 Nginx 配置                                    |
 
 ## 项目起源
 

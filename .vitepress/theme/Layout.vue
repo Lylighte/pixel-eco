@@ -64,7 +64,12 @@ const articleProps = computed(() => {
         <ArticleView v-if="articleProps" v-bind="articleProps" :key="route.path">
           <Content />
         </ArticleView>
-        <div v-else class="page-container vp-doc" :class="{ 'with-hero': hasHero }" :key="route.path">
+        <div
+          v-else
+          class="page-container vp-doc"
+          :class="{ 'with-hero': hasHero }"
+          :key="route.path"
+        >
           <Content />
         </div>
       </Transition>

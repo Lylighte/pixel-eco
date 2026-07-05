@@ -29,7 +29,7 @@ const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}/${REPO_NAME}`
 // 可通过 SITE_URL 环境变量覆盖，否则按 GitHub Pages 惯例推导
 const SITE_URL = IS_RELATIVE
   ? ''
-  : (process.env.SITE_URL || `https://${GITHUB_USERNAME}.github.io${BASE_PATH}`)
+  : process.env.SITE_URL || `https://${GITHUB_USERNAME}.github.io${BASE_PATH}`
 
 // RSS baseUrl 只需域名，不含子路径（插件内部处理 base）
 const RSS_BASE = IS_RELATIVE ? '' : `https://${GITHUB_USERNAME}.github.io`
@@ -43,23 +43,43 @@ export default defineConfig({
   description: SITE_DESCRIPTION,
   head: [
     // 预加载首屏关键字体（减少 LCP 延迟）
-    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-zh_cn.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }] as HeadConfig,
-    ['link', { rel: 'preload', href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-latin.otf.woff2`, as: 'font', type: 'font/woff2', crossorigin: '' }] as HeadConfig,
+    [
+      'link',
+      {
+        rel: 'preload',
+        href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-zh_cn.otf.woff2`,
+        as: 'font',
+        type: 'font/woff2',
+        crossorigin: '',
+      },
+    ] as HeadConfig,
+    [
+      'link',
+      {
+        rel: 'preload',
+        href: `${BASE_PATH}fonts/ark-pixel-12px-proportional-latin.otf.woff2`,
+        as: 'font',
+        type: 'font/woff2',
+        crossorigin: '',
+      },
+    ] as HeadConfig,
 
     // Favicon: relative 模式跳过（子页路径会解析错误），CI 绝对路径模式正常
-    ...(IS_RELATIVE ? [] : [
-      ['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}logo.png` }] as HeadConfig,
-    ]),
+    ...(IS_RELATIVE
+      ? []
+      : [['link', { rel: 'icon', type: 'image/png', href: `${BASE_PATH}logo.png` }] as HeadConfig]),
 
     // 全局 SEO 标签（页面级标签由 transformHead 动态生成）
-    ...(SITE_URL ? [
-      ['meta', { name: 'author', content: SITE_AUTHOR }] as HeadConfig,
-      ['meta', { property: 'og:type', content: 'website' }] as HeadConfig,
-      ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }] as HeadConfig,
-      ['meta', { property: 'og:site_name', content: SITE_NAME_OG }] as HeadConfig,
-      ['meta', { name: 'twitter:card', content: 'summary' }] as HeadConfig,
-      ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }] as HeadConfig,
-    ] : []),
+    ...(SITE_URL
+      ? [
+          ['meta', { name: 'author', content: SITE_AUTHOR }] as HeadConfig,
+          ['meta', { property: 'og:type', content: 'website' }] as HeadConfig,
+          ['meta', { property: 'og:image', content: `${SITE_URL}logo.png` }] as HeadConfig,
+          ['meta', { property: 'og:site_name', content: SITE_NAME_OG }] as HeadConfig,
+          ['meta', { name: 'twitter:card', content: 'summary' }] as HeadConfig,
+          ['meta', { name: 'twitter:image', content: `${SITE_URL}logo.png` }] as HeadConfig,
+        ]
+      : []),
   ],
 
   // 按页面动态生成 canonical / og:url / og:title / og:description / twitter:*
@@ -86,25 +106,32 @@ export default defineConfig({
   },
   srcExclude: ['dev-notes/**', 'AGENTS.md', 'CHANGELOG.md', 'README.md', 'LICENSE'],
   base: BASE_PATH,
-  sitemap: SITE_URL ? {
-    hostname: SITE_URL,
-    transformItems(items) {
-      return items.filter(item => item.url !== '404.html')
-    },
-  } : undefined,
+  sitemap: SITE_URL
+    ? {
+        hostname: SITE_URL,
+        transformItems(items) {
+          return items.filter((item) => item.url !== '404.html')
+        },
+      }
+    : undefined,
   markdown: {
     theme: 'github-dark',
   },
   vite: {
     plugins: [
-      ...(RSS_BASE ? [RssPlugin({
-        title: SITE_TITLE,
-        baseUrl: RSS_BASE,
-        copyright: COPYRIGHT_TEXT,
-        filename: 'feed.rss',
-        icon: false,
-        filter: (post: any) => post.frontmatter?.category,
-      })] : []),
+      ...(RSS_BASE
+        ? [
+            RssPlugin({
+              title: SITE_TITLE,
+              baseUrl: RSS_BASE,
+              copyright: COPYRIGHT_TEXT,
+              filename: 'feed.rss',
+              icon: false,
+              filter: (post: { frontmatter?: { category?: string } }) =>
+                Boolean(post.frontmatter?.category),
+            }),
+          ]
+        : []),
     ],
   },
   themeConfig: {
@@ -116,7 +143,11 @@ export default defineConfig({
       { text: '搜索', link: '/search' },
     ],
     socialLinks: [
-      { icon: 'github', link: GITHUB_URL, text: '仓库地址' } as any,
+      {
+        icon: 'github',
+        link: GITHUB_URL,
+        text: '仓库地址',
+      } as unknown as import('vitepress').DefaultTheme.SocialLink,
     ],
     footer: {
       copyright: COPYRIGHT_TEXT,

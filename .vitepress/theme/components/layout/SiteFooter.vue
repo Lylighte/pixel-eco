@@ -27,13 +27,14 @@ const iconNames: Record<string, string> = {
       <span id="copyright" v-if="theme.footer?.copyright">
         {{ theme.footer.copyright }}
       </span>
-      <span id="copyright" v-else>
-        © {{ new Date().getFullYear() }} - 保留所有权利
-      </span>
+      <span id="copyright" v-else> © {{ new Date().getFullYear() }} - 保留所有权利 </span>
       <span id="declaration">
-        主题 <a href="https://github.com/Lylighte/pixel-eco" target="_blank" rel="noopener">Pixel Eco</a> 灵感来源于
+        主题
+        <a href="https://github.com/Lylighte/pixel-eco" target="_blank" rel="noopener">Pixel Eco</a>
+        灵感来源于
         <a href="https://github.com/RandomLemon/neco" target="_blank" rel="noopener">neco</a>。感谢
-        <span class="highlight-name">int15</span> 与 <span class="highlight-name">kingcq</span> 的贡献。
+        <span class="highlight-name">int15</span> 与
+        <span class="highlight-name">kingcq</span> 的贡献。
       </span>
       <!--
       <span id="declaration">
@@ -60,7 +61,11 @@ const iconNames: Record<string, string> = {
           target="_blank"
           rel="noopener"
         >
-          <component :is="iconMap[link.icon]" class="link-icon" v-if="link.icon && iconMap[link.icon]" />
+          <component
+            :is="iconMap[link.icon]"
+            class="link-icon"
+            v-if="link.icon && iconMap[link.icon]"
+          />
           {{ link.text || iconNames[link.icon] || link.link }}
         </a>
       </div>
@@ -89,7 +94,7 @@ const iconNames: Record<string, string> = {
 
 .footer-name {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem;   /* 20px — Ark Pixel 对齐 */
+  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
   font-weight: bold;
   margin-top: 0.5rem;
   margin-bottom: 0.25rem;
@@ -107,7 +112,7 @@ const iconNames: Record<string, string> = {
 }
 
 #declaration {
-  font-size: 0.75rem;   /* 12px — 最小对齐尺寸 */
+  font-size: 0.75rem; /* 12px — 最小对齐尺寸 */
   color: var(--pixel-footer-declaration);
   margin-top: 0.15rem;
   margin-bottom: 0.15rem;

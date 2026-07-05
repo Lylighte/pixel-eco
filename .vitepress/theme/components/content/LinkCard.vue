@@ -5,13 +5,7 @@
     :target="isExternal(link.url) ? '_blank' : undefined"
     :rel="isExternal(link.url) ? 'noopener' : undefined"
   >
-    <img
-      v-if="link.image"
-      :src="withBase(link.image)"
-      alt=""
-      loading="lazy"
-      class="link-bg"
-    />
+    <img v-if="link.image" :src="withBase(link.image)" alt="" loading="lazy" class="link-bg" />
     <div class="link-content">
       <p>{{ link.name }}</p>
       <span v-if="link.description">{{ link.description }}</span>
@@ -79,7 +73,7 @@ defineProps<{
 
 .link-content p {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem;   /* 20px — Ark Pixel 对齐 */
+  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
   font-weight: bold;
   margin: 0;
   color: var(--pixel-linkcard-title-color);

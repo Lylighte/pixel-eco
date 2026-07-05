@@ -41,9 +41,7 @@ defineProps({
       <a :href="withBase($props.link)" class="overview-title">{{ $props.title }}</a>
       <p class="overview-brief">{{ $props.brief }}</p>
       <a :href="withBase($props.link)" class="overview-button-wrap">
-        <PixelButton3D class="overview-button">
-          {{ $props.buttonText }} &gt;
-        </PixelButton3D>
+        <PixelButton3D class="overview-button"> {{ $props.buttonText }} &gt; </PixelButton3D>
       </a>
     </div>
   </div>
@@ -86,11 +84,11 @@ defineProps({
 
 .overview-title {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem;   /* 20px — Ark Pixel 对齐 */
+  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
   cursor: pointer;
   color: var(--pixel-color-text);
   text-decoration: none;
-  user-select: none;  
+  user-select: none;
   margin-bottom: 0.5rem;
 }
 

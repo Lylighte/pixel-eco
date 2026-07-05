@@ -8,7 +8,11 @@ const model = defineModel<string>({
   <textarea
     class="pixel-input"
     v-model="model"
-    @input="($event.target as HTMLTextAreaElement).style.height = ''; ($event.target as HTMLTextAreaElement).style.height = `calc(0.2rem + ${($event.target as HTMLTextAreaElement).scrollHeight}px)`"
+    @input="
+      ;($event.target as HTMLTextAreaElement).style.height = ''
+      ;($event.target as HTMLTextAreaElement).style.height =
+        `calc(0.2rem + ${($event.target as HTMLTextAreaElement).scrollHeight}px)`
+    "
   ></textarea>
 </template>
 

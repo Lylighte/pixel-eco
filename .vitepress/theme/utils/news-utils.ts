@@ -11,8 +11,19 @@ function getSlug(path: string): string {
   return parts[parts.length - 1].replace('.md', '')
 }
 
-function getFrontmatter(module: any): Record<string, any> {
-  return module?.__pageData?.frontmatter || {}
+interface FrontmatterModule {
+  __pageData?: {
+    frontmatter?: Record<string, unknown>
+  }
+}
+
+function getString(fm: Record<string, unknown>, key: string): string | undefined {
+  const value = fm[key]
+  return typeof value === 'string' ? value : undefined
+}
+
+function getFrontmatter(module: unknown): Record<string, unknown> {
+  return (module as FrontmatterModule).__pageData?.frontmatter || {}
 }
 
 export function buildNewsCards(): NewsCardData[] {
@@ -28,14 +39,14 @@ export function buildNewsCards(): NewsCardData[] {
       const fm = getFrontmatter(module)
       const slug = getSlug(path)
       return {
-        title: fm.title || slug,
-        brief: fm.brief || '',
-        image: fm.cover || '/background/19.jpg',
+        title: getString(fm, 'title') || slug,
+        brief: getString(fm, 'brief') || '',
+        image: getString(fm, 'cover') || '/background/19.jpg',
         link: `/news/${slug}`,
-        date: fm.date || '1970-01-01',
-        category: fm.category || '未分类',
+        date: getString(fm, 'date') || '1970-01-01',
+        category: getString(fm, 'category') || '未分类',
       }
     })
-    .filter(c => c.brief)
+    .filter((c) => c.brief)
     .sort((a, b) => b.date.localeCompare(a.date))
 }

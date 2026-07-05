@@ -48,8 +48,9 @@ const tag = computed(() => (isLink.value ? 'a' : 'div'))
   padding: 16px;
   text-decoration: none;
   color: var(--pixel-color-text);
-  transition: transform var(--pixel-transition-fast),
-              border-color var(--pixel-transition-fast);
+  transition:
+    transform var(--pixel-transition-fast),
+    border-color var(--pixel-transition-fast);
 }
 
 .pixel-card--hoverable:hover {

@@ -32,7 +32,8 @@ defineProps<{
             :key="tag.text"
             class="article-author-tag"
             :style="{ backgroundColor: tag.bg, color: tag.color }"
-          >{{ tag.text }}</span>
+            >{{ tag.text }}</span
+          >
         </div>
         <div class="article-author-meta">
           <div v-if="date && !endDate">

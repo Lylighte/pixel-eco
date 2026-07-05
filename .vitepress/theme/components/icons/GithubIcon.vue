@@ -1,9 +1,5 @@
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="social-icon github-icon"
-    viewBox="0 0 1024 1024"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" class="social-icon github-icon" viewBox="0 0 1024 1024">
     <circle cx="512" cy="512" r="512" fill="#171515"></circle>
     <path
       fill="#fff"

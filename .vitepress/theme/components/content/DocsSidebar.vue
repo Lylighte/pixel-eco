@@ -110,7 +110,9 @@ const isActive = (link: string) => {
   color: var(--pixel-color-text-muted);
   text-decoration: none;
   border-left: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .sidebar-item:hover {

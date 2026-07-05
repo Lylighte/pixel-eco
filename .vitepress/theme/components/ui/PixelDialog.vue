@@ -53,12 +53,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="dialog-cover"
-    v-if="visible"
-    :style="{ opacity: opacity }"
-    @click.self="closeDialog"
-  >
+  <div class="dialog-cover" v-if="visible" :style="{ opacity: opacity }" @click.self="closeDialog">
     <div class="dialog pixel-border" @click.stop>
       <text class="dialog-title" v-if="props.title.trim() !== ''">{{ props.title }}</text>
       <slot></slot>
@@ -122,7 +117,7 @@ onMounted(() => {
 
 .dialog-title {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem;   /* 20px — Ark Pixel 对齐 */
+  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
   font-weight: bold;
   margin-bottom: 1rem;
   user-select: none;

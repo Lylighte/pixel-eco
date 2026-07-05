@@ -13,8 +13,24 @@ function getSlug(path: string): string {
   return parts[parts.length - 1].replace('.md', '')
 }
 
-function getFrontmatter(module: any): Record<string, any> {
-  return module?.__pageData?.frontmatter || {}
+interface FrontmatterModule {
+  __pageData?: {
+    frontmatter?: Record<string, unknown>
+  }
+}
+
+function getString(fm: Record<string, unknown>, key: string): string | undefined {
+  const value = fm[key]
+  return typeof value === 'string' ? value : undefined
+}
+
+function getNumber(fm: Record<string, unknown>, key: string): number | undefined {
+  const value = fm[key]
+  return typeof value === 'number' ? value : undefined
+}
+
+function getFrontmatter(module: unknown): Record<string, unknown> {
+  return (module as FrontmatterModule).__pageData?.frontmatter || {}
 }
 
 export function buildSidebarNav(): SidebarGroup[] {
@@ -24,14 +40,14 @@ export function buildSidebarNav(): SidebarGroup[] {
     const slug = getSlug(path)
     if (slug === 'index') continue
     const fm = getFrontmatter(module)
-    const group = fm.sidebarGroup || '未分类'
+    const group = getString(fm, 'sidebarGroup') || '未分类'
     if (!groups.has(group)) {
-      groups.set(group, { items: [], groupOrder: fm.sidebarGroupOrder ?? 999 })
+      groups.set(group, { items: [], groupOrder: getNumber(fm, 'sidebarGroupOrder') ?? 999 })
     }
     groups.get(group)!.items.push({
-      text: fm.title || slug,
+      text: getString(fm, 'title') || slug,
       link: `/docs/${slug}`,
-      order: fm.sidebarOrder ?? 999,
+      order: getNumber(fm, 'sidebarOrder') ?? 999,
     })
   }
 
@@ -53,12 +69,12 @@ export function buildDocCards(): DocCard[] {
       const fm = getFrontmatter(module)
       const slug = getSlug(path)
       return {
-        name: fm.title || slug,
+        name: getString(fm, 'title') || slug,
         url: `/docs/${slug}`,
-        image: fm.cardImage || '/background/19.jpg',
-        description: fm.cardDescription || '',
+        image: getString(fm, 'cardImage') || '/background/19.jpg',
+        description: getString(fm, 'cardDescription') || '',
       }
     })
-    .filter(c => c.description)
+    .filter((c) => c.description)
     .sort((a, b) => a.name.localeCompare(b.name))
 }

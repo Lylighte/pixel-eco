@@ -1,8 +1,8 @@
 import { withBase } from 'vitepress'
 
-export function useClickSound(
-  options?: { defaultUrl?: string; volume?: number },
-): { playSound: (url?: string) => void } {
+export function useClickSound(options?: { defaultUrl?: string; volume?: number }): {
+  playSound: (url?: string) => void
+} {
   if (import.meta.env.SSR) {
     return { playSound: () => {} }
   }
