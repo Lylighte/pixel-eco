@@ -58,7 +58,6 @@ onMounted(async () => {
     pagefind = pf
   } catch (e) {
     error.value = errorHint
-    console.error('Pagefind init error:', e)
   }
 })
 
@@ -98,7 +97,6 @@ function doSearch() {
       }
     } catch (e) {
       error.value = '搜索出错，请重试。'
-      console.error('Pagefind search error:', e)
     } finally {
       loading.value = false
     }

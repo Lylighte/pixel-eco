@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // 共享工具：从 news/*.md 的 __pageData.frontmatter 自动构建新闻卡片列表
 // 被 news/index.md 引用
 
@@ -11,19 +12,8 @@ function getSlug(path: string): string {
   return parts[parts.length - 1].replace('.md', '')
 }
 
-interface FrontmatterModule {
-  __pageData?: {
-    frontmatter?: Record<string, unknown>
-  }
-}
-
-function getString(fm: Record<string, unknown>, key: string): string | undefined {
-  const value = fm[key]
-  return typeof value === 'string' ? value : undefined
-}
-
-function getFrontmatter(module: unknown): Record<string, unknown> {
-  return (module as FrontmatterModule).__pageData?.frontmatter || {}
+function getFrontmatter(module: any): Record<string, any> {
+  return module?.__pageData?.frontmatter || {}
 }
 
 export function buildNewsCards(): NewsCardData[] {
@@ -39,12 +29,12 @@ export function buildNewsCards(): NewsCardData[] {
       const fm = getFrontmatter(module)
       const slug = getSlug(path)
       return {
-        title: getString(fm, 'title') || slug,
-        brief: getString(fm, 'brief') || '',
-        image: getString(fm, 'cover') || '/background/19.jpg',
+        title: fm.title || slug,
+        brief: fm.brief || '',
+        image: fm.cover || '/background/19.jpg',
         link: `/news/${slug}`,
-        date: getString(fm, 'date') || '1970-01-01',
-        category: getString(fm, 'category') || '未分类',
+        date: fm.date || '1970-01-01',
+        category: fm.category || '未分类',
       }
     })
     .filter((c) => c.brief)

@@ -127,8 +127,7 @@ export default defineConfig({
               copyright: COPYRIGHT_TEXT,
               filename: 'feed.rss',
               icon: false,
-              filter: (post: { frontmatter?: { category?: string } }) =>
-                Boolean(post.frontmatter?.category),
+              filter: (post: any) => post.frontmatter?.category, // eslint-disable-line @typescript-eslint/no-explicit-any
             }),
           ]
         : []),
@@ -147,7 +146,7 @@ export default defineConfig({
         icon: 'github',
         link: GITHUB_URL,
         text: '仓库地址',
-      } as unknown as import('vitepress').DefaultTheme.SocialLink,
+      } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     ],
     footer: {
       copyright: COPYRIGHT_TEXT,
