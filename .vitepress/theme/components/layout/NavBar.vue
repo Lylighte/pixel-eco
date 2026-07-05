@@ -64,10 +64,7 @@ const sliderStyle = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="navItems.length > 0"
-    class="nav-container"
-  >
+  <div v-if="navItems.length > 0" class="nav-container">
     <nav class="nav-bar">
       <a
         v-for="(item, index) in navItems"
@@ -79,10 +76,7 @@ const sliderStyle = computed(() => {
         {{ item.name }}
       </a>
 
-      <div
-        class="slider"
-        :style="sliderStyle"
-      >
+      <div class="slider" :style="sliderStyle">
         <div class="slider-box" />
       </div>
     </nav>

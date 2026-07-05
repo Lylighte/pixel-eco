@@ -46,7 +46,7 @@ const articleProps = computed(() => {
       <div v-if="isDocsPage" class="docs-layout">
         <DocsSidebar />
         <Transition name="page" mode="out-in">
-          <div class="page-container vp-doc" :key="route.path">
+          <div :key="route.path" class="page-container vp-doc">
             <Content />
           </div>
         </Transition>
@@ -58,9 +58,9 @@ const articleProps = computed(() => {
         </ArticleView>
         <div
           v-else
+          :key="route.path"
           class="page-container vp-doc"
           :class="{ 'with-hero': hasHero }"
-          :key="route.path"
         >
           <Content />
         </div>

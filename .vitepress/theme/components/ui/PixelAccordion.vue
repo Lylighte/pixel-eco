@@ -19,22 +19,12 @@ function toggle() {
 </script>
 
 <template>
-  <div
-    class="pixel-accordion"
-    :class="{ 'pixel-accordion--open': isOpen }"
-  >
-    <button
-      class="pixel-accordion__header"
-      :aria-expanded="isOpen"
-      @click="toggle"
-    >
+  <div class="pixel-accordion" :class="{ 'pixel-accordion--open': isOpen }">
+    <button class="pixel-accordion__header" :aria-expanded="isOpen" @click="toggle">
       <span class="pixel-accordion__arrow">{{ isOpen ? '▼' : '▶' }}</span>
       <span class="pixel-accordion__title">{{ title }}</span>
     </button>
-    <div
-      v-show="isOpen"
-      class="pixel-accordion__body"
-    >
+    <div v-show="isOpen" class="pixel-accordion__body">
       <slot />
     </div>
   </div>

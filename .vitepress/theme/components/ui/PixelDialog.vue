@@ -51,29 +51,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="visible"
-    class="dialog-cover"
-    :style="{ opacity: opacity }"
-    @click.self="closeDialog"
-  >
-    <div
-      class="dialog pixel-border"
-      @click.stop
-    >
-      <text
-        v-if="props.title.trim() !== ''"
-        class="dialog-title"
-      >
+  <div v-if="visible" class="dialog-cover" :style="{ opacity: opacity }" @click.self="closeDialog">
+    <div class="dialog pixel-border" @click.stop>
+      <text v-if="props.title.trim() !== ''" class="dialog-title">
         {{ props.title }}
       </text>
       <slot />
       <slot name="footer">
         <div class="dialog-footer">
-          <PixelButtonClassic
-            class="dialog-footer-btn"
-            @click="closeDialog"
-          >
+          <PixelButtonClassic class="dialog-footer-btn" @click="closeDialog">
             {{ props.cancelText }}
           </PixelButtonClassic>
           <PixelButtonClassic

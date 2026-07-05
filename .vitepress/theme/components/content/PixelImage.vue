@@ -29,11 +29,8 @@ withDefaults(
       :height="height"
       :loading="lazy ? 'lazy' : undefined"
       class="pixel-image__img"
-    >
-    <figcaption
-      v-if="caption"
-      class="pixel-image__caption"
-    >
+    />
+    <figcaption v-if="caption" class="pixel-image__caption">
       {{ caption }}
     </figcaption>
   </figure>

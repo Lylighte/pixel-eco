@@ -27,20 +27,14 @@ withDefaults(
         :alt="$props.title"
         loading="lazy"
         class="overview-img"
-      >
+      />
     </picture>
     <div class="overview-content">
-      <a
-        :href="withBase($props.link)"
-        class="overview-title"
-      >{{ $props.title }}</a>
+      <a :href="withBase($props.link)" class="overview-title">{{ $props.title }}</a>
       <p class="overview-brief">
         {{ $props.brief }}
       </p>
-      <a
-        :href="withBase($props.link)"
-        class="overview-button-wrap"
-      >
+      <a :href="withBase($props.link)" class="overview-button-wrap">
         <PixelButton3D class="overview-button"> {{ $props.buttonText }} &gt; </PixelButton3D>
       </a>
     </div>

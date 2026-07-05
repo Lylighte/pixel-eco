@@ -28,18 +28,9 @@ const tag = computed(() => (isLink.value ? 'a' : 'div'))
     :class="{ 'pixel-card--hoverable': hoverable }"
     :href="isLink ? withBase(href) : undefined"
   >
-    <div
-      v-if="title || icon"
-      class="pixel-card__header"
-    >
-      <span
-        v-if="icon"
-        class="pixel-card__icon"
-      >{{ icon }}</span>
-      <span
-        v-if="title"
-        class="pixel-card__title"
-      >{{ title }}</span>
+    <div v-if="title || icon" class="pixel-card__header">
+      <span v-if="icon" class="pixel-card__icon">{{ icon }}</span>
+      <span v-if="title" class="pixel-card__title">{{ title }}</span>
     </div>
     <div class="pixel-card__body">
       <slot />

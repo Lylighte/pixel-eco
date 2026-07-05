@@ -100,12 +100,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    ref="heroRef"
-    class="hero"
-    @mouseenter="pause"
-    @mouseleave="resume"
-  >
+  <div ref="heroRef" class="hero" @mouseenter="pause" @mouseleave="resume">
     <!-- 单图模式（向后兼容） -->
     <img
       v-if="!isCarousel && $props.background"
@@ -115,7 +110,7 @@ onUnmounted(() => {
       width="1200"
       height="640"
       fetchpriority="high"
-    >
+    />
 
     <!-- 轮播模式 -->
     <template v-if="isCarousel">
@@ -133,14 +128,11 @@ onUnmounted(() => {
         height="640"
         :fetchpriority="i === 0 ? 'high' : undefined"
         :loading="i === 0 ? undefined : 'lazy'"
-      >
+      />
     </template>
 
     <!-- 无背景图时显示渐变 -->
-    <div
-      v-if="images.length === 0"
-      class="hero-gradient"
-    />
+    <div v-if="images.length === 0" class="hero-gradient" />
 
     <div class="hero-overlay">
       <div class="logo-area">
@@ -151,20 +143,14 @@ onUnmounted(() => {
           class="hero-logo"
           width="80"
           height="80"
-        >
+        />
         <h1 class="hero-title">
           {{ $props.title }}
         </h1>
-        <p
-          v-if="$props.subtitle"
-          class="hero-subtitle"
-        >
+        <p v-if="$props.subtitle" class="hero-subtitle">
           {{ $props.subtitle }}
         </p>
-        <p
-          v-if="$props.description"
-          class="hero-desc"
-        >
+        <p v-if="$props.description" class="hero-desc">
           {{ $props.description }}
         </p>
       </div>

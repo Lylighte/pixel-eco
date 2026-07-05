@@ -20,10 +20,7 @@ function setActive(index: number) {
 
 <template>
   <div class="pixel-tabs">
-    <div
-      class="pixel-tabs__nav"
-      role="tablist"
-    >
+    <div class="pixel-tabs__nav" role="tablist">
       <button
         v-for="(tab, index) in tabs"
         :key="index"
@@ -36,10 +33,7 @@ function setActive(index: number) {
         {{ tab }}
       </button>
     </div>
-    <div
-      class="pixel-tabs__content"
-      role="tabpanel"
-    >
+    <div class="pixel-tabs__content" role="tabpanel">
       <slot :name="`tab-${activeIndex}`" />
     </div>
   </div>

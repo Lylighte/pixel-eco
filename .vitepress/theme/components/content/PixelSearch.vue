@@ -105,10 +105,7 @@ function doSearch() {
 </script>
 
 <template>
-  <div
-    class="pixel-search"
-    data-pagefind-ignore="true"
-  >
+  <div class="pixel-search" data-pagefind-ignore="true">
     <div class="pixel-search-input-wrap">
       <input
         v-model="query"
@@ -117,51 +114,28 @@ function doSearch() {
         class="pixel-search-input"
         :autofocus="autofocus"
         @input="doSearch"
-      >
+      />
     </div>
 
-    <div
-      v-if="loading"
-      class="search-loading"
-    >
+    <div v-if="loading" class="search-loading">
       <slot name="loading">
         {{ loadingHint }}
       </slot>
     </div>
-    <div
-      v-else-if="error"
-      class="search-error"
-    >
-      <slot
-        name="error"
-        :message="error"
-      >
+    <div v-else-if="error" class="search-error">
+      <slot name="error" :message="error">
         {{ error }}
       </slot>
     </div>
-    <div
-      v-else-if="noResults"
-      class="no-results"
-    >
+    <div v-else-if="noResults" class="no-results">
       <slot name="empty">
         {{ emptyHint }}
       </slot>
     </div>
-    <div
-      v-else
-      class="pixel-search-results"
-    >
-      <a
-        v-for="(item, i) in results"
-        :key="i"
-        :href="item.url"
-        class="search-result-item"
-      >
+    <div v-else class="pixel-search-results">
+      <a v-for="(item, i) in results" :key="i" :href="item.url" class="search-result-item">
         <span class="result-title">{{ item.title }}</span>
-        <span
-          class="result-excerpt"
-          v-html="item.excerpt"
-        />
+        <span class="result-excerpt" v-html="item.excerpt" />
       </a>
     </div>
   </div>

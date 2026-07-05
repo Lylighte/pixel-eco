@@ -29,11 +29,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <PixelButton
-    class="scroll-to-top"
-    :class="{ visible: shouldShow }"
-    @click="scrollToTop"
-  >
+  <PixelButton class="scroll-to-top" :class="{ visible: shouldShow }" @click="scrollToTop">
     ↑
   </PixelButton>
 </template>
