@@ -13,9 +13,12 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
 </script>
 
 <template>
-  <div class="pixel-button-classic" @click="playSound($props.soundUrl)">
+  <div
+    class="pixel-button-classic"
+    @click="playSound($props.soundUrl)"
+  >
     <div class="title">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

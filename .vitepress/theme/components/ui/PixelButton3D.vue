@@ -29,7 +29,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
     @mouseup="pressed = false"
     @mouseleave="pressed = false"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

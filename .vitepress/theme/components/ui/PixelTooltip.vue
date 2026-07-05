@@ -25,7 +25,11 @@ const arrowClass = computed(() => `pixel-tooltip--${props.position}`)
     @focusout="show = false"
   >
     <slot />
-    <span v-if="show" class="pixel-tooltip__popup" :class="arrowClass">{{ text }}</span>
+    <span
+      v-if="show"
+      class="pixel-tooltip__popup"
+      :class="arrowClass"
+    >{{ text }}</span>
   </span>
 </template>
 

@@ -5,7 +5,11 @@ const model = defineModel<string>({
 </script>
 
 <template>
-  <input class="pixel-input" type="text" v-model="model" />
+  <input
+    v-model="model"
+    class="pixel-input"
+    type="text"
+  >
 </template>
 
 <style lang="css" scoped>

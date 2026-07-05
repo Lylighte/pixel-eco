@@ -5,7 +5,13 @@
     :target="isExternal(link.url) ? '_blank' : undefined"
     :rel="isExternal(link.url) ? 'noopener' : undefined"
   >
-    <img v-if="link.image" :src="withBase(link.image)" alt="" loading="lazy" class="link-bg" />
+    <img
+      v-if="link.image"
+      :src="withBase(link.image)"
+      alt=""
+      loading="lazy"
+      class="link-bg"
+    >
     <div class="link-content">
       <p>{{ link.name }}</p>
       <span v-if="link.description">{{ link.description }}</span>

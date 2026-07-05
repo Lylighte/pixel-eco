@@ -22,17 +22,33 @@ const iconNames: Record<string, string> = {
 <template>
   <div class="footer-area">
     <div class="footer-description">
-      <p class="footer-name">{{ site.title || '像素生态' }}</p>
+      <p class="footer-name">
+        {{ site.title || '像素生态' }}
+      </p>
       <span>{{ site.description || '' }}</span>
-      <span id="copyright" v-if="theme.footer?.copyright">
+      <span
+        v-if="theme.footer?.copyright"
+        id="copyright"
+      >
         {{ theme.footer.copyright }}
       </span>
-      <span id="copyright" v-else> © {{ new Date().getFullYear() }} - 保留所有权利 </span>
+      <span
+        v-else
+        id="copyright"
+      > © {{ new Date().getFullYear() }} - 保留所有权利 </span>
       <span id="declaration">
         主题
-        <a href="https://github.com/Lylighte/pixel-eco" target="_blank" rel="noopener">Pixel Eco</a>
+        <a
+          href="https://github.com/Lylighte/pixel-eco"
+          target="_blank"
+          rel="noopener"
+        >Pixel Eco</a>
         灵感来源于
-        <a href="https://github.com/RandomLemon/neco" target="_blank" rel="noopener">neco</a>。感谢
+        <a
+          href="https://github.com/RandomLemon/neco"
+          target="_blank"
+          rel="noopener"
+        >neco</a>。感谢
         <span class="highlight-name">int15</span> 与
         <span class="highlight-name">kingcq</span> 的贡献。
       </span>
@@ -51,20 +67,23 @@ const iconNames: Record<string, string> = {
     </div>
 
     <div class="footer-links">
-      <div class="link-block" v-if="theme.socialLinks && theme.socialLinks.length">
+      <div
+        v-if="theme.socialLinks && theme.socialLinks.length"
+        class="link-block"
+      >
         <p>链接</p>
         <a
-          class="link-item"
           v-for="link in theme.socialLinks"
           :key="link.link"
+          class="link-item"
           :href="link.link"
           target="_blank"
           rel="noopener"
         >
           <component
             :is="iconMap[link.icon]"
-            class="link-icon"
             v-if="link.icon && iconMap[link.icon]"
+            class="link-icon"
           />
           {{ link.text || iconNames[link.icon] || link.link }}
         </a>

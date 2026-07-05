@@ -15,26 +15,51 @@ defineProps<{
 <template>
   <article class="article-view">
     <!-- Cover -->
-    <div v-if="cover" class="article-cover">
-      <img :src="withBase(cover)" :alt="title" width="1200" height="384" />
-      <div v-if="category" class="article-cover-category">{{ category }}</div>
+    <div
+      v-if="cover"
+      class="article-cover"
+    >
+      <img
+        :src="withBase(cover)"
+        :alt="title"
+        width="1200"
+        height="384"
+      >
+      <div
+        v-if="category"
+        class="article-cover-category"
+      >
+        {{ category }}
+      </div>
     </div>
 
     <div class="article-body">
       <!-- Author sidebar -->
-      <aside v-if="author" class="article-author">
+      <aside
+        v-if="author"
+        class="article-author"
+      >
         <div class="article-author-avatar pixel-border">
-          <img :src="withBase(author.avatar)" :alt="author.name" width="64" height="64" />
+          <img
+            :src="withBase(author.avatar)"
+            :alt="author.name"
+            width="64"
+            height="64"
+          >
         </div>
-        <div class="article-author-name">{{ author.name }}</div>
-        <div v-if="author.tags" class="article-author-tags">
+        <div class="article-author-name">
+          {{ author.name }}
+        </div>
+        <div
+          v-if="author.tags"
+          class="article-author-tags"
+        >
           <span
             v-for="tag in author.tags"
             :key="tag.text"
             class="article-author-tag"
             :style="{ backgroundColor: tag.bg, color: tag.color }"
-            >{{ tag.text }}</span
-          >
+          >{{ tag.text }}</span>
         </div>
         <div class="article-author-meta">
           <div v-if="date && !endDate">
@@ -50,7 +75,12 @@ defineProps<{
 
       <!-- Markdown content -->
       <main class="article-content">
-        <h1 v-if="title" class="article-title">{{ title }}</h1>
+        <h1
+          v-if="title"
+          class="article-title"
+        >
+          {{ title }}
+        </h1>
         <div class="article-text vp-doc">
           <slot />
         </div>

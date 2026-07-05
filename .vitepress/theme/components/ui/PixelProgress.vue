@@ -22,11 +22,23 @@ const clampedValue = computed(() => Math.max(0, Math.min(100, props.value)))
 
 <template>
   <div class="pixel-progress">
-    <div v-if="label || showValue" class="pixel-progress__header">
-      <span v-if="label" class="pixel-progress__label">{{ label }}</span>
-      <span v-if="showValue" class="pixel-progress__value">{{ clampedValue }}%</span>
+    <div
+      v-if="label || showValue"
+      class="pixel-progress__header"
+    >
+      <span
+        v-if="label"
+        class="pixel-progress__label"
+      >{{ label }}</span>
+      <span
+        v-if="showValue"
+        class="pixel-progress__value"
+      >{{ clampedValue }}%</span>
     </div>
-    <div class="pixel-progress__track" :style="{ height: height }">
+    <div
+      class="pixel-progress__track"
+      :style="{ height: height }"
+    >
       <div
         class="pixel-progress__fill"
         :class="`pixel-progress__fill--${color}`"

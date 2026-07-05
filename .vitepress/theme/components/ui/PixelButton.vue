@@ -19,7 +19,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
     :class="$props.dark ? 'pixel-button dark' : 'pixel-button'"
     @click="playSound($props.soundUrl)"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

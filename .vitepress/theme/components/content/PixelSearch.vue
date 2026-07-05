@@ -56,7 +56,7 @@ onMounted(async () => {
     )) as PagefindApi
     await pf.init({ basePath })
     pagefind = pf
-  } catch (e) {
+  } catch {
     error.value = errorHint
   }
 })
@@ -95,7 +95,7 @@ function doSearch() {
         )
         results.value = processed
       }
-    } catch (e) {
+    } catch {
       error.value = '搜索出错，请重试。'
     } finally {
       loading.value = false
@@ -105,7 +105,10 @@ function doSearch() {
 </script>
 
 <template>
-  <div class="pixel-search" data-pagefind-ignore="true">
+  <div
+    class="pixel-search"
+    data-pagefind-ignore="true"
+  >
     <div class="pixel-search-input-wrap">
       <input
         v-model="query"
@@ -114,22 +117,51 @@ function doSearch() {
         class="pixel-search-input"
         :autofocus="autofocus"
         @input="doSearch"
-      />
+      >
     </div>
 
-    <div v-if="loading" class="search-loading">
-      <slot name="loading">{{ loadingHint }}</slot>
+    <div
+      v-if="loading"
+      class="search-loading"
+    >
+      <slot name="loading">
+        {{ loadingHint }}
+      </slot>
     </div>
-    <div v-else-if="error" class="search-error">
-      <slot name="error" :message="error">{{ error }}</slot>
+    <div
+      v-else-if="error"
+      class="search-error"
+    >
+      <slot
+        name="error"
+        :message="error"
+      >
+        {{ error }}
+      </slot>
     </div>
-    <div v-else-if="noResults" class="no-results">
-      <slot name="empty">{{ emptyHint }}</slot>
+    <div
+      v-else-if="noResults"
+      class="no-results"
+    >
+      <slot name="empty">
+        {{ emptyHint }}
+      </slot>
     </div>
-    <div v-else class="pixel-search-results">
-      <a v-for="(item, i) in results" :key="i" :href="item.url" class="search-result-item">
+    <div
+      v-else
+      class="pixel-search-results"
+    >
+      <a
+        v-for="(item, i) in results"
+        :key="i"
+        :href="item.url"
+        class="search-result-item"
+      >
         <span class="result-title">{{ item.title }}</span>
-        <span class="result-excerpt" v-html="item.excerpt"></span>
+        <span
+          class="result-excerpt"
+          v-html="item.excerpt"
+        />
       </a>
     </div>
   </div>

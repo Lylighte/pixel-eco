@@ -23,14 +23,25 @@ const isActive = (link: string) => {
 
 <template>
   <nav class="docs-sidebar">
-    <div class="sidebar-title">文档</div>
-    <template v-for="group in nav" :key="group.title">
+    <div class="sidebar-title">
+      文档
+    </div>
+    <template
+      v-for="group in nav"
+      :key="group.title"
+    >
       <div class="sidebar-group">
-        <div class="sidebar-group-header" @click="toggle(group.title)">
+        <div
+          class="sidebar-group-header"
+          @click="toggle(group.title)"
+        >
           <span class="sidebar-arrow">{{ collapsed[group.title] ? '▶' : '▼' }}</span>
           <span class="sidebar-group-name">{{ group.title }}</span>
         </div>
-        <div v-if="!collapsed[group.title]" class="sidebar-items">
+        <div
+          v-if="!collapsed[group.title]"
+          class="sidebar-items"
+        >
           <a
             v-for="item in group.items"
             :key="item.link"
