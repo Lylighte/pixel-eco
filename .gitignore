@@ -47,3 +47,6 @@ public/fonts/*-temp/
 
 # Nix Direnv
 .direnv
+
+# Agents
+.omo/
