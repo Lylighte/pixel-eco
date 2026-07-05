@@ -1,23 +1,19 @@
 <script lang="ts" setup>
-import { withBase } from 'vitepress'
+import { useClickSound } from '../../composables/useClickSound'
 
-defineProps({
-  soundUrl: {
-    type: String,
-    default: '/button.click.ogg',
-  },
+interface Props {
+  soundUrl?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  soundUrl: '/button.click.ogg',
 })
 
-const soundOn = (url: string | undefined) => {
-  if (!url) return
-  const audio = new Audio(withBase(url))
-  audio.play()
-  audio.volume = 0.3
-}
+const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
 </script>
 
 <template>
-  <div class="pixel-button-classic" @click="soundOn($props.soundUrl)">
+  <div class="pixel-button-classic" @click="playSound($props.soundUrl)">
     <div class="title">
       <slot></slot>
     </div>

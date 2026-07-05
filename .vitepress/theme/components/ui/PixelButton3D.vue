@@ -1,26 +1,20 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { withBase } from 'vitepress'
+import { useClickSound } from '../../composables/useClickSound'
 
-defineProps({
-  height: {
-    type: String,
-    default: '3.6rem',
-  },
-  soundUrl: {
-    type: String,
-    default: '/button.click.ogg',
-  },
+interface Props {
+  height?: string
+  soundUrl?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  height: '3.6rem',
+  soundUrl: '/button.click.ogg',
 })
 
 const pressed = ref(false)
 
-const soundOn = (url: string | undefined) => {
-  if (!url) return
-  const audio = new Audio(withBase(url))
-  audio.play()
-  audio.volume = 0.3
-}
+const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
 </script>
 
 <template>
@@ -30,7 +24,7 @@ const soundOn = (url: string | undefined) => {
     :style="{
       height: pressed ? `calc(${$props.height} - var(--pixel-btn-3d-offset))` : $props.height,
     }"
-    @click="soundOn($props.soundUrl)"
+    @click="playSound($props.soundUrl)"
     @mousedown="pressed = true"
     @mouseup="pressed = false"
     @mouseleave="pressed = false"

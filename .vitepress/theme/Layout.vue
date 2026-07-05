@@ -6,29 +6,21 @@ import SiteFooter from './components/layout/SiteFooter.vue'
 import ScrollToTop from './components/layout/ScrollToTop.vue'
 import ArticleView from './components/content/ArticleView.vue'
 import DocsSidebar from './components/content/DocsSidebar.vue'
+import { stripBase } from './utils/path'
 
 const { frontmatter, site } = useData()
 const route = useRoute()
 
-// VitePress SSR 期间 route.path 可能包含 base 前缀，手动剥离
-const stripBase = (path: string) => {
-  const base = site.value.base
-  if (base && base !== '/' && base !== './' && path.startsWith(base)) {
-    return path.slice(base.length - 1)
-  }
-  return path
-}
-
 const hasHero = computed(() => !!frontmatter.value.hasHero)
 
 const isNewsPost = computed(() => {
-  const path = stripBase(route.path)
+  const path = stripBase(route.path, site.value.base)
   return path.startsWith('/news/') && path !== '/news/' && path !== '/news'
 })
 
 // Docs sub-pages get a sidebar layout; /docs/ itself is the index (no sidebar)
 const isDocsPage = computed(() => {
-  const path = stripBase(route.path)
+  const path = stripBase(route.path, site.value.base)
   return path.startsWith('/docs/') && path !== '/docs/' && path !== '/docs'
 })
 

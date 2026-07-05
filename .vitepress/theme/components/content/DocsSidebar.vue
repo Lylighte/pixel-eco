@@ -2,18 +2,10 @@
 import { ref } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
 import { buildSidebarNav } from '../../utils/docs-nav'
+import { stripBase } from '../../utils/path'
 
 const { site } = useData()
 const route = useRoute()
-
-// VitePress SSR 期间 route.path 可能包含 base 前缀，手动剥离
-const stripBase = (path: string) => {
-  const base = site.value.base
-  if (base && base !== '/' && base !== './' && path.startsWith(base)) {
-    return path.slice(base.length - 1)
-  }
-  return path
-}
 
 const nav = buildSidebarNav()
 
@@ -24,7 +16,7 @@ const toggle = (title: string) => {
 }
 
 const isActive = (link: string) => {
-  const path = stripBase(route.path)
+  const path = stripBase(route.path, site.value.base)
   return path === link || path === link + '.html'
 }
 </script>

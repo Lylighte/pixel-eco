@@ -1,35 +1,25 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
+import { stripBase } from '../../utils/path'
+import { useClickSound } from '../../composables/useClickSound'
+import type { NavItem } from '../../types/components'
 
 const { theme, site } = useData()
 const route = useRoute()
 
-// VitePress SSR 期间 route.path 可能包含 base 前缀，手动剥离
-const stripBase = (path: string) => {
-  const base = site.value.base
-  if (base && base !== '/' && base !== './' && path.startsWith(base)) {
-    return path.slice(base.length - 1) // base 含尾部斜杠，保留开头的 /
-  }
-  return path
+interface Props {
+  soundUrl?: string
 }
 
-defineProps({
-  soundUrl: {
-    type: String,
-    default: '/button.click.ogg',
-  },
+withDefaults(defineProps<Props>(), {
+  soundUrl: '/button.click.ogg',
 })
 
-const soundOn = (url: string | undefined) => {
-  if (!url) return
-  const audio = new Audio(withBase(url))
-  audio.play()
-  audio.volume = 0.3
-}
+const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
 
 // Parse nav items from VitePress config
-const navItems = computed(() => {
+const navItems = computed<NavItem[]>(() => {
   const raw = theme.value.nav
   if (!raw || !Array.isArray(raw)) return []
   return raw.map((item: { text?: string; link?: string }) => ({
@@ -42,7 +32,7 @@ const navItems = computed(() => {
 const activeIndex = ref(0)
 
 const updateActiveIndex = (path: string) => {
-  const normalized = stripBase(path)
+  const normalized = stripBase(path, site.value.base)
   let bestIdx = 0
   let bestLen = 0
   navItems.value.forEach((item, index) => {
@@ -81,7 +71,7 @@ const sliderStyle = computed(() => {
         :key="index"
         class="nav-item"
         :href="withBase(item.url)"
-        @click="soundOn($props.soundUrl)"
+        @click="playSound($props.soundUrl)"
       >
         {{ item.name }}
       </a>
