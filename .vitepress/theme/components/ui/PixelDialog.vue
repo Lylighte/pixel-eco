@@ -4,20 +4,18 @@ import PixelButtonClassic from './PixelButtonClassic.vue'
 
 const modelValue = defineModel<boolean>({ default: false })
 const emits = defineEmits(['confirm'])
-const props = defineProps({
-  title: {
-    type: String,
-    default: '',
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    cancelText?: string
+    confirmText?: string
+  }>(),
+  {
+    title: '',
+    cancelText: '取消',
+    confirmText: '确认',
   },
-  cancelText: {
-    type: String,
-    default: '取消',
-  },
-  confirmText: {
-    type: String,
-    default: '确认',
-  },
-})
+)
 const visible = ref(false)
 const opacity = ref(0)
 

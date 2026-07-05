@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
+import type { Author } from '../../types/components.ts'
 
 defineProps<{
   title?: string
-  author?: { name: string; avatar: string; tags?: { text: string; color: string; bg: string }[] }
+  author?: Author
   date?: string
   endDate?: string
   cover?: string

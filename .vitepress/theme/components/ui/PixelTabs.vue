@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const props = defineProps({
-  tabs: {
-    type: Array as () => string[],
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    tabs: string[]
+    active?: number
+  }>(),
+  {
+    active: 0,
   },
-  active: {
-    type: Number,
-    default: 0,
-  },
-})
+)
 
 const activeIndex = ref(props.active)
 

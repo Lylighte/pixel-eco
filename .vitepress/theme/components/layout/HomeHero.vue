@@ -2,16 +2,28 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { withBase } from 'vitepress'
 
-const props = defineProps({
-  title: { type: String, default: 'Your Organization' },
-  subtitle: { type: String, default: '' },
-  description: { type: String, default: '' },
-  logo: { type: String, default: '/logo.png' },
-  background: { type: String, default: '' },
-  backgrounds: { type: Array as () => string[], default: () => [] },
-  interval: { type: Number, default: 5000 },
-  transition: { type: String as () => 'fade' | 'slide', default: 'fade' },
-})
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    subtitle?: string
+    description?: string
+    logo?: string
+    background?: string
+    backgrounds?: string[]
+    interval?: number
+    transition?: 'fade' | 'slide'
+  }>(),
+  {
+    title: 'Your Organization',
+    subtitle: '',
+    description: '',
+    logo: '/logo.png',
+    background: '',
+    backgrounds: () => [],
+    interval: 5000,
+    transition: 'fade',
+  },
+)
 
 // ── 轮播状态 ──
 const currentIndex = ref(0)

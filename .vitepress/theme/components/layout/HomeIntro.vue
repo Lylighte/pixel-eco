@@ -1,24 +1,19 @@
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
 
-defineProps({
-  title: {
-    type: String,
-    required: true,
+withDefaults(
+  defineProps<{
+    title: string
+    description?: string
+    image?: string
+    right?: boolean
+  }>(),
+  {
+    description: '',
+    image: '',
+    right: false,
   },
-  description: {
-    type: String,
-    default: '',
-  },
-  image: {
-    type: String,
-    default: '',
-  },
-  right: {
-    type: Boolean,
-    default: false,
-  },
-})
+)
 </script>
 
 <template>

@@ -1,10 +1,7 @@
 <script lang="ts" setup>
-defineProps({
-  items: {
-    type: Array as () => { date: string; title: string; content: string }[],
-    required: true,
-  },
-})
+defineProps<{
+  items: { date: string; title: string; content: string }[]
+}>()
 </script>
 
 <template>

@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    title: string
+    open?: boolean
+  }>(),
+  {
+    open: false,
   },
-  open: {
-    type: Boolean,
-    default: false,
-  },
-})
+)
 
 const isOpen = ref(props.open)
 

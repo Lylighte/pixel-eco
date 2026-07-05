@@ -2,24 +2,20 @@
 import { computed } from 'vue'
 import { withBase } from 'vitepress'
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: '',
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    icon?: string
+    href?: string
+    hoverable?: boolean
+  }>(),
+  {
+    title: '',
+    icon: '',
+    href: '',
+    hoverable: true,
   },
-  icon: {
-    type: String,
-    default: '',
-  },
-  href: {
-    type: String,
-    default: '',
-  },
-  hoverable: {
-    type: Boolean,
-    default: true,
-  },
-})
+)
 
 const isLink = computed(() => !!props.href)
 const tag = computed(() => (isLink.value ? 'a' : 'div'))

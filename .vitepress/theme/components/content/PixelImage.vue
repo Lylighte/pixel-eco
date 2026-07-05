@@ -1,32 +1,23 @@
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
 
-defineProps({
-  src: {
-    type: String,
-    required: true,
+withDefaults(
+  defineProps<{
+    src: string
+    alt?: string
+    caption?: string
+    width?: number
+    height?: number
+    lazy?: boolean
+  }>(),
+  {
+    alt: '',
+    caption: '',
+    width: 800,
+    height: 600,
+    lazy: true,
   },
-  alt: {
-    type: String,
-    default: '',
-  },
-  caption: {
-    type: String,
-    default: '',
-  },
-  width: {
-    type: Number,
-    default: 800,
-  },
-  height: {
-    type: Number,
-    default: 600,
-  },
-  lazy: {
-    type: Boolean,
-    default: true,
-  },
-})
+)
 </script>
 
 <template>

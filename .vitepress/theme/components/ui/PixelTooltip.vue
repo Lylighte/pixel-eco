@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 
-const props = defineProps({
-  text: {
-    type: String,
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    text: string
+    position?: 'top' | 'bottom' | 'left' | 'right'
+  }>(),
+  {
+    position: 'top',
   },
-  position: {
-    type: String as () => 'top' | 'bottom' | 'left' | 'right',
-    default: 'top',
-  },
-})
+)
 
 const show = ref(false)
 

@@ -1,18 +1,16 @@
 <script lang="ts" setup>
-defineProps({
-  type: {
-    type: String as () => 'info' | 'success' | 'warning' | 'danger',
-    default: 'info',
+withDefaults(
+  defineProps<{
+    type?: 'info' | 'success' | 'warning' | 'danger'
+    size?: 'sm' | 'md'
+    outline?: boolean
+  }>(),
+  {
+    type: 'info',
+    size: 'md',
+    outline: false,
   },
-  size: {
-    type: String as () => 'sm' | 'md',
-    default: 'md',
-  },
-  outline: {
-    type: Boolean,
-    default: false,
-  },
-})
+)
 </script>
 
 <template>
