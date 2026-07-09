@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
 
 // docs-nav.ts 和 news-utils.ts 在模块加载时通过 import.meta.glob 引用 src/docs/*.md
 // 与 src/news/*.md。VitePress 在生产构建中由内置插件解析这些 .md 模块，但 Vitest
@@ -25,7 +26,7 @@ const mdStubPlugin = {
 }
 
 export default defineConfig({
-  plugins: [mdStubPlugin],
+  plugins: [vue(), mdStubPlugin],
   test: {
     environment: 'jsdom',
     include: ['**/*.test.ts'],
