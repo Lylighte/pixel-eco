@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
-import { buildSidebarNav } from '../../utils/docs-nav'
+import { data as collections } from '../../../collections.data'
 import { stripBase } from '../../utils/path'
 
 const { site } = useData()
 const route = useRoute()
 
-const nav = buildSidebarNav()
+const nav = computed(() => collections.sidebar)
 
 const collapsed = ref<Record<string, boolean>>({})
 

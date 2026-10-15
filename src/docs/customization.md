@@ -21,25 +21,20 @@ const GITHUB_USERNAME = 'Lylighte'   // 替换为你的 GitHub 用户名
 const REPO_NAME = 'pixel-eco'        // 替换为你的仓库名
 ```
 
-这两个变量会自动推导 GitHub Pages 地址、SEO 元标签和 RSS 订阅地址。
+这两个变量只配置 GitHub 仓库链接。站点标题、描述、作者等品牌信息也在配置文件顶部设置；公开站点地址通过 `SITE_URL` 独立配置。
 
 ### 部署路径
 
-`BASE_PATH` 环境变量控制站点部署的子路径：
+`SITE_URL` 环境变量提供完整公开地址，并推导生产部署路径：
 
-| 场景 | BASE_PATH | 说明 |
+| 场景 | SITE_URL | 说明 |
 |------|-----------|------|
-| 本地开发 | 不设置（默认 `/`） | 根路径，`npm run dev` 直接访问 |
-| GitHub Pages | CI 自动注入 | `configure-pages@v4` 自动设置 |
-| Netlify / Vercel | 设为 `/` | 根路径部署 |
-| 自定义域名 | 设为 `/` | 根路径部署 |
+| 本地开发 | 不设置 | 开发默认使用 `/` |
+| GitHub Pages | CI 自动注入 | `configure-pages@v4` 的 `base_url` |
+| 自定义域名根路径 | `https://example.com/` | 生产 base 为 `/` |
+| 自定义域名子路径 | `https://example.com/community/` | 生产 base 为 `/community/` |
 
-非 relative 模式下（`BASE_PATH` 为绝对路径），SEO 元标签、Open Graph、Twitter Card、sitemap 和 RSS 会自动启用。可通过 `SITE_URL` 环境变量覆盖自动推导的站点地址。
-
-```ts
-// RSS 只需域名，不含子路径
-const RSS_BASE = IS_RELATIVE ? '' : `https://${GITHUB_USERNAME}.github.io`
-```
+设置 `SITE_URL` 后启用公开地址相关元数据、sitemap 和 RSS；不设置时仍可本地构建。`BASE_PATH` 保留兼容覆盖，但与 `SITE_URL` 同时设置时必须匹配其路径。`./` 相对部署不再支持。完整规则和预览方式见 [部署](./deployment)。
 
 ## Logo
 

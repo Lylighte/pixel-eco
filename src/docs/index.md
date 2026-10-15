@@ -3,9 +3,7 @@ layout: page
 ---
 
 <script setup>
-import { buildDocCards } from '../../.vitepress/theme/utils/docs-nav'
-
-const cards = buildDocCards()
+import { data as collections } from '../../.vitepress/collections.data'
 </script>
 
 # 文档
@@ -14,7 +12,6 @@ const cards = buildDocCards()
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 2rem 0;">
 
-<LinkCard v-for="card in cards" :key="card.url" :link="card" />
+<LinkCard v-for="card in collections.docs" :key="card.url" :link="card" />
 
 </div>
-

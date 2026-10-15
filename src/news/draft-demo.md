@@ -11,7 +11,7 @@ draft: true
 
 这篇内容只在 `npm run dev` 时出现在新闻列表中。
 
-生产构建（`npm run build`）时，此页面仍会生成但不会出现在新闻列表页。
+生产构建（`npm run build`）时，不生成此页面，也不会进入新闻列表、RSS、sitemap 或搜索索引。
 
 ## 使用方法
 

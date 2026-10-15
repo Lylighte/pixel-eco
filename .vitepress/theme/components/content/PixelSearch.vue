@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { useData } from 'vitepress'
 
 interface PagefindSearchResult {
   data(): Promise<{
@@ -15,7 +15,8 @@ interface PagefindSearchResponse {
 }
 
 interface PagefindApi {
-  init(options: { basePath: string }): Promise<void>
+  options(options: { basePath: string; baseUrl: string }): Promise<void>
+  init(): Promise<void>
   search(query: string): Promise<PagefindSearchResponse>
 }
 
@@ -54,7 +55,8 @@ onMounted(async () => {
     const pf = (await new Function('path', 'return import(path)')(
       basePath + 'pagefind.js',
     )) as PagefindApi
-    await pf.init({ basePath })
+    await pf.options({ basePath, baseUrl: base })
+    await pf.init()
     pagefind = pf
   } catch {
     error.value = errorHint
@@ -87,7 +89,8 @@ function doSearch() {
           search.results.map(async (r) => {
             const data = await r.data()
             return {
-              url: withBase(data.url),
+              // Pagefind returns URLs with the configured baseUrl already applied.
+              url: data.url,
               title: data.meta?.title || data.url,
               excerpt: data.excerpt,
             }

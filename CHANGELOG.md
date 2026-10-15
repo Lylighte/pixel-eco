@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- 公开地址统一由完整 `SITE_URL` 推导，规范化尾斜杠及栏目 canonical，修复自定义域名 RSS 和子路径封面地址；未设置公开地址时允许本地构建并关闭公开 URL 元数据、RSS 和 sitemap。
+- `BASE_PATH` 保留兼容并检查与公开地址一致；不再支持 `./` 相对部署。开发默认根路径，生产预览保留配置的子路径。
+- 修复路径前缀边界与缺尾斜杠处理，以及 Pagefind 搜索结果重复部署子路径。
+- **行为变更**：`draft: true` 从仅隐藏新闻卡片改为生产不输出页面；新闻、文档索引、RSS、sitemap 和搜索统一排除草稿。索引改用构建期数据加载器，避免 eager 导入整篇 Markdown。
+- Pages 仍为手动发布，改为注入完整公开地址；运行时要求统一为 Node.js 22+。增加发布规则测试和 `npm run test:build` 构建矩阵。
+
 ## Release 1.4.0
 
 > 2026/07/05: 工程化基础设施、Vue 组件类型统一、PixelSearch 组件化、Pagefind 中文搜索优化。

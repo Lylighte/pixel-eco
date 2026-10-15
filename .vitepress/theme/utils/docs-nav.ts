@@ -1,18 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// 共享工具：从 docs/*.md 的 __pageData.frontmatter 自动构建侧边栏导航和索引页卡片
-// 被 DocsSidebar.vue 和 docs/index.md 共同引用
-// 通过 @theme alias 确保 Vite 不创建重复模块实例
+// 将构建期 frontmatter 索引转换为文档导航和卡片；不导入 Markdown 页面。
 
 import type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
+import { isPublished } from './publication'
 export type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
 
 type DocsModuleMap = Record<string, { __pageData?: { frontmatter?: Record<string, unknown> } }>
-
-// VitePress 编译 .md 时会将 frontmatter 注入 __pageData 导出。
-// 用函数包装 import.meta.glob，使单元测试注入 mock 时不会触发 glob 评估。
-function loadDefaultModules(): DocsModuleMap {
-  return import.meta.glob('../../../src/docs/*.md', { eager: true })
-}
 
 function getSlug(path: string): string {
   const parts = path.replace(/\\/g, '/').split('/')
@@ -23,13 +16,17 @@ function getFrontmatter(module: DocsModuleMap[string]): Record<string, any> {
   return module?.__pageData?.frontmatter || {}
 }
 
-export function buildSidebarNav(modules: DocsModuleMap = loadDefaultModules()): SidebarGroup[] {
+export function buildSidebarNav(
+  modules: DocsModuleMap,
+  production = import.meta.env.PROD,
+): SidebarGroup[] {
   const groups = new Map<string, { items: SidebarItem[]; groupOrder: number }>()
 
   for (const [path, module] of Object.entries(modules)) {
     const slug = getSlug(path)
     if (slug === 'index') continue
     const fm = getFrontmatter(module)
+    if (!isPublished(fm, path) && production) continue
     const group = fm.sidebarGroup || '未分类'
     if (!groups.has(group)) {
       groups.set(group, { items: [], groupOrder: fm.sidebarGroupOrder ?? 999 })
@@ -52,9 +49,13 @@ export function buildSidebarNav(modules: DocsModuleMap = loadDefaultModules()): 
   })).sort((a, b) => a.groupOrder - b.groupOrder)
 }
 
-export function buildDocCards(modules: DocsModuleMap = loadDefaultModules()): DocCard[] {
+export function buildDocCards(
+  modules: DocsModuleMap,
+  production = import.meta.env.PROD,
+): DocCard[] {
   return Object.entries(modules)
     .filter(([path]) => !path.endsWith('index.md'))
+    .filter(([path, module]) => isPublished(getFrontmatter(module), path) || !production)
     .map(([path, module]) => {
       const fm = getFrontmatter(module)
       const slug = getSlug(path)
