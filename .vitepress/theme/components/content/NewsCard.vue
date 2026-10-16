@@ -53,6 +53,15 @@ withDefaults(
   background-color: var(--pixel-card-bg);
   margin-bottom: 1.5rem;
   overflow: hidden;
+  box-shadow: var(--pixel-card-shadow);
+  transition:
+    transform var(--pixel-duration-fast) ease-out,
+    box-shadow var(--pixel-duration) var(--pixel-steps-fast);
+}
+
+.overview-card:hover:not(:focus-visible) {
+  transform: translateY(-2px);
+  box-shadow: var(--pixel-shadow-hard);
 }
 
 .overview-picture {
@@ -66,12 +75,6 @@ withDefaults(
   width: 100%;
   height: 100%;
   object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.overview-img:hover {
-  transform: scale(1.05);
 }
 
 .overview-content {

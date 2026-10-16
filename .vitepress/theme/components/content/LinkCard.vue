@@ -46,11 +46,14 @@ defineProps<{
   cursor: pointer;
   text-decoration: none;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition:
+    transform var(--pixel-duration-fast) ease-out,
+    box-shadow var(--pixel-duration) var(--pixel-steps-fast);
 }
 
 .link-card:hover:not(:focus-visible) {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: var(--pixel-shadow-hard);
 }
 
 .link-bg {

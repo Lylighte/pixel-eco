@@ -1,3 +1,20 @@
+/* ═══════════════════════════════════════════════════════════
+   Pixel Motion — stepped easing tokens & shared keyframes
+   All motion is flattened to 1ms under prefers-reduced-motion
+   (see vars.css); nothing here needs its own guard.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Durations */
+  --pixel-duration-fast: 0.1s; /* pressed states, hover lifts */
+  --pixel-duration: 0.2s; /* discrete state swaps (shadow, color) */
+  --pixel-duration-page: 0.24s; /* route transitions */
+
+  /* Stepped easing: only for discrete state swaps, never spatial motion
+     or opacity fades (reads as jank on high-refresh displays) */
+  --pixel-steps-fast: steps(3, end);
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -29,12 +46,12 @@
   }
 }
 
-/* ── Page transition (route changes) ── */
+/* ── Page transition (route changes) — smooth fade + shift ── */
 .page-enter-active,
 .page-leave-active {
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    opacity var(--pixel-duration-page) ease-out,
+    transform var(--pixel-duration-page) ease-out;
 }
 
 .page-enter-from {
