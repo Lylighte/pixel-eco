@@ -63,10 +63,13 @@ const isActive = (link: string) => {
 .docs-sidebar {
   width: 14rem;
   flex-shrink: 0;
+  align-self: flex-start;
   padding: 1rem 0;
   background: var(--pixel-sidebar-bg);
   border-right: var(--pixel-sidebar-border);
-  min-height: calc(100vh - var(--pixel-nav-height) - var(--pixel-space-l));
+  position: sticky;
+  top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
+  max-height: calc(100vh - var(--pixel-nav-height) - var(--pixel-space-l));
   overflow-y: auto;
 }
 
@@ -132,7 +135,8 @@ const isActive = (link: string) => {
 @media screen and (max-width: var(--pixel-break-layout)) {
   .docs-sidebar {
     width: 100%;
-    min-height: auto;
+    position: static;
+    max-height: none;
     border-right: none;
     border-bottom: var(--pixel-sidebar-border);
   }
