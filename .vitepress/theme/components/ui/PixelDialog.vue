@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import PixelButtonClassic from './PixelButtonClassic.vue'
 
 const modelValue = defineModel<boolean>({ default: false })
+const dialog = ref<HTMLElement | null>(null)
+let previousFocus: HTMLElement | null = null
 const emits = defineEmits(['confirm'])
 const props = withDefaults(
   defineProps<{
@@ -26,8 +28,51 @@ const onConfirm = () => {
 }
 
 const onKeydown = (event: KeyboardEvent) => {
-  if (modelValue.value && event.key === 'Escape') closeDialog()
+  if (!modelValue.value) return
+  if (event.key === 'Escape') {
+    event.preventDefault()
+    closeDialog()
+  } else if (event.key === 'Tab' && dialog.value) {
+    const controls = [
+      ...dialog.value.querySelectorAll<HTMLElement>(
+        'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])',
+      ),
+    ].filter((element) => element.getClientRects().length > 0)
+    const first = controls[0]
+    const last = controls[controls.length - 1]
+    if (!first) {
+      event.preventDefault()
+      dialog.value.focus()
+    } else if (
+      event.shiftKey &&
+      (document.activeElement === first || document.activeElement === dialog.value)
+    ) {
+      event.preventDefault()
+      last.focus()
+    } else if (
+      !event.shiftKey &&
+      (document.activeElement === last || !dialog.value.contains(document.activeElement))
+    ) {
+      event.preventDefault()
+      first.focus()
+    }
+  }
 }
+
+watch(
+  modelValue,
+  async (open) => {
+    if (typeof document === 'undefined') return
+    if (open) {
+      previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
+      await nextTick()
+      if (modelValue.value) dialog.value?.focus()
+    } else {
+      previousFocus?.focus()
+    }
+  },
+  { immediate: true },
+)
 
 onMounted(() => document.addEventListener('keydown', onKeydown))
 onUnmounted(() => document.removeEventListener('keydown', onKeydown))
@@ -37,9 +82,11 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
   <Transition name="dialog">
     <div v-if="modelValue" class="dialog-cover" @click.self="closeDialog">
       <div
+        ref="dialog"
         class="dialog pixel-border"
         role="dialog"
         aria-modal="true"
+        tabindex="-1"
         :aria-label="props.title.trim() || undefined"
         @click.stop
       >
@@ -116,8 +163,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
 
 .dialog-title {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   margin-bottom: 1rem;
   user-select: none;
 }

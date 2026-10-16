@@ -92,14 +92,13 @@ withDefaults(
 }
 
 .intro-text p {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: var(--pixel-font-size-l);
   margin: 0 0 1rem 0;
   color: var(--pixel-color-text);
 }
 
 .intro-text span {
-  font-size: 1.1rem;
+  font-size: var(--pixel-font-size-m);
   line-height: 1.6;
   color: var(--pixel-color-text-muted);
 }

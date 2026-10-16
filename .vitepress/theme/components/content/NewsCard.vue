@@ -35,7 +35,9 @@ withDefaults(
         {{ $props.brief }}
       </p>
       <a :href="withBase($props.link)" class="overview-button-wrap">
-        <PixelButton3D class="overview-button"> {{ $props.buttonText }} &gt; </PixelButton3D>
+        <PixelButton3D class="overview-button" role="presentation" :tabindex="-1">
+          {{ $props.buttonText }} &gt;
+        </PixelButton3D>
       </a>
     </div>
   </div>
@@ -78,7 +80,7 @@ withDefaults(
 
 .overview-title {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   cursor: pointer;
   color: var(--pixel-color-text);
   text-decoration: none;
@@ -86,7 +88,7 @@ withDefaults(
   margin-bottom: 0.5rem;
 }
 
-.overview-title:hover {
+.overview-title:hover:not(:focus-visible) {
   color: var(--pixel-brand-light);
 }
 

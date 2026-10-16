@@ -19,8 +19,7 @@ const model = defineModel<string>({
 <style lang="css" scoped>
 .pixel-input {
   font-family: var(--pixel-font-body);
-  font-size: 1rem;
-  letter-spacing: 1px;
+  font-size: var(--pixel-font-size-m);
   padding: 2px;
   border: 2px solid transparent;
   border-top: 2px solid var(--pixel-input-shadow-dark);
@@ -30,5 +29,10 @@ const model = defineModel<string>({
   outline: var(--pixel-input-border);
   overflow-y: hidden;
   resize: vertical;
+}
+
+.pixel-input::placeholder {
+  color: var(--pixel-input-placeholder);
+  opacity: 1;
 }
 </style>

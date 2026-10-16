@@ -49,7 +49,7 @@ defineProps<{
   transition: transform 0.3s ease;
 }
 
-.link-card:hover {
+.link-card:hover:not(:focus-visible) {
   transform: scale(1.05);
 }
 
@@ -73,14 +73,13 @@ defineProps<{
 
 .link-content p {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   margin: 0;
   color: var(--pixel-linkcard-title-color);
 }
 
 .link-content span {
-  font-size: 0.85rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-color-text-muted);
 }
 </style>

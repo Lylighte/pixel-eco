@@ -24,6 +24,7 @@ function setActive(index: number) {
       <button
         v-for="(tab, index) in tabs"
         :key="index"
+        type="button"
         class="pixel-tabs__tab"
         :class="{ 'pixel-tabs__tab--active': activeIndex === index }"
         role="tab"
@@ -67,7 +68,7 @@ function setActive(index: number) {
   border-right: none;
 }
 
-.pixel-tabs__tab:hover {
+.pixel-tabs__tab:hover:not(:focus-visible) {
   background: var(--pixel-color-accent-soft);
 }
 

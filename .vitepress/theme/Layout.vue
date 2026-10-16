@@ -12,6 +12,12 @@ const { frontmatter, site } = useData()
 const route = useRoute()
 
 const hasHero = computed(() => !!frontmatter.value.hasHero)
+const isReadingPage = computed(
+  () =>
+    stripBase(route.path, site.value.base)
+      .replace(/\.html$/, '')
+      .replace(/\/$/, '') === '/about',
+)
 
 const isNewsPost = computed(() => {
   const path = stripBase(route.path, site.value.base)
@@ -60,7 +66,7 @@ const articleProps = computed(() => {
           v-else
           :key="route.path"
           class="page-container vp-doc"
-          :class="{ 'with-hero': hasHero }"
+          :class="{ 'with-hero': hasHero, 'reading-page': isReadingPage }"
         >
           <Content />
         </div>
@@ -103,6 +109,15 @@ const articleProps = computed(() => {
   padding-top: 0;
 }
 
+/* Constrain only prose; Hero and other layout components keep their existing width. */
+.page-container.reading-page
+  > div
+  > div
+  > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, table, hr) {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
 /* Docs layout: sidebar + content */
 .docs-layout {
   display: flex;
@@ -113,6 +128,7 @@ const articleProps = computed(() => {
 .docs-layout .page-container {
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {

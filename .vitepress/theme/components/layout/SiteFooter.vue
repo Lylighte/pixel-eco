@@ -96,8 +96,7 @@ const iconNames: Record<string, string> = {
 
 .footer-name {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   margin-top: 0.5rem;
   margin-bottom: 0.25rem;
   color: var(--pixel-footer-title);
@@ -109,12 +108,12 @@ const iconNames: Record<string, string> = {
 }
 
 #copyright {
-  font-size: 0.9rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-footer-copyright);
 }
 
 #declaration {
-  font-size: 0.75rem; /* 12px — 最小对齐尺寸 */
+  font-size: var(--pixel-font-size-s); /* 12px — 最小对齐尺寸 */
   color: var(--pixel-footer-declaration);
   margin-top: 0.15rem;
   margin-bottom: 0.15rem;
@@ -123,16 +122,6 @@ const iconNames: Record<string, string> = {
 
 .highlight-name {
   color: var(--pixel-brand-light);
-}
-
-#declaration a {
-  color: var(--pixel-brand-light);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-#declaration a:hover {
-  color: var(--pixel-color-text-solid);
 }
 
 .footer-links {
@@ -146,7 +135,6 @@ const iconNames: Record<string, string> = {
 }
 
 .link-block p {
-  font-weight: bold;
   margin: 0 0 0.5rem 0;
 }
 
@@ -158,7 +146,7 @@ const iconNames: Record<string, string> = {
   text-decoration: none;
 }
 
-.link-item:hover {
+.link-item:hover:not(:focus-visible) {
   color: var(--pixel-brand-light);
 }
 

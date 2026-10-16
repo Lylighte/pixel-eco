@@ -19,6 +19,7 @@ const arrowClass = computed(() => `pixel-tooltip--${props.position}`)
 <template>
   <span
     class="pixel-tooltip"
+    tabindex="0"
     @mouseenter="show = true"
     @mouseleave="show = false"
     @focusin="show = true"

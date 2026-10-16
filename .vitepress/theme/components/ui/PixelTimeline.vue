@@ -94,7 +94,6 @@ defineProps<{
   display: block;
   font-family: var(--pixel-font-heading);
   font-size: var(--pixel-font-size-m);
-  font-weight: bold;
   color: var(--pixel-color-text);
   margin-bottom: 4px;
 }

@@ -11,7 +11,15 @@ const { playSound } = useClickSound()
 </script>
 
 <template>
-  <div class="pixel-button-classic" @click="playSound($props.soundUrl)">
+  <div
+    class="pixel-button-classic"
+    role="button"
+    tabindex="0"
+    @click="playSound($props.soundUrl)"
+    @keydown.enter.prevent="($event.currentTarget as HTMLElement).click()"
+    @keydown.space.prevent
+    @keyup.space.prevent="($event.currentTarget as HTMLElement).click()"
+  >
     <div class="title">
       <slot />
     </div>
@@ -32,7 +40,7 @@ const { playSound } = useClickSound()
   box-sizing: border-box;
 }
 
-.pixel-button-classic:hover .title {
+.pixel-button-classic:hover:not(:focus-visible) .title {
   background-color: var(--pixel-btn-classic-active-bg);
   text-shadow: var(--pixel-btn-classic-active-shadow);
   color: var(--pixel-btn-classic-active-text);

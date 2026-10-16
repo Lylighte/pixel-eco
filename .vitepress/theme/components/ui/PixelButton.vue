@@ -16,8 +16,13 @@ const { playSound } = useClickSound()
 
 <template>
   <div
+    role="button"
+    tabindex="0"
     :class="$props.dark ? 'pixel-button dark' : 'pixel-button'"
     @click="playSound($props.soundUrl)"
+    @keydown.enter.prevent="($event.currentTarget as HTMLElement).click()"
+    @keydown.space.prevent
+    @keyup.space.prevent="($event.currentTarget as HTMLElement).click()"
   >
     <slot />
   </div>
@@ -49,7 +54,7 @@ const { playSound } = useClickSound()
     inset -2px -2px 0 0 var(--pixel-btn-shadow-dark);
 }
 
-.pixel-button:hover {
+.pixel-button:hover:not(:focus-visible) {
   color: var(--pixel-btn-text-hover);
   outline: 2px solid var(--pixel-btn-outline-hover);
   background-color: var(--pixel-btn-bg-hover);
@@ -65,7 +70,7 @@ const { playSound } = useClickSound()
     inset 2px 2px 0 0 var(--pixel-btn-shadow-dark);
 }
 
-.pixel-button:active:hover {
+.pixel-button:active:hover:not(:focus-visible) {
   color: var(--pixel-btn-text-hover);
   outline: 2px solid var(--pixel-btn-outline-hover);
   background-color: var(--pixel-btn-bg-hover);

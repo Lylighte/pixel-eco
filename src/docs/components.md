@@ -114,7 +114,7 @@ const textareaText = ref('')
 
 带像素边框的文本输入框。
 
-<PixelInput v-model="inputText" />
+<PixelInput v-model="inputText" placeholder="输入内容" aria-label="单行输入示例" />
 
 <p v-if="inputText">你输入了：<strong>{{ inputText }}</strong></p>
 
@@ -130,7 +130,7 @@ const textareaText = ref('')
 
 带自动调整大小的多行文本输入。
 
-<PixelTextarea v-model="textareaText" style="width:100%;min-height:6rem" />
+<PixelTextarea v-model="textareaText" placeholder="输入多行内容" aria-label="多行输入示例" style="width:100%;min-height:6rem" />
 
 ```html
 <PixelTextarea v-model="textareaText" />
@@ -148,7 +148,7 @@ const textareaText = ref('')
 
 <PixelDialog v-model="dialogOpen" title="确认操作" @confirm="dialogOpen = false">
   <p>你确定要继续吗？</p>
-  <p style="color:#aaa;font-size:0.9rem">此操作无法撤销。</p>
+  <p style="color:var(--pixel-color-text-muted);font-size:var(--pixel-font-size-m)">此操作无法撤销。</p>
 </PixelDialog>
 
 ```html
@@ -573,6 +573,27 @@ print('Hello from Python!')
 | `category` | `string` | 文章分类 |
 
 ---
+
+## 字号阶梯
+
+全站仅使用以下四档字号，以 16px 根字号对齐像素字体；组件样式引用令牌，不使用任意小数或相对正文缩放的 `em` 字号。
+
+| 令牌 | 字号 | 用途 |
+|------|------|------|
+| `--pixel-font-size-s` | 0.75rem / 12px | 标签、元信息、辅助说明 |
+| `--pixel-font-size-m` | 1rem / 16px | 正文、输入框、导航、三级标题 |
+| `--pixel-font-size-title` | 1.25rem / 20px | 二级标题、卡片标题 |
+| `--pixel-font-size-l` | 1.5rem / 24px | 一级标题、主标题 |
+
+正文使用 Unifont，标题使用 Ark Pixel，代码使用 Monocraft；保留现有字体栈，不通过缩放、合成粗体或合成斜体制造层级。
+
+### 正文与无障碍示例
+
+正文统一为 16px / 1.7。**重要强调**使用强调色，*补充强调*使用像素底边；[正文链接](/docs/quick-start)与 [`代码链接`](/docs/components#pixelbutton) 使用虚线下划线，悬停时改为实线。使用 Tab 键可以同时看到链接下划线和焦点框。
+
+> 引用在新闻、文档与关于页共用强调色硬边框和暗色背景。
+
+<p>文本标记：<mark>需要关注的内容</mark>；键盘操作：<kbd>Tab</kbd>、<kbd>Enter</kbd>、<kbd>Space</kbd>。</p>
 
 ## `icons/` — 图标组件
 

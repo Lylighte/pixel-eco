@@ -232,21 +232,19 @@ onUnmounted(() => {
 }
 
 .hero-title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: var(--pixel-font-size-l);
   color: var(--pixel-hero-title-color);
   margin: 0;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: var(--pixel-font-size-l);
   color: var(--pixel-brand-light);
   margin: 0.5rem 0 0 0;
 }
 
 .hero-desc {
-  font-size: 1.15rem;
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title);
   margin-top: 1rem;
   color: var(--pixel-color-text);
 }

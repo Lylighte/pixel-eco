@@ -49,7 +49,7 @@ const tag = computed(() => (isLink.value ? 'a' : 'div'))
     border-color var(--pixel-transition-fast);
 }
 
-.pixel-card--hoverable:hover {
+.pixel-card--hoverable:hover:not(:focus-visible) {
   transform: translateY(-2px);
   border-top-color: var(--pixel-color-accent-light);
   border-left-color: var(--pixel-color-accent-light);
@@ -70,7 +70,6 @@ const tag = computed(() => (isLink.value ? 'a' : 'div'))
 .pixel-card__title {
   font-family: var(--pixel-font-heading);
   font-size: var(--pixel-font-size-m);
-  font-weight: bold;
   color: var(--pixel-color-text);
 }
 

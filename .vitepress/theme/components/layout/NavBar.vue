@@ -112,13 +112,13 @@ const sliderStyle = computed(() => {
   cursor: pointer;
   z-index: var(--pixel-z-raised);
   transition: color 0.3s ease;
-  font-size: 1rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-color-text);
   text-decoration: none;
   font-family: var(--pixel-font-heading);
 }
 
-.nav-item:hover {
+.nav-item:hover:not(:focus-visible) {
   color: var(--pixel-nav-item-text-hover);
 }
 
@@ -146,7 +146,7 @@ const sliderStyle = computed(() => {
 @media screen and (max-width: 480px) {
   .nav-item {
     padding: 8px 6px;
-    font-size: 0.85rem;
+    font-size: var(--pixel-font-size-m);
   }
 }
 </style>

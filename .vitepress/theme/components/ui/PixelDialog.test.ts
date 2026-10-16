@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import PixelDialog from './PixelDialog.vue'
 
 vi.mock('../../composables/useClickSound', () => ({
@@ -74,5 +75,38 @@ describe('PixelDialog', () => {
     await wrapper.findAll('.dialog-footer-btn')[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toEqual([[false]])
     expect(wrapper.emitted('confirm')).toHaveLength(1)
+  })
+
+  it('keeps keyboard focus inside the open dialog and restores the opener on close', async () => {
+    const opener = document.createElement('button')
+    document.body.append(opener)
+    opener.focus()
+    const wrapper = mount(PixelDialog, {
+      attachTo: document.body,
+      props: { modelValue: true },
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const dialog = wrapper.get('[role="dialog"]').element
+    expect(document.activeElement).toBe(dialog)
+    const [first, last] = wrapper
+      .findAll('.dialog-footer-btn')
+      .map((button) => button.element as HTMLElement)
+    // jsdom has no layout; expose the two controls as visible to the focus trap.
+    const rectangles = [new DOMRect(0, 0, 96, 48)] as unknown as DOMRectList
+    const firstRects = vi.spyOn(first, 'getClientRects').mockReturnValue(rectangles)
+    const lastRects = vi.spyOn(last, 'getClientRects').mockReturnValue(rectangles)
+    last.focus()
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', cancelable: true }))
+    expect(document.activeElement).toBe(first)
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, cancelable: true }),
+    )
+    expect(document.activeElement).toBe(last)
+    await wrapper.setProps({ modelValue: false })
+    expect(document.activeElement).toBe(opener)
+    firstRects.mockRestore()
+    lastRects.mockRestore()
+    opener.remove()
   })
 })

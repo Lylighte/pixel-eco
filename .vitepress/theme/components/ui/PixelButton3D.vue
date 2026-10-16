@@ -20,11 +20,16 @@ const { playSound } = useClickSound()
 <template>
   <div
     class="pixel-button-3d"
+    role="button"
+    tabindex="0"
     :class="{ 'is-pressed': pressed }"
     :style="{
       height: pressed ? `calc(${$props.height} - var(--pixel-btn-3d-offset))` : $props.height,
     }"
     @click="playSound($props.soundUrl)"
+    @keydown.enter.prevent="($event.currentTarget as HTMLElement).click()"
+    @keydown.space.prevent
+    @keyup.space.prevent="($event.currentTarget as HTMLElement).click()"
     @mousedown="pressed = true"
     @mouseup="pressed = false"
     @mouseleave="pressed = false"
@@ -48,7 +53,7 @@ const { playSound } = useClickSound()
   box-sizing: border-box;
 }
 
-.pixel-button-3d:hover::after {
+.pixel-button-3d:hover:not(:focus-visible):not(:where(:focus-visible *))::after {
   background-color: var(--pixel-btn-3d-hover-overlay);
 }
 
