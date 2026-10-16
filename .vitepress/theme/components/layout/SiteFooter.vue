@@ -20,7 +20,7 @@ const iconNames: Record<string, string> = {
 </script>
 
 <template>
-  <div class="footer-area">
+  <div v-reveal class="footer-area">
     <div class="footer-description">
       <p class="footer-name">
         {{ site.title || '像素生态' }}
@@ -84,7 +84,6 @@ const iconNames: Record<string, string> = {
   background-color: var(--pixel-color-bg);
   border-top: 1px solid var(--pixel-footer-border);
   margin-top: 3rem;
-  animation: fade-in-up 0.6s ease;
 }
 
 .footer-description {

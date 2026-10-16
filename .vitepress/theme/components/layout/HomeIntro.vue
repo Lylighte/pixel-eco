@@ -17,7 +17,7 @@ withDefaults(
 </script>
 
 <template>
-  <div class="intro-box">
+  <div v-reveal class="intro-box">
     <div v-if="!$props.image" class="intro-center">
       <div class="intro-text">
         <p>{{ $props.title }}</p>
@@ -47,7 +47,6 @@ withDefaults(
   max-width: 1200px;
   padding: 2rem 1rem;
   margin: 0 auto;
-  animation: fade-in 0.8s ease;
 }
 
 .intro-center {

@@ -9,19 +9,11 @@
   --pixel-duration-fast: 0.1s; /* pressed states, hover lifts */
   --pixel-duration: 0.2s; /* discrete state swaps (shadow, color) */
   --pixel-duration-page: 0.24s; /* route transitions */
+  --pixel-duration-reveal: 0.35s; /* scroll-triggered entrances */
 
   /* Stepped easing: only for discrete state swaps, never spatial motion
      or opacity fades (reads as jank on high-refresh displays) */
   --pixel-steps-fast: steps(3, end);
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 @keyframes fade-in-left {
@@ -32,17 +24,6 @@
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -62,4 +43,18 @@
 .page-leave-to {
   opacity: 0;
   transform: translateY(-0.5rem);
+}
+
+/* ── Scroll reveal (v-reveal directive; portal pages only) ── */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--pixel-duration-reveal) ease-out,
+    transform var(--pixel-duration-reveal) ease-out;
 }

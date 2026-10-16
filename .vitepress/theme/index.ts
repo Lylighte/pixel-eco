@@ -1,5 +1,6 @@
 import type { Theme } from 'vitepress'
 import Layout from './Layout.vue'
+import { vReveal } from './directives/reveal'
 
 // VitePress default content styles (code blocks, tables, etc.)
 import 'vitepress/theme'
@@ -39,6 +40,8 @@ import SiteFooter from './components/layout/SiteFooter.vue'
 export default {
   Layout,
   enhanceApp({ app }) {
+    app.directive('reveal', vReveal)
+
     // Register all Pixel UI components globally
     app.component('PixelButton', PixelButton)
     app.component('PixelButtonClassic', PixelButtonClassic)
