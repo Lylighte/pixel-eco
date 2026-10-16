@@ -48,18 +48,18 @@ const articleProps = computed(() => {
   <div class="pixel-layout">
     <NavBar />
     <main class="main-content" data-pagefind-body="1">
-      <!-- Docs: sidebar stays static, only content transitions -->
-      <div v-if="isDocsPage" class="docs-layout">
-        <DocsSidebar />
-        <Transition name="page" mode="out-in">
-          <div :key="route.path" class="page-container vp-doc">
-            <Content />
-          </div>
-        </Transition>
-      </div>
-      <!-- Other pages: full transition -->
-      <Transition v-else name="page" mode="out-in">
-        <ArticleView v-if="articleProps" v-bind="articleProps" :key="route.path">
+      <!-- Outer transition persists across layout switches; docs sidebar stays
+           stable while only the inner content transitions between doc pages. -->
+      <Transition name="page" mode="out-in">
+        <div v-if="isDocsPage" :key="'docs-layout'" class="docs-layout">
+          <DocsSidebar />
+          <Transition name="page" mode="out-in">
+            <div :key="route.path" class="page-container vp-doc">
+              <Content />
+            </div>
+          </Transition>
+        </div>
+        <ArticleView v-else-if="articleProps" v-bind="articleProps" :key="route.path">
           <Content />
         </ArticleView>
         <div

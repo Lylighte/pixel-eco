@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useClickSound } from '../../composables/useClickSound'
 
 const props = withDefaults(
   defineProps<{
@@ -12,9 +13,11 @@ const props = withDefaults(
 )
 
 const isOpen = ref(props.open)
+const { playSound } = useClickSound()
 
 function toggle() {
   isOpen.value = !isOpen.value
+  playSound()
 }
 </script>
 

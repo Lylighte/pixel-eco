@@ -3,9 +3,11 @@ import { computed, ref } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
 import { data as collections } from '../../../collections.data'
 import { stripBase } from '../../utils/path'
+import { useClickSound } from '../../composables/useClickSound'
 
 const { site } = useData()
 const route = useRoute()
+const { playSound } = useClickSound()
 
 const nav = computed(() => collections.sidebar)
 
@@ -13,6 +15,7 @@ const collapsed = ref<Record<string, boolean>>({})
 
 const toggle = (title: string) => {
   collapsed.value[title] = !collapsed.value[title]
+  playSound()
 }
 
 const isActive = (link: string) => {
@@ -46,6 +49,7 @@ const isActive = (link: string) => {
             :href="withBase(item.link)"
             class="sidebar-item"
             :class="{ active: isActive(item.link) }"
+            @click="playSound()"
           >
             {{ item.text }}
           </a>

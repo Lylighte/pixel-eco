@@ -65,6 +65,17 @@ VitePress 会自动处理 Markdown 链接和静态图片路径；动态绑定的
 
 `--pixel-nav-height: 2.75rem` 对应默认字号下实测的 44px 导航栏高度，布局在此基础上加间距令牌避让固定导航。修改导航尺寸时同步调整该令牌。
 
+### 音效反馈
+
+点击音效统一由 `useClickSound` 提供（默认 `/button.click.ogg`，音量 0.3，自动适配部署 base；SSR 与播放失败均静默降级）。接入规则：
+
+| 场景 | 音效 | 示例 |
+| ---- | ---- | ---- |
+| 主要导航、操作按钮、标签切换、折叠展开 | 有声 | NavBar、PixelButton 系列、PixelTabs、PixelAccordion、DocsSidebar |
+| 正文链接、输入框、悬停 | 安静 | 文章内链接、PixelInput、hover 效果 |
+
+为可交互组件接入音效时，在激活路径（`@click` 或 `toggle`）上调用一次 `playSound()`，并为组件补充"播放且仅播放一次"的测试断言，防止漏接或冒泡导致的重复播放。
+
 ## Logo
 
 替换 `public/logo.png` 为你自己的 Logo。Logo 会出现在导航栏和首页 Hero 中。

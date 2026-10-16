@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useClickSound } from '../../composables/useClickSound'
 
 const props = withDefaults(
   defineProps<{
@@ -12,9 +13,11 @@ const props = withDefaults(
 )
 
 const activeIndex = ref(props.active)
+const { playSound } = useClickSound()
 
 function setActive(index: number) {
   activeIndex.value = index
+  playSound()
 }
 </script>
 
