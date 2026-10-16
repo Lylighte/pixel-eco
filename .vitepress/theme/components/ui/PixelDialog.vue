@@ -149,14 +149,16 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
 
   padding: 1rem;
   z-index: var(--pixel-z-dialog);
-  min-width: 720px;
+  width: 45rem;
+  max-width: calc(100vw - 2 * var(--pixel-space-m));
+  max-height: calc(100dvh - 2 * var(--pixel-space-m));
+  overflow-y: auto;
 
   transition: all 0.3s ease-in-out;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: var(--pixel-break-small)) {
   .dialog {
-    min-width: 360px;
     width: 90vw;
   }
 }

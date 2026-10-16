@@ -249,7 +249,7 @@ onUnmounted(() => {
   color: var(--pixel-color-text);
 }
 
-@media screen and (max-width: 623px) {
+@media screen and (max-width: var(--pixel-break-mobile)) {
   .logo-area {
     width: 100%;
     min-width: unset;

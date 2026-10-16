@@ -69,6 +69,12 @@ html {
   --pixel-line-height: 1.7;
 
   /* Spacing */
+  /* Media-query tokens are expanded by .vitepress/breakpoints.ts. */
+  --pixel-break-mobile: 640px;
+  --pixel-break-small: 768px;
+  /* Measured nav border-box: 44px at 16px root font, mobile and desktop. */
+  --pixel-nav-height: 2.75rem;
+
   --pixel-space-xs: 0.25rem;
   --pixel-space-s: 0.5rem;
   --pixel-space-m: 1rem;
@@ -599,7 +605,7 @@ html:has(:focus-visible) {
 .pixel-layout :focus-visible {
   outline: 2px dashed var(--pixel-color-accent-light) !important;
   outline-offset: 4px;
-  scroll-margin-block: 5rem 1rem;
+  scroll-margin-block: calc(var(--pixel-nav-height) + var(--pixel-space-l)) 1rem;
 }
 
 /* Solid outlines remain identifiable on button bevels and photographic covers. */

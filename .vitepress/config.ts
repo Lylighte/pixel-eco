@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { draftPages } from './content'
 import { pageUrl, resolveDeployment } from './site-url'
 import { includeRssPost } from './rss'
+import { pixelBreakpoints } from './breakpoints'
 
 // ============================================================
 // 一、品牌标识 — 自定义站点时只需修改此区域
@@ -116,6 +117,7 @@ export default ({ command, mode }: { command: 'serve' | 'build'; mode: string })
       theme: 'github-dark',
     },
     vite: {
+      css: { postcss: { plugins: [pixelBreakpoints()] } },
       define: { __CONTENT_DEV__: JSON.stringify(IS_DEV) },
       plugins: [
         ...(RSS_BASE && !IS_DEV

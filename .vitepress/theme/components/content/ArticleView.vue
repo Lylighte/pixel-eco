@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { withBase } from 'vitepress'
+import { computed } from 'vue'
+import { useData, useRoute, withBase } from 'vitepress'
+import { data as collections } from '../../../collections.data'
+import { stripBase } from '../../utils/path'
 import type { Author } from '../../types/components.ts'
 
 defineProps<{
@@ -10,6 +13,17 @@ defineProps<{
   cover?: string
   category?: string
 }>()
+
+const { site } = useData()
+const route = useRoute()
+const adjacent = computed(() => {
+  const path = stripBase(route.path, site.value.base).replace(/(?:\.html|\/)$/, '')
+  const index = collections.news.findIndex((card) => card.link === path)
+  // The collection is newest first: previous is older, next is newer.
+  return index < 0
+    ? {}
+    : { previous: collections.news[index + 1], next: collections.news[index - 1] }
+})
 </script>
 
 <template>
@@ -60,6 +74,29 @@ defineProps<{
         <div class="article-text vp-doc">
           <slot />
         </div>
+        <nav class="article-navigation" aria-label="新闻文章导航" data-pagefind-ignore>
+          <div v-if="adjacent.previous || adjacent.next" class="article-adjacent">
+            <a
+              v-if="adjacent.previous"
+              :href="withBase(adjacent.previous.link)"
+              class="article-neighbor pixel-border"
+              rel="prev"
+            >
+              <span class="article-neighbor-label">← 上一篇</span>
+              <span class="article-neighbor-title">{{ adjacent.previous.title }}</span>
+            </a>
+            <a
+              v-if="adjacent.next"
+              :href="withBase(adjacent.next.link)"
+              class="article-neighbor article-next pixel-border"
+              rel="next"
+            >
+              <span class="article-neighbor-label">下一篇 →</span>
+              <span class="article-neighbor-title">{{ adjacent.next.title }}</span>
+            </a>
+          </div>
+          <a :href="withBase('/news/')" class="article-back">← 返回新闻列表</a>
+        </nav>
       </main>
     </div>
   </article>
@@ -67,7 +104,7 @@ defineProps<{
 
 <style scoped>
 .article-view {
-  padding-top: 4rem;
+  padding-top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
 }
 
 .article-cover {
@@ -177,7 +214,62 @@ defineProps<{
   border-bottom: 2px solid var(--pixel-gray);
 }
 
-@media screen and (max-width: 768px) {
+.article-navigation {
+  margin-top: 2rem;
+  border-top: var(--pixel-border);
+  padding-top: 1.5rem;
+}
+
+.article-adjacent {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-neighbor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.article-neighbor-label {
+  color: var(--pixel-color-text-muted);
+  font-size: var(--pixel-font-size-s);
+}
+
+.article-neighbor-title {
+  font-family: var(--pixel-font-heading);
+  font-size: var(--pixel-font-size-title);
+  font-weight: normal;
+}
+
+.article-neighbor:hover:not(:focus-visible) {
+  color: var(--pixel-color-text-solid);
+}
+
+.article-back {
+  color: var(--pixel-brand-light);
+}
+
+.article-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+@media screen and (max-width: var(--pixel-break-mobile)) {
+  .article-adjacent {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .article-next {
+    grid-column: 1;
+  }
+}
+
+@media screen and (max-width: var(--pixel-break-small)) {
   .article-body {
     flex-direction: column;
   }

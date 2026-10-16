@@ -155,7 +155,7 @@ const iconNames: Record<string, string> = {
   height: 1.2rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: var(--pixel-break-mobile)) {
   .footer-links {
     margin-left: 0;
     margin-top: 1rem;

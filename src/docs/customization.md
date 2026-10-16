@@ -36,6 +36,35 @@ const REPO_NAME = 'pixel-eco'        // 替换为你的仓库名
 
 设置 `SITE_URL` 后启用公开地址相关元数据、sitemap 和 RSS；不设置时仍可本地构建。`BASE_PATH` 保留兼容覆盖，但与 `SITE_URL` 同时设置时必须匹配其路径。`./` 相对部署不再支持。完整规则和预览方式见 [部署](./deployment)。
 
+### 站内地址与 withBase
+
+配置、frontmatter 和集合数据中的站内地址一律以 `/` 开头，且不含部署 base。例如使用 `/docs/quick-start`、`/news/`、`/logo.png`，不要写成 `/community/docs/quick-start`。部署 base 由 `SITE_URL` 的 pathname 推导。
+
+在 Vue 模板最终输出 `href` 或 `src` 时，从 `vitepress` 导入 `withBase`，只调用一次：
+
+```vue
+<script setup>
+import { withBase } from 'vitepress'
+
+const link = '/docs/quick-start'
+</script>
+
+<template>
+  <a :href="withBase(link)">快速开始</a>
+  <img :src="withBase('/logo.png')" alt="Logo" />
+</template>
+```
+
+不要在配置或数据构建阶段提前调用 `withBase`，也不要在传给 LinkCard、NewsCard 等已经负责添加 base 的组件前再次包装。Pagefind 搜索结果的 URL 已含 base，直接输出 `result.url`，不得再用 `withBase(result.url)`，否则会产生重复路径。
+
+VitePress 会自动处理 Markdown 链接和静态图片路径；动态绑定的站内地址遵循上述约定。外部地址保留完整 URL；LinkCard 支持大小写不敏感的 HTTP(S) 和 `//` 协议相对地址，并在新窗口打开。
+
+### 响应式与导航尺寸
+
+在 `.vitepress/theme/styles/vars.css` 中统一维护两个断点：`--pixel-break-mobile: 640px` 与 `--pixel-break-small: 768px`。组件使用 `@media (max-width: var(--pixel-break-mobile))` 或 small 令牌；`.vitepress/breakpoints.ts` 在构建期将其展开成浏览器支持的媒体查询。修改断点后重启开发服务器，使构建配置重新读取令牌。
+
+`--pixel-nav-height: 2.75rem` 对应默认字号下实测的 44px 导航栏高度，布局在此基础上加间距令牌避让固定导航。修改导航尺寸时同步调整该令牌。
+
 ## Logo
 
 替换 `public/logo.png` 为你自己的 Logo。Logo 会出现在导航栏和首页 Hero 中。

@@ -62,7 +62,7 @@ const isActive = (link: string) => {
   padding: 1rem 0;
   background: var(--pixel-sidebar-bg);
   border-right: var(--pixel-sidebar-border);
-  min-height: calc(100vh - 8rem);
+  min-height: calc(100vh - var(--pixel-nav-height) - var(--pixel-space-l));
   overflow-y: auto;
 }
 
@@ -125,7 +125,7 @@ const isActive = (link: string) => {
   background: var(--pixel-sidebar-active-bg);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: var(--pixel-break-small)) {
   .docs-sidebar {
     width: 100%;
     min-height: auto;

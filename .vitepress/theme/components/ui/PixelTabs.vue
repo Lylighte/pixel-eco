@@ -47,6 +47,7 @@ function setActive(index: number) {
 
 .pixel-tabs__nav {
   display: flex;
+  overflow-x: auto;
   border-bottom: 2px solid var(--pixel-color-border);
   background: var(--pixel-color-bg-card);
 }

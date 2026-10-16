@@ -106,7 +106,7 @@ defineProps<{
 }
 
 /* ── 移动端：统一左侧布局 ── */
-@media (max-width: 640px) {
+@media (max-width: var(--pixel-break-mobile)) {
   .pixel-timeline::before {
     left: 16px;
   }

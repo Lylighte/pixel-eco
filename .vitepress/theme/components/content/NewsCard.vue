@@ -108,7 +108,7 @@ withDefaults(
   padding: 0.4rem 1rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: var(--pixel-break-mobile)) {
   .overview-card {
     flex-direction: column;
   }

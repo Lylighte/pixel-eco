@@ -17,7 +17,7 @@
 import { withBase } from 'vitepress'
 
 const isExternal = (url: string) => {
-  return url.startsWith('http://') || url.startsWith('https://')
+  return /^(?:https?:)?\/\//i.test(url)
 }
 
 defineProps<{

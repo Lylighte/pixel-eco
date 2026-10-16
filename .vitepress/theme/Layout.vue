@@ -102,7 +102,7 @@ const articleProps = computed(() => {
 .page-container {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 5rem 1.5rem 2rem;
+  padding: calc(var(--pixel-nav-height) + var(--pixel-space-l)) 1.5rem 2rem;
 }
 
 .page-container.with-hero {
@@ -121,17 +121,18 @@ const articleProps = computed(() => {
 /* Docs layout: sidebar + content */
 .docs-layout {
   display: flex;
-  min-height: calc(100vh - 5rem);
-  padding-top: 5rem;
+  min-height: calc(100vh - var(--pixel-nav-height) - var(--pixel-space-l));
+  padding-top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
 }
 
 .docs-layout .page-container {
   flex: 1;
   min-width: 0;
   width: 100%;
+  padding-top: var(--pixel-space-l);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: var(--pixel-break-small)) {
   .docs-layout {
     flex-direction: column;
   }
