@@ -39,7 +39,7 @@ const arrowClass = computed(() => `pixel-tooltip--${props.position}`)
 
 .pixel-tooltip__popup {
   position: absolute;
-  z-index: var(--pixel-z-dialog);
+  z-index: var(--pixel-z-tooltip);
   padding: 4px 8px;
   font-family: var(--pixel-font-code);
   font-size: var(--pixel-font-size-s);

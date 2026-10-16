@@ -1,23 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // 将构建期 frontmatter 索引转换为新闻卡片；不导入 Markdown 页面。
 
 import type { NewsCardData } from '../types/components'
 import { isPublished } from './publication'
+import {
+  DEFAULT_COVER_IMAGE,
+  getFrontmatter,
+  getSlug,
+  type ContentModuleMap,
+} from './content-utils'
 export type { NewsCardData } from '../types/components'
 
-type NewsModuleMap = Record<string, { __pageData?: { frontmatter?: Record<string, unknown> } }>
-
-function getSlug(path: string): string {
-  const parts = path.replace(/\\/g, '/').split('/')
-  return parts[parts.length - 1].replace('.md', '')
-}
-
-function getFrontmatter(module: NewsModuleMap[string]): Record<string, any> {
-  return module?.__pageData?.frontmatter || {}
-}
-
 export function buildNewsCards(
-  modules: NewsModuleMap,
+  modules: ContentModuleMap,
   production = import.meta.env.PROD,
 ): NewsCardData[] {
   return Object.entries(modules)
@@ -34,7 +28,7 @@ export function buildNewsCards(
       return {
         title: fm.title || slug,
         brief: fm.brief || '',
-        image: fm.cover || '/background/19.jpg',
+        image: fm.cover || DEFAULT_COVER_IMAGE,
         link: `/news/${slug}`,
         date: fm.date || '1970-01-01',
         category: fm.category || '未分类',

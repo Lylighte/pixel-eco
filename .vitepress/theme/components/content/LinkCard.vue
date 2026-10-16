@@ -64,7 +64,7 @@ defineProps<{
 
 .link-content {
   position: relative;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
   margin-top: auto;
   padding: 0.5rem 1rem;
   background-color: var(--pixel-linkcard-overlay-bg);

@@ -145,8 +145,8 @@ export default ({ command, mode }: { command: 'serve' | 'build'; mode: string })
         {
           icon: 'github',
           link: GITHUB_URL,
-          text: '仓库地址',
-        } as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          ariaLabel: '仓库地址',
+        },
       ],
       footer: {
         copyright: COPYRIGHT_TEXT,

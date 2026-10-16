@@ -153,7 +153,7 @@ function doSearch() {
   font-size: 16px;
   background: var(--pixel-color-bg-card);
   color: var(--pixel-color-text);
-  border: 2px solid var(--pixel-color-border);
+  border: var(--pixel-border);
   outline: none;
   box-sizing: border-box;
 }
@@ -172,7 +172,7 @@ function doSearch() {
   display: block;
   padding: 12px;
   margin-top: 8px;
-  border: 2px solid var(--pixel-color-border);
+  border: var(--pixel-border);
   text-decoration: none;
   color: var(--pixel-color-text);
 }

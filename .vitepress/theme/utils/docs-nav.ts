@@ -1,23 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // 将构建期 frontmatter 索引转换为文档导航和卡片；不导入 Markdown 页面。
 
 import type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
 import { isPublished } from './publication'
+import {
+  DEFAULT_COVER_IMAGE,
+  getFrontmatter,
+  getSlug,
+  type ContentModuleMap,
+} from './content-utils'
 export type { SidebarItem, SidebarGroup, DocCard } from '../types/components'
 
-type DocsModuleMap = Record<string, { __pageData?: { frontmatter?: Record<string, unknown> } }>
-
-function getSlug(path: string): string {
-  const parts = path.replace(/\\/g, '/').split('/')
-  return parts[parts.length - 1].replace('.md', '')
-}
-
-function getFrontmatter(module: DocsModuleMap[string]): Record<string, any> {
-  return module?.__pageData?.frontmatter || {}
-}
-
 export function buildSidebarNav(
-  modules: DocsModuleMap,
+  modules: ContentModuleMap,
   production = import.meta.env.PROD,
 ): SidebarGroup[] {
   const groups = new Map<string, { items: SidebarItem[]; groupOrder: number }>()
@@ -50,7 +44,7 @@ export function buildSidebarNav(
 }
 
 export function buildDocCards(
-  modules: DocsModuleMap,
+  modules: ContentModuleMap,
   production = import.meta.env.PROD,
 ): DocCard[] {
   return Object.entries(modules)
@@ -62,7 +56,7 @@ export function buildDocCards(
       return {
         name: fm.title || slug,
         url: `/docs/${slug}`,
-        image: fm.cardImage || '/background/19.jpg',
+        image: fm.cardImage || DEFAULT_COVER_IMAGE,
         description: fm.cardDescription || '',
       }
     })

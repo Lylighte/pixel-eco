@@ -180,12 +180,12 @@ onUnmounted(() => {
 .hero-carousel-image {
   opacity: 0;
   transition: opacity 0.8s ease;
-  z-index: 0;
+  z-index: var(--pixel-z-base);
 }
 
 .hero-carousel--active {
   opacity: 1;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
 }
 
 .hero-carousel--fading {
@@ -200,7 +200,7 @@ onUnmounted(() => {
 
 .hero-overlay {
   position: relative;
-  z-index: 2;
+  z-index: var(--pixel-z-content);
   width: 100%;
   min-height: 40rem;
   display: flex;

@@ -15,12 +15,6 @@ export interface NavItem {
   url: string
 }
 
-export interface SocialLink {
-  link: string
-  icon?: string
-  text?: string
-}
-
 export interface NewsCardData {
   title: string
   brief: string

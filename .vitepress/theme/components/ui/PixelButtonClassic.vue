@@ -5,11 +5,9 @@ interface Props {
   soundUrl?: string
 }
 
-withDefaults(defineProps<Props>(), {
-  soundUrl: '/button.click.ogg',
-})
+defineProps<Props>()
 
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 </script>
 
 <template>
@@ -32,15 +30,6 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
   image-rendering: pixelated;
   border: var(--pixel-btn-border);
   box-sizing: border-box;
-}
-
-.pixel-button-classic[activated='true'] .title {
-  background-color: var(--pixel-btn-classic-active-bg);
-  text-shadow: var(--pixel-btn-classic-active-shadow);
-  color: var(--pixel-btn-classic-active-text);
-  box-shadow:
-    inset -2px -4px var(--pixel-btn-classic-inset-dark),
-    inset 2px 2px var(--pixel-btn-classic-inset-light);
 }
 
 .pixel-button-classic:hover .title {

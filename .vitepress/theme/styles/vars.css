@@ -28,12 +28,12 @@ html {
      ─────────────────────────────────────────── */
   /* Colors */
   --pixel-color-bg: var(--pixel-dark);
-  --pixel-color-bg-page: #0f0e0d;
   --pixel-color-bg-card: #313131;
   --pixel-color-bg-overlay: rgba(0, 0, 0, 0.7);
   --pixel-color-bg-input: #616161;
   --pixel-color-text: rgba(255, 255, 255, 0.9);
   --pixel-color-text-muted: rgba(255, 255, 255, 0.8);
+  --pixel-color-text-solid: #fff;
   --pixel-color-text-inverse: #000;
   --pixel-color-accent: var(--pixel-brand);
   --pixel-color-accent-light: var(--pixel-brand-light);
@@ -41,6 +41,21 @@ html {
   --pixel-color-accent-soft: rgba(216, 75, 75, 0.1);
   --pixel-color-border: var(--pixel-gray);
   --pixel-color-border-dark: #000;
+  --pixel-color-success: #3a7d3a;
+  --pixel-color-warning: #d4a017;
+  --pixel-color-danger: #a53a3a;
+  --pixel-color-info: #3a6ea5;
+  --pixel-color-success-border: #2a6a2a;
+  --pixel-color-warning-border: #b08810;
+  --pixel-color-danger-border: #8a2a2a;
+  --pixel-color-info-border: #2a5a8a;
+  --pixel-color-success-light: #5aad5a;
+  --pixel-color-warning-light: #e4b030;
+  --pixel-color-danger-light: #d55a5a;
+  --pixel-color-info-light: #5a9ed5;
+  --pixel-color-social-github: #171515;
+  --pixel-color-social-qq: #5eaade;
+  --pixel-color-social-bilibili: #1296db;
 
   /* Typography */
   --pixel-font-heading: 'Ark Pixel', 'Unifont', monospace;
@@ -49,7 +64,6 @@ html {
   --pixel-font-size-s: 0.75rem; /* 12px — 小字，锁定 Ark Pixel，禁用 Unifont */
   --pixel-font-size-m: 1rem; /* 16px — 正文，Unifont 绝对清晰 */
   --pixel-font-size-l: 1.5rem; /* 24px — 大标题，Ark Pixel 完美对齐 */
-  --pixel-font-size-xl: 2rem; /* 32px — 装饰性大字，不保证像素对齐 */
   --pixel-line-height: 1.7;
 
   /* Spacing */
@@ -74,11 +88,13 @@ html {
   --pixel-transition-slow: 0.3s ease-in-out;
 
   /* Misc */
-  --pixel-radius: 0;
-  --pixel-offset-3d: 12px;
+  --pixel-z-base: 0;
+  --pixel-z-raised: 1;
+  --pixel-z-content: 2;
   --pixel-z-overlay: 512;
   --pixel-z-nav: 1024;
   --pixel-z-dialog: 2048;
+  --pixel-z-tooltip: 2048;
 
   /* ───────────────────────────────────────────
      Layer 3: Component Tokens
@@ -183,10 +199,7 @@ html {
   /* ───────────────────────────────────────────
      Backward compat aliases
      ─────────────────────────────────────────── */
-  --background-color: var(--pixel-color-bg);
-  --background-page: var(--pixel-color-bg-page);
   --background-card: var(--pixel-color-bg-card);
-  --btn-classic-bg: var(--pixel-btn-classic-bg);
 
   /* ───────────────────────────────────────────
      Base

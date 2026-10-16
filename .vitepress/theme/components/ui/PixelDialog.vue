@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import PixelButtonClassic from './PixelButtonClassic.vue'
 
 const modelValue = defineModel<boolean>({ default: false })
@@ -16,9 +16,6 @@ const props = withDefaults(
     confirmText: '确认',
   },
 )
-const visible = ref(false)
-const opacity = ref(0)
-
 const closeDialog = () => {
   modelValue.value = false
 }
@@ -28,51 +25,41 @@ const onConfirm = () => {
   emits('confirm')
 }
 
-watch(modelValue, (newValue) => {
-  if (newValue) {
-    visible.value = true
-    setTimeout(() => {
-      opacity.value = 1
-    }, 100)
-  } else {
-    opacity.value = 0
-    setTimeout(() => {
-      visible.value = false
-    }, 300)
-  }
-})
+const onKeydown = (event: KeyboardEvent) => {
+  if (modelValue.value && event.key === 'Escape') closeDialog()
+}
 
-onMounted(() => {
-  if (modelValue.value) {
-    visible.value = true
-    opacity.value = 1
-  }
-})
+onMounted(() => document.addEventListener('keydown', onKeydown))
+onUnmounted(() => document.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
-  <div v-if="visible" class="dialog-cover" :style="{ opacity: opacity }" @click.self="closeDialog">
-    <div class="dialog pixel-border" @click.stop>
-      <text v-if="props.title.trim() !== ''" class="dialog-title">
-        {{ props.title }}
-      </text>
-      <slot />
-      <slot name="footer">
-        <div class="dialog-footer">
-          <PixelButtonClassic class="dialog-footer-btn" @click="closeDialog">
-            {{ props.cancelText }}
-          </PixelButtonClassic>
-          <PixelButtonClassic
-            class="dialog-footer-btn"
-            style="margin-left: 1rem"
-            @click="onConfirm"
-          >
-            {{ props.confirmText }}
-          </PixelButtonClassic>
-        </div>
-      </slot>
+  <Transition name="dialog">
+    <div v-if="modelValue" class="dialog-cover" @click.self="closeDialog">
+      <div
+        class="dialog pixel-border"
+        role="dialog"
+        aria-modal="true"
+        :aria-label="props.title.trim() || undefined"
+        @click.stop
+      >
+        <span v-if="props.title.trim() !== ''" class="dialog-title">
+          {{ props.title }}
+        </span>
+        <slot />
+        <slot name="footer">
+          <div class="dialog-footer">
+            <PixelButtonClassic class="dialog-footer-btn" @click="closeDialog">
+              {{ props.cancelText }}
+            </PixelButtonClassic>
+            <PixelButtonClassic class="dialog-footer-btn" @click="onConfirm">
+              {{ props.confirmText }}
+            </PixelButtonClassic>
+          </div>
+        </slot>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <style lang="css" scoped>
@@ -88,9 +75,21 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1024;
+  z-index: var(--pixel-z-dialog);
+}
 
-  transition: all 0.3s ease-in-out;
+.dialog-enter-active,
+.dialog-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.dialog-enter-active {
+  transition-delay: 0.1s;
+}
+
+.dialog-enter-from,
+.dialog-leave-to {
+  opacity: 0;
 }
 
 .dialog {
@@ -127,6 +126,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  gap: 1rem;
   margin-top: 1rem;
 }
 

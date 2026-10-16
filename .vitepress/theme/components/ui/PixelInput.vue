@@ -20,7 +20,6 @@ const model = defineModel<string>({
   background-color: var(--pixel-input-bg);
   color: var(--pixel-input-text);
   outline: var(--pixel-input-border);
-  font-size: 1rem;
 }
 
 .pixel-input:disabled {

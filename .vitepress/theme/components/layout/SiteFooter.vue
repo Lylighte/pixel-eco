@@ -68,7 +68,7 @@ const iconNames: Record<string, string> = {
             v-if="link.icon && iconMap[link.icon]"
             class="link-icon"
           />
-          {{ link.text || iconNames[link.icon] || link.link }}
+          {{ link.text || link.ariaLabel || iconNames[link.icon] || link.link }}
         </a>
       </div>
     </div>
@@ -132,7 +132,7 @@ const iconNames: Record<string, string> = {
 }
 
 #declaration a:hover {
-  color: #fff;
+  color: var(--pixel-color-text-solid);
 }
 
 .footer-links {

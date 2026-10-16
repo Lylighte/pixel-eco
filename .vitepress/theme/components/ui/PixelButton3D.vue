@@ -9,12 +9,12 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   height: '3.6rem',
-  soundUrl: '/button.click.ogg',
+  soundUrl: undefined,
 })
 
 const pressed = ref(false)
 
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 </script>
 
 <template>
@@ -71,7 +71,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
   box-shadow:
     0 calc(-1 * var(--pixel-btn-3d-offset)) 0 0 var(--pixel-btn-3d-shadow-top) inset,
     2px 2px 0 0 var(--pixel-btn-3d-highlight) inset,

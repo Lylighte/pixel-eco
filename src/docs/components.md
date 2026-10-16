@@ -453,7 +453,7 @@ print('Hello from Python!')
 
 | 属性 | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
-| `sound-url` | `string` | `'/button.click.ogg'` | 点击音效 URL |
+| 无 | — | — | 无需传参 |
 
 ### ScrollToTop
 
@@ -583,7 +583,6 @@ print('Hello from Python!')
 | `GithubIcon` | GitHub 社交图标 | 深色圆形背景，白色 Octocat 标志 |
 | `BilibiliIcon` | Bilibili 社交图标 | 粉色圆形背景，白色 B 站标志 |
 | `QQIcon` | QQ 社交图标 | 圆形背景，企鹅标志 |
-| `CalendarIcon` | 日历图标 | 保留供扩展使用 |
 
 ---
 

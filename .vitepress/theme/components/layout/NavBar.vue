@@ -8,15 +8,7 @@ import type { NavItem } from '../../types/components'
 const { theme, site } = useData()
 const route = useRoute()
 
-interface Props {
-  soundUrl?: string
-}
-
-withDefaults(defineProps<Props>(), {
-  soundUrl: '/button.click.ogg',
-})
-
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 
 // Parse nav items from VitePress config
 const navItems = computed<NavItem[]>(() => {
@@ -71,7 +63,7 @@ const sliderStyle = computed(() => {
         :key="index"
         class="nav-item"
         :href="withBase(item.url)"
-        @click="playSound($props.soundUrl)"
+        @click="playSound()"
       >
         {{ item.name }}
       </a>
@@ -94,7 +86,7 @@ const sliderStyle = computed(() => {
   min-width: max-content;
   gap: 0.5rem;
   user-select: none;
-  z-index: 1024;
+  z-index: var(--pixel-z-nav);
 }
 
 .nav-bar {
@@ -118,7 +110,7 @@ const sliderStyle = computed(() => {
   justify-content: center;
   padding: 10px;
   cursor: pointer;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
   transition: color 0.3s ease;
   font-size: 1rem;
   color: var(--pixel-color-text);
@@ -135,7 +127,7 @@ const sliderStyle = computed(() => {
   top: 0;
   left: 0;
   height: 100%;
-  z-index: 0;
+  z-index: var(--pixel-z-base);
   box-sizing: border-box;
   padding: 4px;
 }

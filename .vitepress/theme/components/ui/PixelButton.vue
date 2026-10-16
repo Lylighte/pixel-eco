@@ -8,10 +8,10 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   dark: false,
-  soundUrl: '/button.click.ogg',
+  soundUrl: undefined,
 })
 
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 </script>
 
 <template>
