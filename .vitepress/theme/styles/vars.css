@@ -70,8 +70,8 @@ html {
 
   /* Spacing */
   /* Media-query tokens are expanded by .vitepress/breakpoints.ts. */
-  --pixel-break-mobile: 640px;
-  --pixel-break-small: 768px;
+  --pixel-break-compact: 640px;
+  --pixel-break-layout: 768px;
   /* Measured nav border-box: 44px at 16px root font, mobile and desktop. */
   --pixel-nav-height: 2.75rem;
 

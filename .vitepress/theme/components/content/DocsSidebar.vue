@@ -125,7 +125,7 @@ const isActive = (link: string) => {
   background: var(--pixel-sidebar-active-bg);
 }
 
-@media screen and (max-width: var(--pixel-break-small)) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .docs-sidebar {
     width: 100%;
     min-height: auto;

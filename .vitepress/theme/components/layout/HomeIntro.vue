@@ -103,7 +103,7 @@ withDefaults(
   color: var(--pixel-color-text-muted);
 }
 
-@media screen and (max-width: var(--pixel-break-small)) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .intro-right,
   .intro-left {
     flex-direction: column;

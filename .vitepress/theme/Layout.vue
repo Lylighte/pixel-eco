@@ -132,7 +132,7 @@ const articleProps = computed(() => {
   padding-top: var(--pixel-space-l);
 }
 
-@media screen and (max-width: var(--pixel-break-small)) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .docs-layout {
     flex-direction: column;
   }

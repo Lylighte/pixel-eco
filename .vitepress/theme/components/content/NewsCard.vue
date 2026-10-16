@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
 import PixelButton3D from '../ui/PixelButton3D.vue'
+import { useClickSound } from '../../composables/useClickSound'
+
+const { playSound } = useClickSound()
 
 withDefaults(
   defineProps<{
@@ -34,8 +37,8 @@ withDefaults(
       <p class="overview-brief">
         {{ $props.brief }}
       </p>
-      <a :href="withBase($props.link)" class="overview-button-wrap">
-        <PixelButton3D class="overview-button" role="presentation" :tabindex="-1">
+      <a :href="withBase($props.link)" class="overview-button-wrap" @click="playSound()">
+        <PixelButton3D class="overview-button" role="presentation" :tabindex="-1" sound-url="">
           {{ $props.buttonText }} &gt;
         </PixelButton3D>
       </a>
@@ -108,7 +111,7 @@ withDefaults(
   padding: 0.4rem 1rem;
 }
 
-@media screen and (max-width: var(--pixel-break-mobile)) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .overview-card {
     flex-direction: column;
   }

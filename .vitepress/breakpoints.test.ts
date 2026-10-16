@@ -5,7 +5,7 @@ import { pixelBreakpoints } from './breakpoints'
 describe('media-query breakpoint tokens', () => {
   it('expands both tokens before CSS reaches the browser', () => {
     const rule = {
-      params: '(max-width: var(--pixel-break-mobile)), (max-width: var(--pixel-break-small))',
+      params: '(max-width: var(--pixel-break-compact)), (max-width: var(--pixel-break-layout))',
     }
     pixelBreakpoints().AtRule.media(rule)
     expect(rule.params).toBe('(max-width: 640px), (max-width: 768px)')

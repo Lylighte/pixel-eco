@@ -157,7 +157,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKeydown))
   transition: all 0.3s ease-in-out;
 }
 
-@media screen and (max-width: var(--pixel-break-small)) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .dialog {
     width: 90vw;
   }

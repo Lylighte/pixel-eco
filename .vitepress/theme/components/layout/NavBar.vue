@@ -143,7 +143,7 @@ const sliderStyle = computed(() => {
   box-shadow: var(--pixel-shadow-soft);
 }
 
-@media screen and (max-width: var(--pixel-break-mobile)) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .nav-item {
     padding: 8px 6px;
     font-size: var(--pixel-font-size-m);

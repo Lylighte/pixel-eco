@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
 import { data as collections } from '../../../collections.data'
 import { stripBase } from '../../utils/path'
+import { useClickSound } from '../../composables/useClickSound'
 import type { Author } from '../../types/components.ts'
 
 defineProps<{
@@ -16,6 +17,7 @@ defineProps<{
 
 const { site } = useData()
 const route = useRoute()
+const { playSound } = useClickSound()
 const adjacent = computed(() => {
   const path = stripBase(route.path, site.value.base).replace(/(?:\.html|\/)$/, '')
   const index = collections.news.findIndex((card) => card.link === path)
@@ -81,6 +83,7 @@ const adjacent = computed(() => {
               :href="withBase(adjacent.previous.link)"
               class="article-neighbor pixel-border"
               rel="prev"
+              @click="playSound()"
             >
               <span class="article-neighbor-label">← 上一篇</span>
               <span class="article-neighbor-title">{{ adjacent.previous.title }}</span>
@@ -90,12 +93,13 @@ const adjacent = computed(() => {
               :href="withBase(adjacent.next.link)"
               class="article-neighbor article-next pixel-border"
               rel="next"
+              @click="playSound()"
             >
               <span class="article-neighbor-label">下一篇 →</span>
               <span class="article-neighbor-title">{{ adjacent.next.title }}</span>
             </a>
           </div>
-          <a :href="withBase('/news/')" class="article-back">← 返回新闻列表</a>
+          <a :href="withBase('/news/')" class="article-back" @click="playSound()">← 返回新闻列表</a>
         </nav>
       </main>
     </div>
@@ -260,7 +264,7 @@ const adjacent = computed(() => {
   text-align: right;
 }
 
-@media screen and (max-width: var(--pixel-break-mobile)) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .article-adjacent {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -269,7 +273,7 @@ const adjacent = computed(() => {
   }
 }
 
-@media screen and (max-width: var(--pixel-break-small)) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .article-body {
     flex-direction: column;
   }

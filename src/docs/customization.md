@@ -61,7 +61,7 @@ VitePress 会自动处理 Markdown 链接和静态图片路径；动态绑定的
 
 ### 响应式与导航尺寸
 
-在 `.vitepress/theme/styles/vars.css` 中统一维护两个断点：`--pixel-break-mobile: 640px` 与 `--pixel-break-small: 768px`。组件使用 `@media (max-width: var(--pixel-break-mobile))` 或 small 令牌；`.vitepress/breakpoints.ts` 在构建期将其展开成浏览器支持的媒体查询。修改断点后重启开发服务器，使构建配置重新读取令牌。
+在 `.vitepress/theme/styles/vars.css` 中统一维护两个断点：`--pixel-break-compact: 640px` 与 `--pixel-break-layout: 768px`。组件使用 `@media (max-width: var(--pixel-break-compact))` 或 layout 令牌；`.vitepress/breakpoints.ts` 在构建期将其展开成浏览器支持的媒体查询。修改断点后重启开发服务器，使构建配置重新读取令牌。
 
 `--pixel-nav-height: 2.75rem` 对应默认字号下实测的 44px 导航栏高度，布局在此基础上加间距令牌避让固定导航。修改导航尺寸时同步调整该令牌。
 

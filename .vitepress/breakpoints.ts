@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 export function pixelBreakpoints() {
   const css = readFileSync(new URL('./theme/styles/vars.css', import.meta.url), 'utf8')
   const tokens = new Map(
-    [...css.matchAll(/(--pixel-break-(?:mobile|small)):\s*(\d+px)\s*;/g)].map(([, name, value]) => [
+    [...css.matchAll(/(--pixel-break-(?:compact|layout)):\s*(\d+px)\s*;/g)].map(([, name, value]) => [
       name,
       value,
     ]),
