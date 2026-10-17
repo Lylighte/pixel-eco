@@ -111,6 +111,25 @@ function verify(siteUrl) {
   assert(readFileSync(join(dist, 'news/index.html'), 'utf8').includes('overview-title'))
   assert(readFileSync(join(dist, 'docs/index.html'), 'utf8').includes('快速开始'))
   assert(readFileSync(join(dist, 'docs/quick-start.html'), 'utf8').includes('部署'))
+  for (const page of ['quick-start', 'components']) {
+    const document = new JSDOM(readFileSync(join(dist, `docs/${page}.html`), 'utf8')).window
+      .document
+    const outline = document.querySelector('.docs-outline')
+    assert(outline?.hasAttribute('data-pagefind-ignore'), `Outline entered search content: ${page}`)
+    const links = [...outline.querySelectorAll('.outline-link')]
+    assert(links.length > 0, `Missing static outline: ${page}`)
+    for (const link of links) {
+      const id = decodeURIComponent(link.getAttribute('href').slice(1))
+      const target = document.getElementById(id)
+      assert(
+        target && document.querySelector('#docs-content').contains(target),
+        `Broken outline: ${page}#${id}`,
+      )
+      const level = Number(target.tagName.slice(1))
+      assert.equal(link.classList.contains('outline-main-title'), level === 1)
+      assert.equal(link.style.getPropertyValue('--outline-indent'), String(Math.max(0, level - 2)))
+    }
+  }
   for (const section of ['news', 'docs']) {
     assert(!existsSync(join(dist, section, 'verify-publication-fixture.html')))
   }

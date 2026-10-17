@@ -190,6 +190,7 @@ category: 公告
 | `NewsCard`           | 新闻卡片                       |
 | `LinkCard`           | 链接卡片（自动识别内外链）     |
 | `DocsSidebar`        | 文档侧边栏导航                 |
+| `DocsOutline`        | 文档页内标题目录（布局自动渲染） |
 | `ScrollToTop`        | 返回顶部按钮                   |
 | `.pixel-border`      | 像素边框工具类                 |
 
@@ -203,6 +204,8 @@ npm run preview    # 本地预览构建结果
 ```
 
 构建产物在 `.vitepress/dist/`，可部署到任意静态托管服务。
+
+提交前可运行 `npm run lint`、`npm run typecheck` 和 `npm test`。`npm run test:dev` 验证开发服务器重启后的文档与索引热更新，`npm run test:build` 验证生产发布规则及根路径、子路径部署。
 
 ### 自定义域名
 

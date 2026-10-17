@@ -5,6 +5,7 @@ import { draftPages } from './content'
 import { pageUrl, resolveDeployment } from './site-url'
 import { includeRssPost } from './rss'
 import { pixelBreakpoints } from './breakpoints'
+import { devHmr } from './dev-hmr'
 
 // ============================================================
 // 一、品牌标识 — 自定义站点时只需修改此区域
@@ -36,6 +37,7 @@ export default ({ command, mode }: { command: 'serve' | 'build'; mode: string })
   const drafts = draftPages(fileURLToPath(new URL('../src/', import.meta.url)))
   return defineConfig({
     srcDir: 'src',
+    scrollOffset: { selector: '.nav-container', padding: 24 },
     lang: 'zh-CN',
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
@@ -115,11 +117,13 @@ export default ({ command, mode }: { command: 'serve' | 'build'; mode: string })
       : undefined,
     markdown: {
       theme: 'github-dark',
+      headers: { level: [1, 2, 3, 4, 5, 6] },
     },
     vite: {
       css: { postcss: { plugins: [pixelBreakpoints()] } },
       define: { __CONTENT_DEV__: JSON.stringify(IS_DEV) },
       plugins: [
+        devHmr(),
         ...(RSS_BASE && !IS_DEV
           ? [
               RssPlugin({
@@ -136,6 +140,7 @@ export default ({ command, mode }: { command: 'serve' | 'build'; mode: string })
       ],
     },
     themeConfig: {
+      outline: { level: [1, 6], label: '本文目录' },
       nav: [
         { text: '首页', link: '/' },
         { text: '新闻', link: '/news/' },

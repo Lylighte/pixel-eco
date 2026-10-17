@@ -18,6 +18,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:dev": "node scripts/verify-dev.mjs",
     "test:build": "node scripts/verify-build.mjs",
     "test:watch": "vitest"
   },

@@ -5,9 +5,10 @@ import { readFileSync } from 'node:fs'
 export function pixelBreakpoints() {
   const css = readFileSync(new URL('./theme/styles/vars.css', import.meta.url), 'utf8')
   const tokens = new Map(
-    [...css.matchAll(/(--pixel-break-(?:compact|layout)):\s*(\d+px)\s*;/g)].map(
-      ([, name, value]) => [name, value],
-    ),
+    [...css.matchAll(/(--pixel-break-[\w-]+):\s*(\d+px)\s*;/g)].map(([, name, value]) => [
+      name,
+      value,
+    ]),
   )
   return {
     postcssPlugin: 'pixel-breakpoints',

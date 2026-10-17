@@ -559,6 +559,12 @@ print('Hello from Python!')
 |:----:|:----:|:------:|:----:|
 | 无 | — | — | 无需传参 |
 
+### DocsOutline
+
+当前文档的页内标题目录，**由 Layout 自动渲染，无需手动使用。** 默认收录 H1～H6，H1 单独强调，H2 与 H1 左对齐，H3 起逐级缩进。支持章节跳转、滚动高亮、宽屏吸顶与窄屏收起。
+
+通过 frontmatter 的 `outline` 配置标题级别或关闭目录，`outlineExclude` 按锚点 ID 排除单个标题。详见[本文目录配置](/docs/customization#本文目录)。
+
 ### ArticleView
 
 新闻文章详情页布局，含封面图、作者信息、日期和标签。**由 Layout 自动渲染，无需手动使用。**

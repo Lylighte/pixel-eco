@@ -1,15 +1,27 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import NavBar from './components/layout/NavBar.vue'
 import SiteFooter from './components/layout/SiteFooter.vue'
 import ScrollToTop from './components/layout/ScrollToTop.vue'
 import ArticleView from './components/content/ArticleView.vue'
 import DocsSidebar from './components/content/DocsSidebar.vue'
+import DocsOutline from './components/content/DocsOutline.vue'
 import { stripBase } from './utils/path'
 
 const { frontmatter, site } = useData()
 const route = useRoute()
+const docsContentReady = ref(false)
+onMounted(() => {
+  docsContentReady.value = true
+})
+watch(
+  () => route.path,
+  () => {
+    docsContentReady.value = false
+  },
+  { flush: 'sync' },
+)
 
 const hasHero = computed(() => !!frontmatter.value.hasHero)
 const isReadingPage = computed(
@@ -50,12 +62,15 @@ const articleProps = computed(() => {
     <main class="main-content" data-pagefind-body="1">
       <!-- Outer transition persists across layout switches; docs sidebar stays
            stable while only the inner content transitions between doc pages. -->
-      <Transition name="page" mode="out-in">
+      <Transition name="page" mode="out-in" @after-enter="docsContentReady = true">
         <div v-if="isDocsPage" :key="'docs-layout'" class="docs-layout">
           <DocsSidebar />
-          <Transition name="page" mode="out-in">
-            <div :key="route.path" class="page-container vp-doc">
-              <Content />
+          <Transition name="page" mode="out-in" @after-enter="docsContentReady = true">
+            <div :key="route.path" class="docs-reader">
+              <DocsOutline :content-ready="docsContentReady" />
+              <div id="docs-content" class="page-container vp-doc">
+                <Content />
+              </div>
             </div>
           </Transition>
         </div>
@@ -125,16 +140,53 @@ const articleProps = computed(() => {
   padding-top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
 }
 
-.docs-layout .page-container {
+.docs-reader {
   flex: 1;
   min-width: 0;
-  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.docs-reader .page-container {
   padding-top: var(--pixel-space-l);
+}
+
+@media screen and (min-width: var(--pixel-break-outline)) {
+  .docs-reader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    max-width: 86rem;
+    padding-right: 1.5rem;
+    align-items: start;
+  }
+
+  .docs-reader .page-container {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .docs-reader .docs-outline {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .docs-reader:not(:has(.docs-outline)) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 72rem;
+    padding-right: 0;
+  }
 }
 
 @media screen and (max-width: var(--pixel-break-layout)) {
   .docs-layout {
     flex-direction: column;
+  }
+
+  .docs-reader {
+    width: 100%;
   }
 }
 </style>

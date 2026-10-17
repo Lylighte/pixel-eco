@@ -72,6 +72,7 @@ html {
   /* Media-query tokens are expanded by .vitepress/breakpoints.ts. */
   --pixel-break-compact: 640px;
   --pixel-break-layout: 768px;
+  --pixel-break-outline: 1280px;
   /* Measured nav border-box: 44px at 16px root font, mobile and desktop. */
   --pixel-nav-height: 2.75rem;
 
