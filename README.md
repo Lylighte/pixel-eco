@@ -13,6 +13,8 @@
 
 ## 快速开始
 
+需要 Node.js 22 或更高版本。
+
 ```bash
 # 克隆仓库
 git clone https://github.com/Lylighte/pixel-eco.git
@@ -130,6 +132,8 @@ category: 公告
 
 确保 frontmatter 中包含 `brief` 字段，文章将自动出现在新闻列表页。
 
+使用布尔值 `draft: true` 可在开发时预览未发布内容；生产构建不生成草稿页面，并从新闻列表、文档导航、RSS、sitemap 和搜索排除。详情见 [内容编写](src/docs/news.md)。
+
 ### CSS 变量
 
 在 `.vitepress/theme/styles/vars.css` 中自定义颜色：
@@ -186,6 +190,7 @@ category: 公告
 | `NewsCard`           | 新闻卡片                       |
 | `LinkCard`           | 链接卡片（自动识别内外链）     |
 | `DocsSidebar`        | 文档侧边栏导航                 |
+| `DocsOutline`        | 文档页内标题目录（布局自动渲染） |
 | `ScrollToTop`        | 返回顶部按钮                   |
 | `.pixel-border`      | 像素边框工具类                 |
 
@@ -200,27 +205,29 @@ npm run preview    # 本地预览构建结果
 
 构建产物在 `.vitepress/dist/`，可部署到任意静态托管服务。
 
-### 自定义域名 + Nginx
+提交前可运行 `npm run lint`、`npm run typecheck` 和 `npm test`。`npm run test:dev` 验证开发服务器重启后的文档与索引热更新，`npm run test:build` 验证生产发布规则及根路径、子路径部署。
 
-通过环境变量控制部署路径：
+### 自定义域名
+
+通过 `SITE_URL` 设置完整公开地址，生产部署路径由其 pathname 自动推导：
 
 ```bash
 # 根路径部署 https://example.com/
-npm run build
+SITE_URL=https://example.com/ npm run build
 
 # 子路径部署 https://example.com/pixel-eco/
-BASE_PATH=/pixel-eco/ SITE_URL=https://example.com/pixel-eco/ npm run build
+SITE_URL=https://example.com/pixel-eco/ npm run build
 ```
 
-Nginx 配置示例及完整部署流程见 [部署指南](https://github.com/Lylighte/pixel-eco/blob/dev/dev-notes/deployment-guide.md)。
+完整部署配置、PowerShell 示例及预览方式见 [部署指南](src/docs/deployment.md)。未设置 `SITE_URL` 时可本地构建，但不生成公开地址相关元数据、RSS 和 sitemap。`BASE_PATH` 保留兼容覆盖；与 `SITE_URL` 同时配置时路径必须一致。`./` 相对部署不再支持。
 
 ### 平台部署
 
-| 平台             | 说明                                                   |
-| ---------------- | ------------------------------------------------------ |
-| GitHub Pages     | 通过 `actions/configure-pages@v4` 自动注入 `BASE_PATH` |
-| Netlify / Vercel | 设置 `BASE_PATH` 和 `SITE_URL` 环境变量                |
-| 自有服务器       | 参考上方 Nginx 配置                                    |
+| 平台             | 说明                                                                    |
+| ---------------- | ----------------------------------------------------------------------- |
+| GitHub Pages     | 手动运行 Actions，通过 `actions/configure-pages@v4` 注入完整 `SITE_URL` |
+| Netlify / Vercel | 设置完整 `SITE_URL` 环境变量                                            |
+| 自有服务器       | 静态托管 `.vitepress/dist/`，设置完整公开地址                           |
 
 ## 项目起源
 

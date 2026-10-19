@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useClickSound } from '../../composables/useClickSound'
 
 const props = withDefaults(
   defineProps<{
@@ -12,15 +13,17 @@ const props = withDefaults(
 )
 
 const isOpen = ref(props.open)
+const { playSound } = useClickSound()
 
 function toggle() {
   isOpen.value = !isOpen.value
+  playSound()
 }
 </script>
 
 <template>
   <div class="pixel-accordion" :class="{ 'pixel-accordion--open': isOpen }">
-    <button class="pixel-accordion__header" :aria-expanded="isOpen" @click="toggle">
+    <button type="button" class="pixel-accordion__header" :aria-expanded="isOpen" @click="toggle">
       <span class="pixel-accordion__arrow">{{ isOpen ? '▼' : '▶' }}</span>
       <span class="pixel-accordion__title">{{ title }}</span>
     </button>
@@ -55,7 +58,7 @@ function toggle() {
   text-align: left;
 }
 
-.pixel-accordion__header:hover {
+.pixel-accordion__header:hover:not(:focus-visible) {
   background: var(--pixel-color-accent-soft);
 }
 

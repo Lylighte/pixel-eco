@@ -1,18 +1,21 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
-import { buildSidebarNav } from '../../utils/docs-nav'
+import { data as collections } from '../../../collections.data'
 import { stripBase } from '../../utils/path'
+import { useClickSound } from '../../composables/useClickSound'
 
 const { site } = useData()
 const route = useRoute()
+const { playSound } = useClickSound()
 
-const nav = buildSidebarNav()
+const nav = computed(() => collections.sidebar)
 
 const collapsed = ref<Record<string, boolean>>({})
 
 const toggle = (title: string) => {
   collapsed.value[title] = !collapsed.value[title]
+  playSound()
 }
 
 const isActive = (link: string) => {
@@ -26,7 +29,16 @@ const isActive = (link: string) => {
     <div class="sidebar-title">文档</div>
     <template v-for="group in nav" :key="group.title">
       <div class="sidebar-group">
-        <div class="sidebar-group-header" @click="toggle(group.title)">
+        <div
+          class="sidebar-group-header"
+          role="button"
+          tabindex="0"
+          :aria-expanded="!collapsed[group.title]"
+          @click="toggle(group.title)"
+          @keydown.enter.prevent="toggle(group.title)"
+          @keydown.space.prevent
+          @keyup.space.prevent="toggle(group.title)"
+        >
           <span class="sidebar-arrow">{{ collapsed[group.title] ? '▶' : '▼' }}</span>
           <span class="sidebar-group-name">{{ group.title }}</span>
         </div>
@@ -37,6 +49,7 @@ const isActive = (link: string) => {
             :href="withBase(item.link)"
             class="sidebar-item"
             :class="{ active: isActive(item.link) }"
+            @click="playSound()"
           >
             {{ item.text }}
           </a>
@@ -50,17 +63,19 @@ const isActive = (link: string) => {
 .docs-sidebar {
   width: 14rem;
   flex-shrink: 0;
+  align-self: flex-start;
   padding: 1rem 0;
   background: var(--pixel-sidebar-bg);
   border-right: var(--pixel-sidebar-border);
-  min-height: calc(100vh - 8rem);
+  position: sticky;
+  top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
+  max-height: calc(100vh - var(--pixel-nav-height) - var(--pixel-space-l));
   overflow-y: auto;
 }
 
 .sidebar-title {
   font-family: var(--pixel-font-heading);
-  font-weight: bold;
-  font-size: 1rem;
+  font-size: var(--pixel-font-size-m);
   padding: 0 1rem 0.75rem 1rem;
   color: var(--pixel-brand-light);
   border-bottom: 1px solid var(--pixel-gray);
@@ -77,18 +92,18 @@ const isActive = (link: string) => {
   color: var(--pixel-color-text-muted);
 }
 
-.sidebar-group-header:hover {
+.sidebar-group-header:hover:not(:focus-visible) {
   background: var(--pixel-sidebar-hover-bg);
 }
 
 .sidebar-arrow {
-  font-size: 0.65rem;
+  font-size: var(--pixel-font-size-s);
   width: 0.75rem;
 }
 
 .sidebar-group-name {
   font-family: var(--pixel-font-heading);
-  font-size: 0.9rem;
+  font-size: var(--pixel-font-size-m);
 }
 
 .sidebar-items {
@@ -98,7 +113,7 @@ const isActive = (link: string) => {
 .sidebar-item {
   display: block;
   padding: 0.3rem 1rem;
-  font-size: 0.85rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-color-text-muted);
   text-decoration: none;
   border-left: 2px solid transparent;
@@ -107,7 +122,7 @@ const isActive = (link: string) => {
     border-color 0.15s;
 }
 
-.sidebar-item:hover {
+.sidebar-item:hover:not(:focus-visible) {
   color: var(--pixel-color-text);
 }
 
@@ -117,10 +132,11 @@ const isActive = (link: string) => {
   background: var(--pixel-sidebar-active-bg);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .docs-sidebar {
     width: 100%;
-    min-height: auto;
+    position: static;
+    max-height: none;
     border-right: none;
     border-bottom: var(--pixel-sidebar-border);
   }

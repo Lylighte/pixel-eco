@@ -14,7 +14,7 @@ describe('PixelButtonClassic', () => {
   beforeEach(() => {
     audioInstances.length = 0
     AudioMock.mockImplementation(() => {
-      const instance = { play: vi.fn(), volume: 0 }
+      const instance = { play: vi.fn().mockResolvedValue(undefined), volume: 0 }
       audioInstances.push(instance)
       return instance
     })

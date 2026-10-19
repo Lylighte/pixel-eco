@@ -21,25 +21,71 @@ const GITHUB_USERNAME = 'Lylighte'   // 替换为你的 GitHub 用户名
 const REPO_NAME = 'pixel-eco'        // 替换为你的仓库名
 ```
 
-这两个变量会自动推导 GitHub Pages 地址、SEO 元标签和 RSS 订阅地址。
+这两个变量只配置 GitHub 仓库链接。站点标题、描述、作者等品牌信息也在配置文件顶部设置；公开站点地址通过 `SITE_URL` 独立配置。
 
 ### 部署路径
 
-`BASE_PATH` 环境变量控制站点部署的子路径：
+`SITE_URL` 环境变量提供完整公开地址，并推导生产部署路径：
 
-| 场景 | BASE_PATH | 说明 |
+| 场景 | SITE_URL | 说明 |
 |------|-----------|------|
-| 本地开发 | 不设置（默认 `/`） | 根路径，`npm run dev` 直接访问 |
-| GitHub Pages | CI 自动注入 | `configure-pages@v4` 自动设置 |
-| Netlify / Vercel | 设为 `/` | 根路径部署 |
-| 自定义域名 | 设为 `/` | 根路径部署 |
+| 本地开发 | 不设置 | 开发默认使用 `/` |
+| GitHub Pages | CI 自动注入 | `configure-pages@v4` 的 `base_url` |
+| 自定义域名根路径 | `https://example.com/` | 生产 base 为 `/` |
+| 自定义域名子路径 | `https://example.com/community/` | 生产 base 为 `/community/` |
 
-非 relative 模式下（`BASE_PATH` 为绝对路径），SEO 元标签、Open Graph、Twitter Card、sitemap 和 RSS 会自动启用。可通过 `SITE_URL` 环境变量覆盖自动推导的站点地址。
+设置 `SITE_URL` 后启用公开地址相关元数据、sitemap 和 RSS；不设置时仍可本地构建。`BASE_PATH` 保留兼容覆盖，但与 `SITE_URL` 同时设置时必须匹配其路径。`./` 相对部署不再支持。完整规则和预览方式见 [部署](./deployment)。
 
-```ts
-// RSS 只需域名，不含子路径
-const RSS_BASE = IS_RELATIVE ? '' : `https://${GITHUB_USERNAME}.github.io`
+### 站内地址与 withBase
+
+配置、frontmatter 和集合数据中的站内地址一律以 `/` 开头，且不含部署 base。例如使用 `/docs/quick-start`、`/news/`、`/logo.png`，不要写成 `/community/docs/quick-start`。部署 base 由 `SITE_URL` 的 pathname 推导。
+
+在 Vue 模板最终输出 `href` 或 `src` 时，从 `vitepress` 导入 `withBase`，只调用一次：
+
+```vue
+<script setup>
+import { withBase } from 'vitepress'
+
+const link = '/docs/quick-start'
+</script>
+
+<template>
+  <a :href="withBase(link)">快速开始</a>
+  <img :src="withBase('/logo.png')" alt="Logo" />
+</template>
 ```
+
+不要在配置或数据构建阶段提前调用 `withBase`，也不要在传给 LinkCard、NewsCard 等已经负责添加 base 的组件前再次包装。Pagefind 搜索结果的 URL 已含 base，直接输出 `result.url`，不得再用 `withBase(result.url)`，否则会产生重复路径。
+
+VitePress 会自动处理 Markdown 链接和静态图片路径；动态绑定的站内地址遵循上述约定。外部地址保留完整 URL；LinkCard 支持大小写不敏感的 HTTP(S) 和 `//` 协议相对地址，并在新窗口打开。
+
+### 响应式与导航尺寸
+
+在 `.vitepress/theme/styles/vars.css` 中统一维护两个断点：`--pixel-break-compact: 640px` 与 `--pixel-break-layout: 768px`。组件使用 `@media (max-width: var(--pixel-break-compact))` 或 layout 令牌；`.vitepress/breakpoints.ts` 在构建期将其展开成浏览器支持的媒体查询。修改断点后重启开发服务器，使构建配置重新读取令牌。
+
+`--pixel-nav-height: 2.75rem` 对应默认字号下实测的 44px 导航栏高度，布局在此基础上加间距令牌避让固定导航。修改导航尺寸时同步调整该令牌。
+
+### 音效反馈
+
+点击音效统一由 `useClickSound` 提供（默认 `/button.click.ogg`，音量 0.3，自动适配部署 base；SSR 与播放失败均静默降级）。接入规则：
+
+| 场景 | 音效 | 示例 |
+| ---- | ---- | ---- |
+| 主要导航、操作按钮、标签切换、折叠展开 | 有声 | NavBar、PixelButton 系列、PixelTabs、PixelAccordion、DocsSidebar |
+| 正文链接、输入框、悬停 | 安静 | 文章内链接、PixelInput、hover 效果 |
+
+为可交互组件接入音效时，在激活路径（`@click` 或 `toggle`）上调用一次 `playSound()`，并为组件补充"播放且仅播放一次"的测试断言，防止漏接或冒泡导致的重复播放。
+
+### 滚动入场（门户页）
+
+门户展示页（首页、关于页）的展示元素使用 `v-reveal` 指令实现滚动触发入场：元素进入视口约 15% 时从下方 12px 平滑浮起淡入，只播放一次。隐藏态仅在客户端挂载时添加，SSR 输出与无 JS 环境下内容始终完整可见。
+
+```vue
+<div v-reveal>滚入视口时入场</div>
+<div v-reveal="{ delay: 120 }">延迟 120ms，用于同屏元素交错</div>
+```
+
+内置应用：HomeIntro、SiteFooter 已自带。HomeHero 在首屏，保留挂载时的入场动画。内容页（新闻、文档）不使用滚动入场，保持阅读专注。
 
 ## Logo
 
@@ -155,6 +201,39 @@ socialLinks: [
 ## 文档管理
 
 添加、修改或删除文档页面，并同步更新侧边栏导航。
+
+### 本文目录
+
+文档详情页根据 Markdown 标题自动生成本文目录，默认收录 H1～H6，保留所有 H1。H1 单独强调并作为分组主标题，H2 与 H1 左对齐，H3 起逐级缩进。标题跳级时保留原始级别；代码块和 Vue 示例组件内部的标题不进入目录。
+
+宽度达到 1280px 时目录位于正文右侧并随滚动吸顶；较窄屏幕放在正文上方，可整体收起。点击目录跳到对应章节，滚动正文时自动高亮当前章节。
+
+站点默认配置位于 `.vitepress/config.ts` 的 `themeConfig.outline`，单篇文档可用 frontmatter 覆盖：
+
+```yaml
+# 关闭当前文档的目录
+outline: false
+```
+
+```yaml
+# 仅显示 H1～H3（不影响正文标题）
+outline: [1, 3]
+```
+
+也可以按锚点 ID 排除单个标题，其子章节仍会保留：
+
+```md
+---
+outlineExclude:
+  - quick-start
+---
+
+# 快速开始 {#quick-start}
+
+## 环境要求
+```
+
+目录沿用正文生成的锚点，支持同名标题、中文标题和自定义 ID。没有可显示标题时，目录及其占用的列自动隐藏。
 
 ### 新建文档页
 

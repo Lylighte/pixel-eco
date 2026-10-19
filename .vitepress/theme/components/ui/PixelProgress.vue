@@ -81,14 +81,14 @@ const clampedValue = computed(() => Math.max(0, Math.min(100, props.value)))
 }
 
 .pixel-progress__fill--success {
-  background: #3a7d3a;
+  background: var(--pixel-color-success);
 }
 
 .pixel-progress__fill--warning {
-  background: #d4a017;
+  background: var(--pixel-color-warning);
 }
 
 .pixel-progress__fill--danger {
-  background: #a53a3a;
+  background: var(--pixel-color-danger);
 }
 </style>

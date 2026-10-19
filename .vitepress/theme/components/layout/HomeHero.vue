@@ -180,12 +180,12 @@ onUnmounted(() => {
 .hero-carousel-image {
   opacity: 0;
   transition: opacity 0.8s ease;
-  z-index: 0;
+  z-index: var(--pixel-z-base);
 }
 
 .hero-carousel--active {
   opacity: 1;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
 }
 
 .hero-carousel--fading {
@@ -200,7 +200,7 @@ onUnmounted(() => {
 
 .hero-overlay {
   position: relative;
-  z-index: 2;
+  z-index: var(--pixel-z-content);
   width: 100%;
   min-height: 40rem;
   display: flex;
@@ -232,26 +232,24 @@ onUnmounted(() => {
 }
 
 .hero-title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: var(--pixel-font-size-l);
   color: var(--pixel-hero-title-color);
   margin: 0;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: var(--pixel-font-size-l);
   color: var(--pixel-brand-light);
   margin: 0.5rem 0 0 0;
 }
 
 .hero-desc {
-  font-size: 1.15rem;
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title);
   margin-top: 1rem;
   color: var(--pixel-color-text);
 }
 
-@media screen and (max-width: 623px) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .logo-area {
     width: 100%;
     min-width: unset;

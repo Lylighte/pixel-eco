@@ -52,47 +52,47 @@ withDefaults(
 
 /* ── Types ── */
 .pixel-badge--info {
-  color: #fff;
-  background: #3a6ea5;
-  border-color: #2a5a8a;
+  color: var(--pixel-color-text-solid);
+  background: var(--pixel-color-info);
+  border-color: var(--pixel-color-info-border);
 }
 
 .pixel-badge--success {
-  color: #fff;
-  background: #3a7d3a;
-  border-color: #2a6a2a;
+  color: var(--pixel-color-text-solid);
+  background: var(--pixel-color-success);
+  border-color: var(--pixel-color-success-border);
 }
 
 .pixel-badge--warning {
-  color: #000;
-  background: #d4a017;
-  border-color: #b08810;
+  color: var(--pixel-color-text-inverse);
+  background: var(--pixel-color-warning);
+  border-color: var(--pixel-color-warning-border);
 }
 
 .pixel-badge--danger {
-  color: #fff;
-  background: #a53a3a;
-  border-color: #8a2a2a;
+  color: var(--pixel-color-text-solid);
+  background: var(--pixel-color-danger);
+  border-color: var(--pixel-color-danger-border);
 }
 
 /* ── Outline variant ── */
 .pixel-badge--outline.pixel-badge--info {
-  color: #5a9ed5;
+  color: var(--pixel-color-info-light);
   background: transparent;
 }
 
 .pixel-badge--outline.pixel-badge--success {
-  color: #5aad5a;
+  color: var(--pixel-color-success-light);
   background: transparent;
 }
 
 .pixel-badge--outline.pixel-badge--warning {
-  color: #e4b030;
+  color: var(--pixel-color-warning-light);
   background: transparent;
 }
 
 .pixel-badge--outline.pixel-badge--danger {
-  color: #d55a5a;
+  color: var(--pixel-color-danger-light);
   background: transparent;
 }
 </style>

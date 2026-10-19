@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { useData } from 'vitepress'
 
 interface PagefindSearchResult {
   data(): Promise<{
@@ -15,7 +15,8 @@ interface PagefindSearchResponse {
 }
 
 interface PagefindApi {
-  init(options: { basePath: string }): Promise<void>
+  options(options: { basePath: string; baseUrl: string }): Promise<void>
+  init(): Promise<void>
   search(query: string): Promise<PagefindSearchResponse>
 }
 
@@ -54,7 +55,8 @@ onMounted(async () => {
     const pf = (await new Function('path', 'return import(path)')(
       basePath + 'pagefind.js',
     )) as PagefindApi
-    await pf.init({ basePath })
+    await pf.options({ basePath, baseUrl: base })
+    await pf.init()
     pagefind = pf
   } catch {
     error.value = errorHint
@@ -87,7 +89,8 @@ function doSearch() {
           search.results.map(async (r) => {
             const data = await r.data()
             return {
-              url: withBase(data.url),
+              // Pagefind returns URLs with the configured baseUrl already applied.
+              url: data.url,
               title: data.meta?.title || data.url,
               excerpt: data.excerpt,
             }
@@ -147,17 +150,17 @@ function doSearch() {
   width: 100%;
   padding: 8px 12px;
   font-family: var(--pixel-font-code);
-  font-size: 16px;
+  font-size: var(--pixel-font-size-m);
   background: var(--pixel-color-bg-card);
   color: var(--pixel-color-text);
-  border: 2px solid var(--pixel-color-border);
+  border: var(--pixel-border);
   outline: none;
   box-sizing: border-box;
 }
 
-.pixel-search-input:focus {
-  border-color: var(--pixel-color-accent);
-  box-shadow: 2px 2px 0 var(--pixel-color-accent);
+.pixel-search-input::placeholder {
+  color: var(--pixel-color-text-muted);
+  opacity: 1;
 }
 
 /* ── 搜索结果 ── */
@@ -169,32 +172,31 @@ function doSearch() {
   display: block;
   padding: 12px;
   margin-top: 8px;
-  border: 2px solid var(--pixel-color-border);
+  border: var(--pixel-border);
   text-decoration: none;
   color: var(--pixel-color-text);
 }
 
-.search-result-item:hover {
+.search-result-item:hover:not(:focus-visible) {
   border-color: var(--pixel-color-accent);
   background: var(--pixel-color-bg-card);
 }
 
 .result-title {
   display: block;
-  font-weight: bold;
-  font-size: 15px;
+  font-size: var(--pixel-font-size-m);
   margin-bottom: 4px;
 }
 
 .result-excerpt {
   display: block;
-  font-size: 13px;
+  font-size: var(--pixel-font-size-s);
   color: var(--pixel-color-text-muted);
 }
 
 .result-excerpt :deep(mark) {
-  background: var(--pixel-color-accent-soft);
-  color: var(--pixel-color-accent);
+  background: var(--pixel-color-accent-light);
+  color: var(--pixel-color-text-inverse);
 }
 
 /* ── 状态提示 ── */

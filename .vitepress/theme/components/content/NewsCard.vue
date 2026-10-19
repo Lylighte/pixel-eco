@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
 import PixelButton3D from '../ui/PixelButton3D.vue'
+import { useClickSound } from '../../composables/useClickSound'
+
+const { playSound } = useClickSound()
 
 withDefaults(
   defineProps<{
@@ -34,8 +37,10 @@ withDefaults(
       <p class="overview-brief">
         {{ $props.brief }}
       </p>
-      <a :href="withBase($props.link)" class="overview-button-wrap">
-        <PixelButton3D class="overview-button"> {{ $props.buttonText }} &gt; </PixelButton3D>
+      <a :href="withBase($props.link)" class="overview-button-wrap" @click="playSound()">
+        <PixelButton3D class="overview-button" role="presentation" :tabindex="-1" sound-url="">
+          {{ $props.buttonText }} &gt;
+        </PixelButton3D>
       </a>
     </div>
   </div>
@@ -48,6 +53,15 @@ withDefaults(
   background-color: var(--pixel-card-bg);
   margin-bottom: 1.5rem;
   overflow: hidden;
+  box-shadow: var(--pixel-card-shadow);
+  transition:
+    transform var(--pixel-duration-fast) ease-out,
+    box-shadow var(--pixel-duration) var(--pixel-steps-fast);
+}
+
+.overview-card:hover:not(:focus-visible) {
+  transform: translateY(-2px);
+  box-shadow: var(--pixel-shadow-hard);
 }
 
 .overview-picture {
@@ -61,12 +75,6 @@ withDefaults(
   width: 100%;
   height: 100%;
   object-fit: cover;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.overview-img:hover {
-  transform: scale(1.05);
 }
 
 .overview-content {
@@ -78,7 +86,7 @@ withDefaults(
 
 .overview-title {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   cursor: pointer;
   color: var(--pixel-color-text);
   text-decoration: none;
@@ -86,7 +94,7 @@ withDefaults(
   margin-bottom: 0.5rem;
 }
 
-.overview-title:hover {
+.overview-title:hover:not(:focus-visible) {
   color: var(--pixel-brand-light);
 }
 
@@ -106,7 +114,7 @@ withDefaults(
   padding: 0.4rem 1rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .overview-card {
     flex-direction: column;
   }

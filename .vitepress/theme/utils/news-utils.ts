@@ -1,33 +1,25 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// 共享工具：从 news/*.md 的 __pageData.frontmatter 自动构建新闻卡片列表
-// 被 news/index.md 引用
+// 将构建期 frontmatter 索引转换为新闻卡片；不导入 Markdown 页面。
 
 import type { NewsCardData } from '../types/components'
+import { isPublished } from './publication'
+import {
+  DEFAULT_COVER_IMAGE,
+  getFrontmatter,
+  getSlug,
+  type ContentModuleMap,
+} from './content-utils'
 export type { NewsCardData } from '../types/components'
 
-type NewsModuleMap = Record<string, { __pageData?: { frontmatter?: Record<string, unknown> } }>
-
-// 用函数包装 import.meta.glob，使单元测试注入 mock 时不会触发 glob 评估
-function loadDefaultModules(): NewsModuleMap {
-  return import.meta.glob('../../../src/news/*.md', { eager: true })
-}
-
-function getSlug(path: string): string {
-  const parts = path.replace(/\\/g, '/').split('/')
-  return parts[parts.length - 1].replace('.md', '')
-}
-
-function getFrontmatter(module: NewsModuleMap[string]): Record<string, any> {
-  return module?.__pageData?.frontmatter || {}
-}
-
-export function buildNewsCards(modules: NewsModuleMap = loadDefaultModules()): NewsCardData[] {
+export function buildNewsCards(
+  modules: ContentModuleMap,
+  production = import.meta.env.PROD,
+): NewsCardData[] {
   return Object.entries(modules)
     .filter(([path]) => !path.endsWith('index.md'))
     .filter(([, module]) => {
       const fm = getFrontmatter(module)
       // 生产构建时排除草稿
-      if (fm.draft && import.meta.env.PROD) return false
+      if (!isPublished(fm) && production) return false
       return true
     })
     .map(([path, module]) => {
@@ -36,7 +28,7 @@ export function buildNewsCards(modules: NewsModuleMap = loadDefaultModules()): N
       return {
         title: fm.title || slug,
         brief: fm.brief || '',
-        image: fm.cover || '/background/19.jpg',
+        image: fm.cover || DEFAULT_COVER_IMAGE,
         link: `/news/${slug}`,
         date: fm.date || '1970-01-01',
         category: fm.category || '未分类',

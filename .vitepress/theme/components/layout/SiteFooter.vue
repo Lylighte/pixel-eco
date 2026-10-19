@@ -20,7 +20,7 @@ const iconNames: Record<string, string> = {
 </script>
 
 <template>
-  <div class="footer-area">
+  <div v-reveal class="footer-area">
     <div class="footer-description">
       <p class="footer-name">
         {{ site.title || '像素生态' }}
@@ -68,7 +68,7 @@ const iconNames: Record<string, string> = {
             v-if="link.icon && iconMap[link.icon]"
             class="link-icon"
           />
-          {{ link.text || iconNames[link.icon] || link.link }}
+          {{ link.text || link.ariaLabel || iconNames[link.icon] || link.link }}
         </a>
       </div>
     </div>
@@ -84,7 +84,6 @@ const iconNames: Record<string, string> = {
   background-color: var(--pixel-color-bg);
   border-top: 1px solid var(--pixel-footer-border);
   margin-top: 3rem;
-  animation: fade-in-up 0.6s ease;
 }
 
 .footer-description {
@@ -96,8 +95,7 @@ const iconNames: Record<string, string> = {
 
 .footer-name {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   margin-top: 0.5rem;
   margin-bottom: 0.25rem;
   color: var(--pixel-footer-title);
@@ -109,12 +107,12 @@ const iconNames: Record<string, string> = {
 }
 
 #copyright {
-  font-size: 0.9rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-footer-copyright);
 }
 
 #declaration {
-  font-size: 0.75rem; /* 12px — 最小对齐尺寸 */
+  font-size: var(--pixel-font-size-s); /* 12px — 最小对齐尺寸 */
   color: var(--pixel-footer-declaration);
   margin-top: 0.15rem;
   margin-bottom: 0.15rem;
@@ -123,16 +121,6 @@ const iconNames: Record<string, string> = {
 
 .highlight-name {
   color: var(--pixel-brand-light);
-}
-
-#declaration a {
-  color: var(--pixel-brand-light);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-#declaration a:hover {
-  color: #fff;
 }
 
 .footer-links {
@@ -146,7 +134,6 @@ const iconNames: Record<string, string> = {
 }
 
 .link-block p {
-  font-weight: bold;
   margin: 0 0 0.5rem 0;
 }
 
@@ -158,7 +145,7 @@ const iconNames: Record<string, string> = {
   text-decoration: none;
 }
 
-.link-item:hover {
+.link-item:hover:not(:focus-visible) {
   color: var(--pixel-brand-light);
 }
 
@@ -167,7 +154,7 @@ const iconNames: Record<string, string> = {
   height: 1.2rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .footer-links {
     margin-left: 0;
     margin-top: 1rem;

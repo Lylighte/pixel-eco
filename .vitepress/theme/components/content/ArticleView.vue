@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { withBase } from 'vitepress'
+import { computed } from 'vue'
+import { useData, useRoute, withBase } from 'vitepress'
+import { data as collections } from '../../../collections.data'
+import { stripBase } from '../../utils/path'
+import { useClickSound } from '../../composables/useClickSound'
 import type { Author } from '../../types/components.ts'
 
 defineProps<{
@@ -10,6 +14,18 @@ defineProps<{
   cover?: string
   category?: string
 }>()
+
+const { site } = useData()
+const route = useRoute()
+const { playSound } = useClickSound()
+const adjacent = computed(() => {
+  const path = stripBase(route.path, site.value.base).replace(/(?:\.html|\/)$/, '')
+  const index = collections.news.findIndex((card) => card.link === path)
+  // The collection is newest first: previous is older, next is newer.
+  return index < 0
+    ? {}
+    : { previous: collections.news[index + 1], next: collections.news[index - 1] }
+})
 </script>
 
 <template>
@@ -60,6 +76,31 @@ defineProps<{
         <div class="article-text vp-doc">
           <slot />
         </div>
+        <nav class="article-navigation" aria-label="新闻文章导航" data-pagefind-ignore>
+          <div v-if="adjacent.previous || adjacent.next" class="article-adjacent">
+            <a
+              v-if="adjacent.previous"
+              :href="withBase(adjacent.previous.link)"
+              class="article-neighbor pixel-border"
+              rel="prev"
+              @click="playSound()"
+            >
+              <span class="article-neighbor-label">← 上一篇</span>
+              <span class="article-neighbor-title">{{ adjacent.previous.title }}</span>
+            </a>
+            <a
+              v-if="adjacent.next"
+              :href="withBase(adjacent.next.link)"
+              class="article-neighbor article-next pixel-border"
+              rel="next"
+              @click="playSound()"
+            >
+              <span class="article-neighbor-label">下一篇 →</span>
+              <span class="article-neighbor-title">{{ adjacent.next.title }}</span>
+            </a>
+          </div>
+          <a :href="withBase('/news/')" class="article-back" @click="playSound()">← 返回新闻列表</a>
+        </nav>
       </main>
     </div>
   </article>
@@ -67,7 +108,7 @@ defineProps<{
 
 <style scoped>
 .article-view {
-  padding-top: 4rem;
+  padding-top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
 }
 
 .article-cover {
@@ -91,7 +132,7 @@ defineProps<{
   background: var(--pixel-article-category-bg);
   color: var(--pixel-brand-light);
   padding: 0.25rem 0.75rem;
-  font-size: 0.85rem;
+  font-size: var(--pixel-font-size-m);
   border: 1px solid var(--pixel-brand);
 }
 
@@ -130,8 +171,7 @@ defineProps<{
 
 .article-author-name {
   margin-top: 0.5rem;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-size: var(--pixel-font-size-m);
 }
 
 .article-author-tags {
@@ -143,13 +183,13 @@ defineProps<{
 }
 
 .article-author-tag {
-  font-size: 0.75rem;
+  font-size: var(--pixel-font-size-s);
   padding: 0.1rem 0.4rem;
 }
 
 .article-author-meta {
   margin-top: 1rem;
-  font-size: 0.8rem;
+  font-size: var(--pixel-font-size-s);
   color: var(--pixel-color-text-muted);
   text-align: center;
   line-height: 1.6;
@@ -157,9 +197,7 @@ defineProps<{
 
 .meta-label {
   display: block;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: var(--pixel-font-size-s);
 }
 
 .meta-value {
@@ -170,56 +208,72 @@ defineProps<{
 .article-content {
   flex: 1;
   min-width: 0;
+  max-width: 48rem;
 }
 
 .article-title {
-  font-size: 1.8rem;
+  font-size: var(--pixel-font-size-l);
   margin: 0 0 1.5rem 0;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--pixel-gray);
 }
 
-.article-text {
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-.article-text :deep(h2) {
+.article-navigation {
   margin-top: 2rem;
-  font-size: 1.4rem;
+  border-top: var(--pixel-border);
+  padding-top: 1.5rem;
 }
 
-.article-text :deep(h3) {
-  font-size: 1.2rem;
+.article-adjacent {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.article-text :deep(p) {
-  margin: 1rem 0;
+.article-neighbor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
-.article-text :deep(ul),
-.article-text :deep(ol) {
-  padding-left: 1.5rem;
+.article-neighbor-label {
+  color: var(--pixel-color-text-muted);
+  font-size: var(--pixel-font-size-s);
 }
 
-.article-text :deep(li) {
-  margin: 0.5rem 0;
+.article-neighbor-title {
+  font-family: var(--pixel-font-heading);
+  font-size: var(--pixel-font-size-title);
+  font-weight: normal;
 }
 
-.article-text :deep(code) {
-  background: var(--pixel-card-bg);
-  padding: 0.15rem 0.4rem;
-  font-size: 0.9em;
+.article-neighbor:hover:not(:focus-visible) {
+  color: var(--pixel-color-text-solid);
 }
 
-.article-text :deep(blockquote) {
-  border-left: 4px solid var(--pixel-brand);
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
-  background: var(--pixel-color-accent-soft);
+.article-back {
+  color: var(--pixel-brand-light);
 }
 
-@media screen and (max-width: 768px) {
+.article-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+@media screen and (max-width: var(--pixel-break-compact)) {
+  .article-adjacent {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .article-next {
+    grid-column: 1;
+  }
+}
+
+@media screen and (max-width: var(--pixel-break-layout)) {
   .article-body {
     flex-direction: column;
   }

@@ -9,22 +9,27 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   height: '3.6rem',
-  soundUrl: '/button.click.ogg',
+  soundUrl: undefined,
 })
 
 const pressed = ref(false)
 
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 </script>
 
 <template>
   <div
     class="pixel-button-3d"
+    role="button"
+    tabindex="0"
     :class="{ 'is-pressed': pressed }"
     :style="{
       height: pressed ? `calc(${$props.height} - var(--pixel-btn-3d-offset))` : $props.height,
     }"
     @click="playSound($props.soundUrl)"
+    @keydown.enter.prevent="($event.currentTarget as HTMLElement).click()"
+    @keydown.space.prevent
+    @keyup.space.prevent="($event.currentTarget as HTMLElement).click()"
     @mousedown="pressed = true"
     @mouseup="pressed = false"
     @mouseleave="pressed = false"
@@ -48,7 +53,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
   box-sizing: border-box;
 }
 
-.pixel-button-3d:hover::after {
+.pixel-button-3d:hover:not(:focus-visible):not(:where(:focus-visible *))::after {
   background-color: var(--pixel-btn-3d-hover-overlay);
 }
 
@@ -71,7 +76,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
   box-shadow:
     0 calc(-1 * var(--pixel-btn-3d-offset)) 0 0 var(--pixel-btn-3d-shadow-top) inset,
     2px 2px 0 0 var(--pixel-btn-3d-highlight) inset,

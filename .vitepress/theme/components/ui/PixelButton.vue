@@ -8,16 +8,21 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   dark: false,
-  soundUrl: '/button.click.ogg',
+  soundUrl: undefined,
 })
 
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 </script>
 
 <template>
   <div
+    role="button"
+    tabindex="0"
     :class="$props.dark ? 'pixel-button dark' : 'pixel-button'"
     @click="playSound($props.soundUrl)"
+    @keydown.enter.prevent="($event.currentTarget as HTMLElement).click()"
+    @keydown.space.prevent
+    @keyup.space.prevent="($event.currentTarget as HTMLElement).click()"
   >
     <slot />
   </div>
@@ -49,7 +54,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
     inset -2px -2px 0 0 var(--pixel-btn-shadow-dark);
 }
 
-.pixel-button:hover {
+.pixel-button:hover:not(:focus-visible) {
   color: var(--pixel-btn-text-hover);
   outline: 2px solid var(--pixel-btn-outline-hover);
   background-color: var(--pixel-btn-bg-hover);
@@ -65,7 +70,7 @@ const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0
     inset 2px 2px 0 0 var(--pixel-btn-shadow-dark);
 }
 
-.pixel-button:active:hover {
+.pixel-button:active:hover:not(:focus-visible) {
   color: var(--pixel-btn-text-hover);
   outline: 2px solid var(--pixel-btn-outline-hover);
   background-color: var(--pixel-btn-bg-hover);

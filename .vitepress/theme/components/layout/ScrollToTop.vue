@@ -6,7 +6,7 @@ const scrollToTop = () => {
   if (typeof window === 'undefined') return
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
   })
 }
 
@@ -29,14 +29,21 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <PixelButton class="scroll-to-top" :class="{ visible: shouldShow }" @click="scrollToTop">
+  <PixelButton
+    class="scroll-to-top"
+    :class="{ visible: shouldShow }"
+    :tabindex="shouldShow ? 0 : -1"
+    :aria-hidden="!shouldShow"
+    aria-label="返回顶部"
+    @click="scrollToTop"
+  >
     ↑
   </PixelButton>
 </template>
 
 <style lang="css" scoped>
 .scroll-to-top {
-  font-size: 1.5rem;
+  font-size: var(--pixel-font-size-l);
   position: fixed;
   height: 3rem;
   width: 3rem;

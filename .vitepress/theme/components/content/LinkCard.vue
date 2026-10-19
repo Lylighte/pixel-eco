@@ -17,7 +17,7 @@
 import { withBase } from 'vitepress'
 
 const isExternal = (url: string) => {
-  return url.startsWith('http://') || url.startsWith('https://')
+  return /^(?:https?:)?\/\//i.test(url)
 }
 
 defineProps<{
@@ -46,11 +46,14 @@ defineProps<{
   cursor: pointer;
   text-decoration: none;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition:
+    transform var(--pixel-duration-fast) ease-out,
+    box-shadow var(--pixel-duration) var(--pixel-steps-fast);
 }
 
-.link-card:hover {
-  transform: scale(1.05);
+.link-card:hover:not(:focus-visible) {
+  transform: translateY(-2px);
+  box-shadow: var(--pixel-shadow-hard);
 }
 
 .link-bg {
@@ -64,7 +67,7 @@ defineProps<{
 
 .link-content {
   position: relative;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
   margin-top: auto;
   padding: 0.5rem 1rem;
   background-color: var(--pixel-linkcard-overlay-bg);
@@ -73,14 +76,13 @@ defineProps<{
 
 .link-content p {
   font-family: var(--pixel-font-heading);
-  font-size: 1.25rem; /* 20px — Ark Pixel 对齐 */
-  font-weight: bold;
+  font-size: var(--pixel-font-size-title); /* 20px — Ark Pixel 对齐 */
   margin: 0;
   color: var(--pixel-linkcard-title-color);
 }
 
 .link-content span {
-  font-size: 0.85rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-color-text-muted);
 }
 </style>

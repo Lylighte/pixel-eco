@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useClickSound } from '../../composables/useClickSound'
 
 const props = withDefaults(
   defineProps<{
@@ -12,9 +13,11 @@ const props = withDefaults(
 )
 
 const activeIndex = ref(props.active)
+const { playSound } = useClickSound()
 
 function setActive(index: number) {
   activeIndex.value = index
+  playSound()
 }
 </script>
 
@@ -24,6 +27,7 @@ function setActive(index: number) {
       <button
         v-for="(tab, index) in tabs"
         :key="index"
+        type="button"
         class="pixel-tabs__tab"
         :class="{ 'pixel-tabs__tab--active': activeIndex === index }"
         role="tab"
@@ -46,6 +50,7 @@ function setActive(index: number) {
 
 .pixel-tabs__nav {
   display: flex;
+  overflow-x: auto;
   border-bottom: 2px solid var(--pixel-color-border);
   background: var(--pixel-color-bg-card);
 }
@@ -67,7 +72,7 @@ function setActive(index: number) {
   border-right: none;
 }
 
-.pixel-tabs__tab:hover {
+.pixel-tabs__tab:hover:not(:focus-visible) {
   background: var(--pixel-color-accent-soft);
 }
 

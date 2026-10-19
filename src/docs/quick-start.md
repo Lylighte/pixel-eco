@@ -14,7 +14,7 @@ cardImage: /background/19.jpg
 
 ## 环境要求
 
-- **Node.js** 18 或更高版本
+- **Node.js** 22 或更高版本
 - 代码编辑器（推荐 VS Code）
 
 ## 搭建步骤

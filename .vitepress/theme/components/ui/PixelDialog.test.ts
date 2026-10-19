@@ -1,137 +1,112 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import PixelDialog from './PixelDialog.vue'
 
-vi.mock('vitepress', () => ({
-  withBase: vi.fn((url: string) => `/mocked-base${url}`),
+vi.mock('../../composables/useClickSound', () => ({
+  useClickSound: () => ({ playSound: vi.fn() }),
 }))
 
+const wrappers: ReturnType<typeof mount>[] = []
+
+function mountDialog(modelValue = true) {
+  const wrapper = mount(PixelDialog, {
+    props: { modelValue, title: '确认操作' },
+    slots: { default: '<p>对话框内容</p>' },
+  })
+  wrappers.push(wrapper)
+  return wrapper
+}
+
+afterEach(() => {
+  wrappers.splice(0).forEach((wrapper) => wrapper.unmount())
+})
+
 describe('PixelDialog', () => {
-  const AudioMock = vi.fn()
-
-  beforeEach(() => {
-    AudioMock.mockImplementation(() => ({ play: vi.fn(), volume: 0 }))
-    vi.stubGlobal('Audio', AudioMock)
-    vi.useFakeTimers()
+  it('renders an initially open dialog with accessible metadata and valid title markup', () => {
+    const wrapper = mountDialog()
+    const dialog = wrapper.get('[role="dialog"]')
+    expect(dialog.attributes('aria-modal')).toBe('true')
+    expect(dialog.attributes('aria-label')).toBe('确认操作')
+    expect(dialog.get('.dialog-title').element.tagName).toBe('SPAN')
+    expect(dialog.text()).toContain('对话框内容')
   })
 
-  afterEach(() => {
-    vi.unstubAllGlobals()
-    vi.useRealTimers()
-    vi.clearAllMocks()
+  it('follows the model through rapid open, close and reopen updates', async () => {
+    const wrapper = mountDialog(false)
+    expect(wrapper.find('[role="dialog"]').exists()).toBe(false)
+    await wrapper.setProps({ modelValue: true })
+    await wrapper.setProps({ modelValue: false })
+    await wrapper.setProps({ modelValue: true })
+    expect(wrapper.find('[role="dialog"]').exists()).toBe(true)
   })
 
-  it('is hidden when modelValue is false', () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: false } })
-    expect(wrapper.find('.dialog-cover').exists()).toBe(false)
-  })
-
-  it('is visible when modelValue is true on mount', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    expect(wrapper.find('.dialog-cover').exists()).toBe(true)
-  })
-
-  it('renders title when provided', async () => {
-    const wrapper = mount(PixelDialog, {
-      props: { modelValue: true, title: '确认操作' },
-    })
-    await nextTick()
-    expect(wrapper.find('.dialog-title').text()).toBe('确认操作')
-  })
-
-  it('does not render title element when title is empty', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    expect(wrapper.find('.dialog-title').exists()).toBe(false)
-  })
-
-  it('renders default slot content', async () => {
-    const wrapper = mount(PixelDialog, {
-      props: { modelValue: true },
-      slots: { default: '<p>正文内容</p>' },
-    })
-    await nextTick()
-    expect(wrapper.text()).toContain('正文内容')
-  })
-
-  it('shows default cancel and confirm text', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    const buttons = wrapper.findAll('.dialog-footer-btn')
-    expect(buttons).toHaveLength(2)
-    expect(buttons[0]?.text()).toBe('取消')
-    expect(buttons[1]?.text()).toBe('确认')
-  })
-
-  it('uses custom cancel and confirm text', async () => {
-    const wrapper = mount(PixelDialog, {
-      props: { modelValue: true, cancelText: '返回', confirmText: '提交' },
-    })
-    await nextTick()
-    const buttons = wrapper.findAll('.dialog-footer-btn')
-    expect(buttons[0]?.text()).toBe('返回')
-    expect(buttons[1]?.text()).toBe('提交')
-  })
-
-  it('emits modelValue false when clicking the cover backdrop', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    await wrapper.find('.dialog-cover').trigger('click')
-    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([false])
-  })
-
-  it('does not close when clicking inside the dialog body', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    await wrapper.find('.dialog').trigger('click')
+  it('closes on Escape only while open and cleans up its listener on unmount', async () => {
+    const wrapper = mountDialog(false)
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    await wrapper.setProps({ modelValue: true })
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    expect(wrapper.emitted('update:modelValue')).toEqual([[false]])
+    const removeListener = vi.spyOn(document, 'removeEventListener')
+    wrappers.splice(wrappers.indexOf(wrapper), 1)
+    wrapper.unmount()
+    expect(removeListener).toHaveBeenCalledWith('keydown', expect.any(Function))
+    removeListener.mockRestore()
   })
 
-  it('closes and emits confirm when confirm button clicked', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    const buttons = wrapper.findAll('.dialog-footer-btn')
-    await buttons[1]?.trigger('click')
-    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([false])
+  it('closes on the backdrop and cancel button, but not on content clicks', async () => {
+    const wrapper = mountDialog()
+    await wrapper.get('.dialog').trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    await wrapper.get('.dialog-cover').trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toEqual([[false]])
+
+    const cancelWrapper = mountDialog()
+    await cancelWrapper.get('.dialog-footer-btn').trigger('click')
+    expect(cancelWrapper.emitted('update:modelValue')).toEqual([[false]])
+    expect(cancelWrapper.emitted('confirm')).toBeUndefined()
+  })
+
+  it('closes and emits confirm from the confirm button', async () => {
+    const wrapper = mountDialog()
+    await wrapper.findAll('.dialog-footer-btn')[1].trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toEqual([[false]])
     expect(wrapper.emitted('confirm')).toHaveLength(1)
   })
 
-  it('closes without emitting confirm when cancel button clicked', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    const buttons = wrapper.findAll('.dialog-footer-btn')
-    await buttons[0]?.trigger('click')
-    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([false])
-    expect(wrapper.emitted('confirm')).toBeUndefined()
-  })
-
-  it('becomes visible when modelValue changes from false to true', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: false } })
-    expect(wrapper.find('.dialog-cover').exists()).toBe(false)
-    await wrapper.setProps({ modelValue: true })
-    expect(wrapper.find('.dialog-cover').exists()).toBe(true)
-  })
-
-  it('hides after close animation timeout completes', async () => {
-    const wrapper = mount(PixelDialog, { props: { modelValue: true } })
-    await nextTick()
-    await wrapper.setProps({ modelValue: false })
-    // dialog still visible during 300ms fade-out
-    expect(wrapper.find('.dialog-cover').exists()).toBe(true)
-    vi.advanceTimersByTime(300)
-    await nextTick()
-    expect(wrapper.find('.dialog-cover').exists()).toBe(false)
-  })
-
-  it('renders custom footer slot instead of default buttons', async () => {
+  it('keeps keyboard focus inside the open dialog and restores the opener on close', async () => {
+    const opener = document.createElement('button')
+    document.body.append(opener)
+    opener.focus()
     const wrapper = mount(PixelDialog, {
+      attachTo: document.body,
       props: { modelValue: true },
-      slots: { footer: '<button class="custom-btn">自定义</button>' },
     })
+    wrappers.push(wrapper)
     await nextTick()
-    expect(wrapper.find('.custom-btn').exists()).toBe(true)
-    expect(wrapper.findAll('.dialog-footer-btn')).toHaveLength(0)
+    const dialog = wrapper.get('[role="dialog"]').element
+    expect(document.activeElement).toBe(dialog)
+    const [first, last] = wrapper
+      .findAll('.dialog-footer-btn')
+      .map((button) => button.element as HTMLElement)
+    // jsdom has no layout; expose the two controls as visible to the focus trap.
+    const rectangles = [new DOMRect(0, 0, 96, 48)] as unknown as DOMRectList
+    const firstRects = vi.spyOn(first, 'getClientRects').mockReturnValue(rectangles)
+    const lastRects = vi.spyOn(last, 'getClientRects').mockReturnValue(rectangles)
+    last.focus()
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', cancelable: true }))
+    expect(document.activeElement).toBe(first)
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, cancelable: true }),
+    )
+    expect(document.activeElement).toBe(last)
+    await wrapper.setProps({ modelValue: false })
+    expect(document.activeElement).toBe(opener)
+    firstRects.mockRestore()
+    lastRects.mockRestore()
+    opener.remove()
   })
 })

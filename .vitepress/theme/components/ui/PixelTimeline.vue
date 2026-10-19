@@ -94,7 +94,6 @@ defineProps<{
   display: block;
   font-family: var(--pixel-font-heading);
   font-size: var(--pixel-font-size-m);
-  font-weight: bold;
   color: var(--pixel-color-text);
   margin-bottom: 4px;
 }
@@ -107,7 +106,7 @@ defineProps<{
 }
 
 /* ── 移动端：统一左侧布局 ── */
-@media (max-width: 640px) {
+@media (max-width: var(--pixel-break-compact)) {
   .pixel-timeline::before {
     left: 16px;
   }

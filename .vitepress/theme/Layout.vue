@@ -1,17 +1,35 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import NavBar from './components/layout/NavBar.vue'
 import SiteFooter from './components/layout/SiteFooter.vue'
 import ScrollToTop from './components/layout/ScrollToTop.vue'
 import ArticleView from './components/content/ArticleView.vue'
 import DocsSidebar from './components/content/DocsSidebar.vue'
+import DocsOutline from './components/content/DocsOutline.vue'
 import { stripBase } from './utils/path'
 
 const { frontmatter, site } = useData()
 const route = useRoute()
+const docsContentReady = ref(false)
+onMounted(() => {
+  docsContentReady.value = true
+})
+watch(
+  () => route.path,
+  () => {
+    docsContentReady.value = false
+  },
+  { flush: 'sync' },
+)
 
 const hasHero = computed(() => !!frontmatter.value.hasHero)
+const isReadingPage = computed(
+  () =>
+    stripBase(route.path, site.value.base)
+      .replace(/\.html$/, '')
+      .replace(/\/$/, '') === '/about',
+)
 
 const isNewsPost = computed(() => {
   const path = stripBase(route.path, site.value.base)
@@ -42,25 +60,28 @@ const articleProps = computed(() => {
   <div class="pixel-layout">
     <NavBar />
     <main class="main-content" data-pagefind-body="1">
-      <!-- Docs: sidebar stays static, only content transitions -->
-      <div v-if="isDocsPage" class="docs-layout">
-        <DocsSidebar />
-        <Transition name="page" mode="out-in">
-          <div :key="route.path" class="page-container vp-doc">
-            <Content />
-          </div>
-        </Transition>
-      </div>
-      <!-- Other pages: full transition -->
-      <Transition v-else name="page" mode="out-in">
-        <ArticleView v-if="articleProps" v-bind="articleProps" :key="route.path">
+      <!-- Outer transition persists across layout switches; docs sidebar stays
+           stable while only the inner content transitions between doc pages. -->
+      <Transition name="page" mode="out-in" @after-enter="docsContentReady = true">
+        <div v-if="isDocsPage" :key="'docs-layout'" class="docs-layout">
+          <DocsSidebar />
+          <Transition name="page" mode="out-in" @after-enter="docsContentReady = true">
+            <div :key="route.path" class="docs-reader">
+              <DocsOutline :content-ready="docsContentReady" />
+              <div id="docs-content" class="page-container vp-doc">
+                <Content />
+              </div>
+            </div>
+          </Transition>
+        </div>
+        <ArticleView v-else-if="articleProps" v-bind="articleProps" :key="route.path">
           <Content />
         </ArticleView>
         <div
           v-else
           :key="route.path"
           class="page-container vp-doc"
-          :class="{ 'with-hero': hasHero }"
+          :class="{ 'with-hero': hasHero, 'reading-page': isReadingPage }"
         >
           <Content />
         </div>
@@ -96,28 +117,76 @@ const articleProps = computed(() => {
 .page-container {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 5rem 1.5rem 2rem;
+  padding: calc(var(--pixel-nav-height) + var(--pixel-space-l)) 1.5rem 2rem;
 }
 
 .page-container.with-hero {
   padding-top: 0;
 }
 
+/* Constrain only prose; Hero and other layout components keep their existing width. */
+.page-container.reading-page
+  > div
+  > div
+  > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, table, hr) {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
 /* Docs layout: sidebar + content */
 .docs-layout {
   display: flex;
-  min-height: calc(100vh - 5rem);
-  padding-top: 5rem;
+  min-height: calc(100vh - var(--pixel-nav-height) - var(--pixel-space-l));
+  padding-top: calc(var(--pixel-nav-height) + var(--pixel-space-l));
 }
 
-.docs-layout .page-container {
+.docs-reader {
   flex: 1;
   min-width: 0;
+  max-width: 72rem;
+  margin-inline: auto;
 }
 
-@media screen and (max-width: 768px) {
+.docs-reader .page-container {
+  padding-top: var(--pixel-space-l);
+}
+
+@media screen and (min-width: var(--pixel-break-outline)) {
+  .docs-reader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    max-width: 86rem;
+    padding-right: 1.5rem;
+    align-items: start;
+  }
+
+  .docs-reader .page-container {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .docs-reader .docs-outline {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .docs-reader:not(:has(.docs-outline)) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 72rem;
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: var(--pixel-break-layout)) {
   .docs-layout {
     flex-direction: column;
+  }
+
+  .docs-reader {
+    width: 100%;
   }
 }
 </style>

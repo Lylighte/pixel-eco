@@ -17,7 +17,7 @@ withDefaults(
 </script>
 
 <template>
-  <div class="intro-box">
+  <div v-reveal class="intro-box">
     <div v-if="!$props.image" class="intro-center">
       <div class="intro-text">
         <p>{{ $props.title }}</p>
@@ -47,7 +47,6 @@ withDefaults(
   max-width: 1200px;
   padding: 2rem 1rem;
   margin: 0 auto;
-  animation: fade-in 0.8s ease;
 }
 
 .intro-center {
@@ -92,19 +91,18 @@ withDefaults(
 }
 
 .intro-text p {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: var(--pixel-font-size-l);
   margin: 0 0 1rem 0;
   color: var(--pixel-color-text);
 }
 
 .intro-text span {
-  font-size: 1.1rem;
+  font-size: var(--pixel-font-size-m);
   line-height: 1.6;
   color: var(--pixel-color-text-muted);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: var(--pixel-break-layout)) {
   .intro-right,
   .intro-left {
     flex-direction: column;

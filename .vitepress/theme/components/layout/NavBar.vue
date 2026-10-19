@@ -8,15 +8,7 @@ import type { NavItem } from '../../types/components'
 const { theme, site } = useData()
 const route = useRoute()
 
-interface Props {
-  soundUrl?: string
-}
-
-withDefaults(defineProps<Props>(), {
-  soundUrl: '/button.click.ogg',
-})
-
-const { playSound } = useClickSound({ defaultUrl: '/button.click.ogg', volume: 0.3 })
+const { playSound } = useClickSound()
 
 // Parse nav items from VitePress config
 const navItems = computed<NavItem[]>(() => {
@@ -71,7 +63,7 @@ const sliderStyle = computed(() => {
         :key="index"
         class="nav-item"
         :href="withBase(item.url)"
-        @click="playSound($props.soundUrl)"
+        @click="playSound()"
       >
         {{ item.name }}
       </a>
@@ -94,11 +86,11 @@ const sliderStyle = computed(() => {
   min-width: max-content;
   gap: 0.5rem;
   user-select: none;
-  z-index: 1024;
+  z-index: var(--pixel-z-nav);
 }
 
 .nav-bar {
-  height: calc(1rem + 28px);
+  height: var(--pixel-nav-height);
   display: flex;
   border-radius: 0;
   background-color: var(--pixel-nav-bg);
@@ -118,15 +110,15 @@ const sliderStyle = computed(() => {
   justify-content: center;
   padding: 10px;
   cursor: pointer;
-  z-index: 1;
+  z-index: var(--pixel-z-raised);
   transition: color 0.3s ease;
-  font-size: 1rem;
+  font-size: var(--pixel-font-size-m);
   color: var(--pixel-color-text);
   text-decoration: none;
   font-family: var(--pixel-font-heading);
 }
 
-.nav-item:hover {
+.nav-item:hover:not(:focus-visible) {
   color: var(--pixel-nav-item-text-hover);
 }
 
@@ -135,7 +127,7 @@ const sliderStyle = computed(() => {
   top: 0;
   left: 0;
   height: 100%;
-  z-index: 0;
+  z-index: var(--pixel-z-base);
   box-sizing: border-box;
   padding: 4px;
 }
@@ -151,10 +143,10 @@ const sliderStyle = computed(() => {
   box-shadow: var(--pixel-shadow-soft);
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: var(--pixel-break-compact)) {
   .nav-item {
     padding: 8px 6px;
-    font-size: 0.85rem;
+    font-size: var(--pixel-font-size-m);
   }
 }
 </style>
